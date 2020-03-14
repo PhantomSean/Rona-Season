@@ -13,8 +13,14 @@ import java.util.Random;
 
 public class CreateData {
     public static void main(String[] args) throws IOException {
-        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(60).xlsx", 60);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(60).xlsx",60);
+//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(60).xlsx", 60);
+//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(60).xlsx",60);
+//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(120).xlsx", 120);
+//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(120).xlsx",120);
+//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(240).xlsx", 240);
+//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(240).xlsx",240);
+        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(500).xlsx", 500);
+        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(500).xlsx",500);
     }
 
     public static void staffProject(String readFile, String writeFile, int num) throws IOException {
@@ -92,12 +98,13 @@ public class CreateData {
         // Insertion of relevant supervisor data from random rows
         int[] randFirstNames = genNums(firstNameFile, num, true);
         int[] randSurnames = genNums(surnameFile, num, true);
+        int[] studentNums = genStudentNums(num);
         int j = 1;
         for (int i = 0; i < num; i++) {
             String name = readCellData(firstNameFile, randFirstNames[i], 0) + " " + readCellData(surnameFile, randSurnames[i], 1);
             row = writeSheet.createRow(j);
             row.createCell(0).setCellValue(name);
-            row.createCell(1).setCellValue(genStudentNum());
+            row.createCell(1).setCellValue(studentNums[i]);
             row.createCell(2).setCellValue(genStream(i, num));
             j++;
         }
@@ -167,17 +174,17 @@ public class CreateData {
         Sheet sheet = readBook.getSheetAt(0);
         int totalRows = sheet.getPhysicalNumberOfRows();
         int[] randNums = new int[total];
-        int r;
+        int r, i, j;
         if (duplicates) {
-            for (int i = 0; i < randNums.length; i++) {
+            for (i = 0; i < randNums.length; i++) {
                 randNums[i] = new Random().nextInt(totalRows - 1) + 1;
             }
         }
         else {
             randNums[0] = new Random().nextInt(totalRows - 1) + 1;
-            for (int i = 1; i < randNums.length; i++) {
+            for (i = 1; i < randNums.length; i++) {
                 r = new Random().nextInt(totalRows - 1) + 1;
-                for (int j = 0; j < i; j++) {
+                for (j = 0; j < i; j++) {
                     if (randNums[j] == r) {
                         i--;
                         break;
@@ -186,8 +193,24 @@ public class CreateData {
                 }
             }
         }
-
         return randNums;
+    }
+
+    public static int[] genStudentNums(int total) {
+        int[] studentNums = new int[total];
+        int num, i , j;
+        studentNums[0] = genStudentNum();
+        for (i = 1; i < studentNums.length; i++) {
+            num = genStudentNum();
+            for (j = 0; j < i; j++) {
+                if (studentNums[j] == num) {
+                    i--;
+                    break;
+                }
+                studentNums[i] = num;
+            }
+        }
+        return studentNums;
     }
 
     public static int genStudentNum() {
