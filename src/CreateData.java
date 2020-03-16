@@ -13,14 +13,14 @@ import java.util.Random;
 
 public class CreateData {
     public static void main(String[] args) throws IOException {
-//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(60).xlsx", 60);
+        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(60).xlsx", 60);
 //        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(60).xlsx",60);
 //        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(120).xlsx", 120);
 //        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(120).xlsx",120);
 //        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(240).xlsx", 240);
 //        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(240).xlsx",240);
-        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(500).xlsx", 500);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(500).xlsx",500);
+//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(500).xlsx", 500);
+//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(500).xlsx",500);
     }
 
     public static void staffProject(String readFile, String writeFile, int num) throws IOException {
@@ -51,18 +51,10 @@ public class CreateData {
             String[] projects = readCellData(readFile, randNum - 1, 1).split(", ");
 
             for (String a : projects) {
-                row = writeSheet.createRow(j);
-                row.createCell(0).setCellValue(readCellData(readFile, randNum - 1, 0));
-                row.createCell(1).setCellValue(a);
-                row.createCell(2).setCellValue(readCellData(readFile, randNum - 1, 3));
-                j++;
+                j = newRow(readFile, writeSheet, j, randNum, a);
             }
             if (projects.length < 3 && extraProjects > 0) {
-                row = writeSheet.createRow(j);
-                row.createCell(0).setCellValue(readCellData(readFile, randNum - 1, 0));
-                row.createCell(1).setCellValue("Abstract views on " + projects[0]);
-                row.createCell(2).setCellValue(readCellData(readFile, randNum - 1, 3));
-                j++;
+                j = newRow(readFile, writeSheet, j, randNum, "Abstract views on " + projects[0]);
             }
         }
 
@@ -72,6 +64,16 @@ public class CreateData {
 
         writeBook.write(new FileOutputStream(writeFile));
         writeBook.close();
+    }
+
+    private static int newRow(String readFile, Sheet writeSheet, int j, int randNum, String a) throws IOException {
+        Row row;
+        row = writeSheet.createRow(j);
+        row.createCell(0).setCellValue(readCellData(readFile, randNum - 1, 0));
+        row.createCell(1).setCellValue(a);
+        row.createCell(2).setCellValue(readCellData(readFile, randNum - 1, 3));
+        j++;
+        return j;
     }
 
     public static void studentPreference(String firstNameFile, String surnameFile, String writeFile, int num) throws IOException {
