@@ -16,12 +16,12 @@ public class CreateData {
     public static void main(String[] args) throws IOException {
         staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(60).xlsx", 60);
         studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(60).xlsx", "Students&Preferences(60).xlsx",60);
-//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(120).xlsx", 120);
-//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(120).xlsx",120);
-//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(240).xlsx", 240);
-//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(240).xlsx",240);
-//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(500).xlsx", 500);
-//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(500).xlsx",500);
+        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(120).xlsx", 120);
+        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(120).xlsx", "Students&Preferences(120).xlsx",120);
+        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(240).xlsx", 240);
+        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(240).xlsx", "Students&Preferences(240).xlsx",240);
+        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(500).xlsx", 500);
+        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(500).xlsx", "Students&Preferences(500).xlsx",500);
     }
 
     public static void staffProject(String readFile, String writeFile, int num) throws IOException {
@@ -250,13 +250,11 @@ public class CreateData {
                 projectsSelect[i] = (int) Math.round(randomValue);
             }
         }
-        System.out.println(Arrays.toString(projectsSelect));
 
         int[] projectProbabilities = new int[projects];
         for (int i = 0; i < students; i++) {
             projectProbabilities[projectsSelect[i]] += 1;
         }
-        System.out.println(Arrays.toString(projectProbabilities));
         return projectProbabilities;
     }
 
@@ -289,7 +287,6 @@ public class CreateData {
                 choice[x] = readCellData(file, i, 1);
             }
         }
-//            System.out.println(Arrays.toString(choice));
         return choice;
     }
 }
