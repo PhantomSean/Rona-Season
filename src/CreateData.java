@@ -16,12 +16,12 @@ public class CreateData {
     public static void main(String[] args) throws IOException {
         staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(60).xlsx", 60);
         studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(60).xlsx", "Students&Preferences(60).xlsx",60);
-        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(120).xlsx", 120);
+        /*staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(120).xlsx", 120);
         studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(120).xlsx", "Students&Preferences(120).xlsx",120);
         staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(240).xlsx", 240);
         studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(240).xlsx", "Students&Preferences(240).xlsx",240);
         staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(500).xlsx", 500);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(500).xlsx", "Students&Preferences(500).xlsx",500);
+        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(500).xlsx", "Students&Preferences(500).xlsx",500);*/
     }
 
     public static void staffProject(String readFile, String writeFile, int num) throws IOException {
@@ -103,15 +103,16 @@ public class CreateData {
         int[] randFirstNames = genNums(firstNameFile, num, true);
         int[] randSurnames = genNums(surnameFile, num, true);
         int[] studentNums = genStudentNums(num);
-        int[] prefernceProbs = genPrefProbs(num, projectsFile);
+        int[] preferenceProbs = genPrefProbs(num, projectsFile);
         int j = 1;
         for (int i = 0; i < num; i++) {
+            String stream = genStream(i, num);
             String name = readCellData(firstNameFile, randFirstNames[i], 0) + " " + readCellData(surnameFile, randSurnames[i], 1);
-            String[] preferences = genPrefs(prefernceProbs, num, projectsFile);
+            String[] preferences = genPrefs(preferenceProbs, num, projectsFile, stream);
             row = writeSheet.createRow(j);
             row.createCell(0).setCellValue(name);
             row.createCell(1).setCellValue(studentNums[i]);
-            row.createCell(2).setCellValue(genStream(i, num));
+            row.createCell(2).setCellValue(stream);
             for (int x = 0; x < preferences.length; x++) {
                 row.createCell(x+3).setCellValue(preferences[x]);
             }
@@ -258,7 +259,7 @@ public class CreateData {
         return projectProbabilities;
     }
 
-    public static String[] genPrefs(int[] probs, int students, String file) throws IOException {
+    public static String[] genPrefs(int[] probs, int students, String projectFile, String stream) throws IOException {
         String[] choice = new String[10];
         int[] row = new int[10];
         Random rand = new Random();
@@ -268,8 +269,11 @@ public class CreateData {
         while (sum <= index) {
             sum = sum + probs[i++];
         }
+        while(!checkStream(projectFile, stream, i)){
+            i++;
+        }
         row[0] = i;
-        choice[0] = readCellData(file, i, 1);
+        choice[0] = readCellData(projectFile, i, 1);
         for (int x = 1; x < 10; x++) {
             rand = new Random();
             index = rand.nextInt(students);
@@ -283,11 +287,19 @@ public class CreateData {
                     x--;
                     break;
                 }
-                row[x] = i;
-                choice[x] = readCellData(file, i, 1);
+                if(readCellData(projectFile, i, 2).equals(stream) || readCellData(projectFile, i, 2).length() > 2) {
+                    row[x] = i;
+                    choice[x] = readCellData(projectFile, i, 1);
+                }else{
+                    x--;
+                    break;
+                }
             }
         }
         return choice;
+    }
+    private static boolean checkStream(String projectFile, String stream, int i) throws IOException{
+        return readCellData(projectFile, i, 2).equals(stream) || readCellData(projectFile, i, 2).length() > 2;
     }
 }
 
