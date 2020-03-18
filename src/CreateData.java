@@ -9,12 +9,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Random;
 
 public class CreateData {
     public static void main(String[] args) throws IOException {
         staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(60).xlsx", 60);
-//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(60).xlsx",60);
+        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(60).xlsx", "Students&Preferences(60).xlsx",60);
 //        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(120).xlsx", 120);
 //        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Students&Preferences(120).xlsx",120);
 //        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(240).xlsx", 240);
@@ -44,7 +45,6 @@ public class CreateData {
 
         // Insertion of relevant supervisor data from random rows
         int[] randNums = genNums(readFile, (num/2), false);
-//        System.out.println(Arrays.toString(randNums));
         int j = 1;
         int extraProjects = (int) (num*0.366);
         for (int randNum : randNums) {
@@ -76,7 +76,7 @@ public class CreateData {
         return j;
     }
 
-    public static void studentPreference(String firstNameFile, String surnameFile, String writeFile, int num) throws IOException {
+    public static void studentPreference(String firstNameFile, String surnameFile, String projectsFile, String writeFile, int num) throws IOException {
         Workbook writeBook = new XSSFWorkbook();
         Sheet writeSheet = writeBook.createSheet("Student & Preferences("+num+")");
 
@@ -94,24 +94,31 @@ public class CreateData {
         row.getCell(1).setCellStyle(style);
         row.createCell(2).setCellValue("Stream");
         row.getCell(2).setCellStyle(style);
-        row.createCell(3).setCellValue("Preferences");
-        row.getCell(3).setCellStyle(style);
+        for (int i = 3; i < 13; i++) {
+            row.createCell(i).setCellValue("Preference " + (i-2));
+            row.getCell(i).setCellStyle(style);
+        }
 
         // Insertion of relevant supervisor data from random rows
         int[] randFirstNames = genNums(firstNameFile, num, true);
         int[] randSurnames = genNums(surnameFile, num, true);
         int[] studentNums = genStudentNums(num);
+        int[] prefernceProbs = genPrefProbs(num, projectsFile);
         int j = 1;
         for (int i = 0; i < num; i++) {
             String name = readCellData(firstNameFile, randFirstNames[i], 0) + " " + readCellData(surnameFile, randSurnames[i], 1);
+            String[] preferences = genPrefs(prefernceProbs, num, projectsFile);
             row = writeSheet.createRow(j);
             row.createCell(0).setCellValue(name);
             row.createCell(1).setCellValue(studentNums[i]);
             row.createCell(2).setCellValue(genStream(i, num));
+            for (int x = 0; x < preferences.length; x++) {
+                row.createCell(x+3).setCellValue(preferences[x]);
+            }
             j++;
         }
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 13; i++) {
             writeSheet.autoSizeColumn(i);
         }
 
@@ -165,16 +172,7 @@ public class CreateData {
 
     // Random number generator
     public static int[] genNums(String file, int total, boolean duplicates) {
-        Workbook readBook = null;
-        try {
-            readBook = new XSSFWorkbook(new FileInputStream(file));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        assert readBook != null;
-        Sheet sheet = readBook.getSheetAt(0);
-        int totalRows = sheet.getPhysicalNumberOfRows();
+        int totalRows = getNumRows(file);
         int[] randNums = new int[total];
         int r, i, j;
         if (duplicates) {
@@ -196,6 +194,19 @@ public class CreateData {
             }
         }
         return randNums;
+    }
+
+    private static int getNumRows(String file) {
+        Workbook readBook = null;
+        try {
+            readBook = new XSSFWorkbook(new FileInputStream(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assert readBook != null;
+        Sheet sheet = readBook.getSheetAt(0);
+        return sheet.getPhysicalNumberOfRows();
     }
 
     public static int[] genStudentNums(int total) {
@@ -222,4 +233,64 @@ public class CreateData {
         }
         return studentNum;
     }
+
+    public static int[] genPrefProbs(int students, String file) {
+        int projects = getNumRows(file)-1;
+        int[] projectsSelect = new int[students];
+        Random r = new Random();
+        projectsSelect[0] = (int) (Math.round(projects/2) + r.nextGaussian() * (projects * 0.13));
+        for (int i = 0; i < students; i++) {
+
+            double randomValue = (projects/2) + r.nextGaussian() * (projects * 0.13);
+            for (int j = 0; j < i; j++) {
+                if (projectsSelect[j] == randomValue) {
+                    i--;
+                    break;
+                }
+                projectsSelect[i] = (int) Math.round(randomValue);
+            }
+        }
+        System.out.println(Arrays.toString(projectsSelect));
+
+        int[] projectProbabilities = new int[projects];
+        for (int i = 0; i < students; i++) {
+            projectProbabilities[projectsSelect[i]] += 1;
+        }
+        System.out.println(Arrays.toString(projectProbabilities));
+        return projectProbabilities;
+    }
+
+    public static String[] genPrefs(int[] probs, int students, String file) throws IOException {
+        String[] choice = new String[10];
+        int[] row = new int[10];
+        Random rand = new Random();
+        int index = rand.nextInt(students);
+        int sum = 0;
+        int i = 0;
+        while (sum <= index) {
+            sum = sum + probs[i++];
+        }
+        row[0] = i;
+        choice[0] = readCellData(file, i, 1);
+        for (int x = 1; x < 10; x++) {
+            rand = new Random();
+            index = rand.nextInt(students);
+            sum = 0;
+            i = 0;
+            while (sum <= index) {
+                sum = sum + probs[i++];
+            }
+            for (int j = 0; j < x; j++) {
+                if (row[j] == i) {
+                    x--;
+                    break;
+                }
+                row[x] = i;
+                choice[x] = readCellData(file, i, 1);
+            }
+        }
+//            System.out.println(Arrays.toString(choice));
+        return choice;
+    }
 }
+
