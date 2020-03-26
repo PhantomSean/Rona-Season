@@ -1,16 +1,16 @@
 public class Project {
     //declaring class variables
-    String name;
+    String title;
     String stream;
     String proposed_by;
 
     //getters and setters
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getStream() {

@@ -1,35 +1,14 @@
-public class Student {
+public class Student extends Member{
     //declaring class variables
-    private String name;
-    private int id;
-    private String stream;
+    private int studentId;
     private String preferences[];
 
     //getters and setters
-    public String getName() {
-        return name;
+    public int getStudentId() {
+        return studentId;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
-    public String getStream() {
-        return stream;
-    }
-
-    public void setStream(String stream) {
-        this.stream = stream;
-    }
+    public void setStudentId(int studentId) { this.studentId = studentId; }
 
     public String[] getPreferences() {
         return preferences;
