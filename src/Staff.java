@@ -1,14 +1,14 @@
 public class Staff extends Member{
     //declaring class variables
-    private String project;
+    private Project project;
     private String interests;
 
     //getters and setters
-    public String getProject() {
+    public Project getProject() {
         return project;
     }
 
-    public void setProject(String project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 

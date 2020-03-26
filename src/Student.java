@@ -1,7 +1,9 @@
+import java.util.List;
+
 public class Student extends Member{
     //declaring class variables
     private int studentId;
-    private String preferences[];
+    private List<Project> preferences;
 
     //getters and setters
     public int getStudentId() {
@@ -10,15 +12,15 @@ public class Student extends Member{
 
     public void setStudentId(int studentId) { this.studentId = studentId; }
 
-    public String[] getPreferences() {
+    public List getPreferences() {
         return preferences;
     }
 
-    public void setPreferences(String[] preferences) {
+    public void setPreferences(List preferences) {
         this.preferences = preferences;
     }
 
-    public String getPreference(int number){
-        return preferences[number];
+    public Project getPreference(int number){
+        return preferences.get(number);
     }
 }
