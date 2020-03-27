@@ -2,10 +2,13 @@ package Classes;
 
 import Classes.Member;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Student extends Member {
     //declaring class variables
     private int studentId;
-    private String preferences[];
+    private List<String> preferences = new ArrayList<String>();
 
     //getters and setters
     public int getStudentId() {
@@ -14,15 +17,11 @@ public class Student extends Member {
 
     public void setStudentId(int studentId) { this.studentId = studentId; }
 
-    public String[] getPreferences() {
+    public List<String> getPreferences() {
         return preferences;
     }
 
-    public void setPreferences(String[] preferences) {
-        this.preferences = preferences;
-    }
+    public void setPreferences(String preference) { preferences.add(preference); }
 
-    public String getPreference(int number){
-        return preferences[number];
-    }
+    public String getPreference(int number){ return preferences.get(number); }
 }
