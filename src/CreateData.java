@@ -14,19 +14,19 @@ import java.util.Random;
 
 public class CreateData {
     public static void main(String[] args) throws IOException {
-        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(60).xlsx", 60);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(60).xlsx", "Students&Preferences(60).xlsx",60);
-        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(120).xlsx", 120);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(120).xlsx", "Students&Preferences(120).xlsx",120);
-        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(240).xlsx", 240);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(240).xlsx", "Students&Preferences(240).xlsx",240);
-        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(500).xlsx", 500);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(500).xlsx", "Students&Preferences(500).xlsx",500);
+        staffProject("Miskatonic Classes.Staff Members.xlsx", "Classes.Staff&Projects(60).xlsx", 60);
+        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Classes.Staff&Projects(60).xlsx", "Students&Preferences(60).xlsx",60);
+        staffProject("Miskatonic Classes.Staff Members.xlsx", "Classes.Staff&Projects(120).xlsx", 120);
+        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Classes.Staff&Projects(120).xlsx", "Students&Preferences(120).xlsx",120);
+        staffProject("Miskatonic Classes.Staff Members.xlsx", "Classes.Staff&Projects(240).xlsx", 240);
+        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Classes.Staff&Projects(240).xlsx", "Students&Preferences(240).xlsx",240);
+        staffProject("Miskatonic Classes.Staff Members.xlsx", "Classes.Staff&Projects(500).xlsx", 500);
+        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Classes.Staff&Projects(500).xlsx", "Students&Preferences(500).xlsx",500);
     }
 
     public static void staffProject(String readFile, String writeFile, int num) throws IOException {
         Workbook writeBook = new XSSFWorkbook();
-        Sheet writeSheet = writeBook.createSheet("Staff & Projects("+num+")");
+        Sheet writeSheet = writeBook.createSheet("Classes.Staff & Projects("+num+")");
 
         // Style used for header
         XSSFCellStyle style = (XSSFCellStyle) writeBook.createCellStyle();
@@ -38,7 +38,7 @@ public class CreateData {
         Row row = writeSheet.createRow(0);
         row.createCell(0).setCellValue("Supervisor");
         row.getCell(0).setCellStyle(style);
-        row.createCell(1).setCellValue("Project");
+        row.createCell(1).setCellValue("Classes.Project");
         row.getCell(1).setCellStyle(style);
         row.createCell(2).setCellValue("Target Audience");
         row.getCell(2).setCellStyle(style);
@@ -78,7 +78,7 @@ public class CreateData {
 
     public static void studentPreference(String firstNameFile, String surnameFile, String projectsFile, String writeFile, int num) throws IOException {
         Workbook writeBook = new XSSFWorkbook();
-        Sheet writeSheet = writeBook.createSheet("Student & Preferences("+num+")");
+        Sheet writeSheet = writeBook.createSheet("Classes.Student & Preferences("+num+")");
 
         // Style used for header
         XSSFCellStyle style = (XSSFCellStyle) writeBook.createCellStyle();
@@ -90,7 +90,7 @@ public class CreateData {
         Row row = writeSheet.createRow(0);
         row.createCell(0).setCellValue("Name");
         row.getCell(0).setCellStyle(style);
-        row.createCell(1).setCellValue("Student Number");
+        row.createCell(1).setCellValue("Classes.Student Number");
         row.getCell(1).setCellStyle(style);
         row.createCell(2).setCellValue("Stream");
         row.getCell(2).setCellStyle(style);
