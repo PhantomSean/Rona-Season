@@ -62,7 +62,7 @@ public class PopulateClasses {
                 preferences.add(readCellData(readFile,i,pos));
             }
 
-            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 3), Integer.parseInt(readCellData(readFile, i, 1)), preferences);
+            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 3), Integer.valueOf(readCellData(readFile, i, 1)), preferences);
 
             students.add(student);
             System.out.println("Added Student " + i);
@@ -101,7 +101,8 @@ public class PopulateClasses {
         }
 
         if(cell.getCellType() == CellType.NUMERIC ) {
-            value = String.valueOf(cell.getNumericCellValue());
+            int num = (int) cell.getNumericCellValue();
+            value = String.valueOf(num  );
             readBook.close();
             return value;
         }
