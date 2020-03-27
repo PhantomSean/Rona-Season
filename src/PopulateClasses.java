@@ -14,7 +14,7 @@ public class PopulateClasses {
     public static void main(String[] args) throws IOException {
 //        populateStaff("Staff&Projects(60).xlsx");
 //        populateProjectClass("Staff&Projects(60).xlsx");
-        populateStudentClass("Staff&Projects(60).xlsx");
+        populateStudentClass("Students&Preferences(60).xlsx");
     }
 
     public static List<Staff> populateStaff(String readFile1) throws IOException {
@@ -62,7 +62,7 @@ public class PopulateClasses {
                 preferences.add(readCellData(readFile,i,pos));
             }
 
-            Student student = new Student(readCellData(readFile, i, 1),readCellData(readFile, i, 3), Integer.parseInt(readCellData(readFile, i, 2)), preferences);
+            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 3), Integer.parseInt(readCellData(readFile, i, 1)), preferences);
 
             students.add(student);
             System.out.println("Added Student " + i);
