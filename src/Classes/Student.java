@@ -1,4 +1,4 @@
-/*package Classes;
+package Classes;
 
 import Classes.Member;
 
@@ -9,6 +9,12 @@ public class Student extends Member {
     //declaring class variables
     private int studentId;
     private List<String> preferences = new ArrayList<String>();
+
+    public Student(String name, String stream, int id, List<String> preferences){
+        super(name, stream);
+        this.studentId = id;
+        this.preferences = preferences;
+    }
 
     //getters and setters
     public int getStudentId() {
@@ -25,4 +31,3 @@ public class Student extends Member {
 
     public String getPreference(int number){ return preferences.get(number); }
 }
-*/
