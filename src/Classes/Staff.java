@@ -6,12 +6,12 @@ import java.util.List;
 public class Staff extends Member {
     //declaring class variables
     private List<String> projects = new ArrayList<String>();
-    private List<String> interests = new ArrayList<String>();
+//    private List<String> interests = new ArrayList<String>();
 
-    public Staff(String name, String stream, List<String> projects, List<String> interests) {
+    public Staff(String name, String stream, List<String> projects) {
         super(name, stream);
         this.projects = projects;
-        this.interests = interests;
+//        this.interests = interests;
     }
 
     //getters and setters
@@ -23,11 +23,11 @@ public class Staff extends Member {
         projects.add(project);
     }
 
-    public List<String> getInterests() {
-        return interests;
-    }
-
-    public void setInterests(String interest) {
-        interests.add(interest);
-    }
+//    public List<String> getInterests() {
+//        return interests;
+//    }
+//
+//    public void setInterests(String interest) {
+//        interests.add(interest);
+//    }
 }

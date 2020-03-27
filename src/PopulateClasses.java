@@ -4,10 +4,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class PopulateClasses {
     private static HashMap<String, Project> projects = new HashMap<>();
@@ -24,16 +21,24 @@ public class PopulateClasses {
 
     }
 
-    public static List<Staff> populateStaff(String readFile1, readFile2) throws IOException {
+    public static List<Staff> populateStaff(String readFile1) throws IOException {
         List<Staff> staff = null;
         int numStaff = getNumRows(readFile1);
-        int i = 1;
+        int i = 1, j;
 
         while (i <= numStaff) {
             String name = readCellData(readFile1, i, 0);
-
-
-            Staff staff_member = new Staff(readCellData(readFile, i, 0), readCellData(readFile, i, 3), Arrays.asList(readCellData(readFile, i, 2).split(",")));
+            String stream = readCellData(readFile1, i, 2);
+            List<String> projects = new ArrayList<String>();
+            for(j=i; j <= numStaff; j++){
+                if (readCellData(readFile1, i, 0) == name) {
+                    projects.add(readCellData(readFile1, i, 1));
+                    i =j;
+                } else
+                    break;
+            }
+            Staff staff_member = new Staff(name, stream, projects);
+            staff.add(staff_member);
         }
 
         return null;
