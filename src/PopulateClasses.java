@@ -8,21 +8,24 @@ import java.util.*;
 
 public class PopulateClasses {
     private static HashMap<String, Project> projects = new HashMap<>();
+    private static List<Student> students = new ArrayList<Student>();
+    private static List<Staff> staff = new ArrayList<Staff>();
     private static String temp;
 
     public static void main(String[] args) throws IOException {
-        populateProjectClass("Staff&Projects(60).xlsx", 60);
-        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 5, 1)).getTitle());
-        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 10, 1)).getProposed_by());
-        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 20, 1)).getTitle());
-        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 30, 1)).getStream());
-        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 50, 1)).getStream());
-        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 59, 1)).getProposed_by());
+        populateStaff("Staff&Projects(60).xlsx");
+//        populateProjectClass("Staff&Projects(60).xlsx", 60);
+//        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 5, 1)).getTitle());
+//        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 10, 1)).getProposed_by());
+//        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 20, 1)).getTitle());
+//        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 30, 1)).getStream());
+//        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 50, 1)).getStream());
+//        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 59, 1)).getProposed_by());
 
     }
 
     public static List<Staff> populateStaff(String readFile1) throws IOException {
-        List<Staff> staff = null;
+
         int numStaff = getNumRows(readFile1);
         int i = 1, j;
 
@@ -38,10 +41,11 @@ public class PopulateClasses {
                     break;
             }
             Staff staff_member = new Staff(name, stream, projects);
+            assert staff != null;
             staff.add(staff_member);
         }
 
-        return null;
+        return staff;
     }
 
     public static void populateProjectClass(String readFile, int num) throws IOException {
@@ -49,6 +53,22 @@ public class PopulateClasses {
             Project project = new Project(readCellData(readFile, i, 1), readCellData(readFile, i, 2), readCellData(readFile, i, 0));
             projects.put(readCellData(readFile, i, 1), project);
 
+        }
+    }
+
+    public static void populateStudentClass(String readFile, int num) throws IOException{
+
+        List<String> preferences = new ArrayList<String>();
+
+        for(int i = 1; i < num; i++){
+            for (int j = 0; j <= 9; j++){
+                int pos = j+3;
+                preferences.add(readCellData(readFile,i,pos));
+            }
+
+            Student student = new Student(readCellData(readFile, i, 1),readCellData(readFile, i, 3), Integer.parseInt(readCellData(readFile, i, 2)), preferences);
+
+            students.add(student);
         }
     }
 
