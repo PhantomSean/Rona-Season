@@ -4,6 +4,11 @@ public class Member {
     private String name;
     private String stream;
 
+    Member(String name, String stream) {
+        this.name = name;
+        this.stream = stream;
+    }
+
     public String getName() {
         return name;
     }
