@@ -13,7 +13,8 @@ public class PopulateClasses {
 
     public static void main(String[] args) throws IOException {
         //populateProjectClass("Staff&Projects(60).xlsx");
-        populateStaff("Staff&Projects(60).xlsx");
+        //populateStaff("Staff&Projects(60).xlsx");
+        populateStudentClass("Students&Preferences(60).xlsx");
 
     }
 
@@ -50,23 +51,6 @@ public class PopulateClasses {
             projects.put(readCellData(readFile, i, 1), project);
         }
         return projects;
-    }
-
-    public static void populateStudentClass(String readFile) throws IOException{
-        int numStudents = getNumRows(readFile);
-        List<String> preferences = new ArrayList<String>();
-
-        for(int i = 1; i < numStudents; i++){
-            for (int j = 0; j <= 9; j++){
-                int pos = j+3;
-                preferences.add(readCellData(readFile,i,pos));
-            }
-
-            Student student = new Student(readCellData(readFile, i, 1),readCellData(readFile, i, 3), Integer.parseInt(readCellData(readFile, i, 2)), preferences);
-
-            students.add(student);
-            System.out.println("Added Student " + i);
-        }
     }
 
     public static String readCellData(String file, int vRow, int vColumn) throws IOException {
