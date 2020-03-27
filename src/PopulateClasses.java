@@ -1,8 +1,5 @@
 import Classes.*;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
@@ -27,12 +24,14 @@ public class PopulateClasses {
 
     }
 
-    public static List<Staff> populateStaff(String readFile) throws IOException {
+    public static List<Staff> populateStaff(String readFile1, readFile2) throws IOException {
         List<Staff> staff = null;
-        int numStaff = getNumRows(readFile);
+        int numStaff = getNumRows(readFile1);
         int i = 1;
 
         while (i <= numStaff) {
+            String name = readCellData(readFile1, i, 0);
+
 
             Staff staff_member = new Staff(readCellData(readFile, i, 0), readCellData(readFile, i, 3), Arrays.asList(readCellData(readFile, i, 2).split(",")));
         }
@@ -75,6 +74,12 @@ public class PopulateClasses {
             }
             else
                 value = "DS";
+            readBook.close();
+            return value;
+        }
+
+        if(cell.getCellType() == CellType.NUMERIC ) {
+            value = String.valueOf(cell.getNumericCellValue());
             readBook.close();
             return value;
         }
