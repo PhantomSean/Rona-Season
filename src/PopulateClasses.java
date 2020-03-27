@@ -8,20 +8,13 @@ import java.util.*;
 
 public class PopulateClasses {
     private static HashMap<String, Project> projects = new HashMap<>();
-    private static List<Student> students = new ArrayList<Student>();
-    private static List<Staff> staff = new ArrayList<Staff>();
-    private static String temp;
+    private static List<Student> students = new ArrayList<>();
+    private static List<Staff> staff = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         populateStaff("Staff&Projects(60).xlsx");
-//        populateProjectClass("Staff&Projects(60).xlsx", 60);
-//        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 5, 1)).getTitle());
-//        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 10, 1)).getProposed_by());
-//        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 20, 1)).getTitle());
-//        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 30, 1)).getStream());
-//        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 50, 1)).getStream());
-//        System.out.println(projects.get(readCellData("Staff&Projects(60).xlsx", 59, 1)).getProposed_by());
-
+        populateProjectClass("Staff&Projects(60).xlsx");
+        populateStudentClass("Staff&Projects(60).xlsx");
     }
 
     public static List<Staff> populateStaff(String readFile1) throws IOException {
@@ -48,19 +41,20 @@ public class PopulateClasses {
         return staff;
     }
 
-    public static void populateProjectClass(String readFile, int num) throws IOException {
-        for(int i = 1; i < num; i++){
+    public static void populateProjectClass(String readFile) throws IOException {
+        int numProjects = getNumRows(readFile);
+        for(int i = 1; i < numProjects; i++){
             Project project = new Project(readCellData(readFile, i, 1), readCellData(readFile, i, 2), readCellData(readFile, i, 0));
             projects.put(readCellData(readFile, i, 1), project);
 
         }
     }
 
-    public static void populateStudentClass(String readFile, int num) throws IOException{
-
+    public static void populateStudentClass(String readFile) throws IOException{
+        int numStaff = getNumRows(readFile);
         List<String> preferences = new ArrayList<String>();
 
-        for(int i = 1; i < num; i++){
+        for(int i = 1; i < numStaff; i++){
             for (int j = 0; j <= 9; j++){
                 int pos = j+3;
                 preferences.add(readCellData(readFile,i,pos));
