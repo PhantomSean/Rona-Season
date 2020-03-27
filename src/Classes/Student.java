@@ -1,4 +1,4 @@
-package Classes;
+/*package Classes;
 
 import Classes.Member;
 
@@ -25,3 +25,4 @@ public class Student extends Member {
 
     public String getPreference(int number){ return preferences.get(number); }
 }
+*/

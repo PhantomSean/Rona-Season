@@ -8,6 +8,12 @@ public class Staff extends Member {
     private List<String> projects = new ArrayList<String>();
     private List<String> interests = new ArrayList<String>();
 
+    public Staff(String name, String stream, List<String> projects, List<String> interests) {
+        super(name, stream);
+        this.projects = projects;
+        this.interests = interests;
+    }
+
     //getters and setters
     public List<String> getProject() {
         return projects;
