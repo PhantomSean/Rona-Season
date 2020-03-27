@@ -1,4 +1,8 @@
-public class Staff extends Member{
+package Classes;
+
+import Classes.Member;
+
+public class Staff extends Member {
     //declaring class variables
     private String project;
     private String interests;

@@ -1,4 +1,8 @@
-public class Student extends Member{
+package Classes;
+
+import Classes.Member;
+
+public class Student extends Member {
     //declaring class variables
     private int studentId;
     private String preferences[];

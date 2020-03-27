@@ -1,3 +1,5 @@
+package Classes;
+
 public class Member {
     private String name;
     private String stream;

@@ -1,3 +1,5 @@
+package Classes;
+
 public class Project {
     //declaring class variables
     String title;
