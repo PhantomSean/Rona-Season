@@ -49,6 +49,27 @@ public class PopulateClasses {
         for(int i = 1; i < numProjects; i++){
             Project project = new Project(readCellData(readFile, i, 1), readCellData(readFile, i, 2), readCellData(readFile, i, 0));
             projects.put(readCellData(readFile, i, 1), project);
+<<<<<<< HEAD
+=======
+
+        }
+    }
+
+    public static void populateStudentClass(String readFile) throws IOException{
+        int numStudents = getNumRows(readFile);
+        List<String> preferences = new ArrayList<String>();
+
+        for(int i = 1; i < numStudents; i++){
+            for (int j = 0; j <= 9; j++){
+                int pos = j+3;
+                preferences.add(readCellData(readFile,i,pos));
+            }
+
+            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 3), Integer.valueOf(readCellData(readFile, i, 1)), preferences);
+
+            students.add(student);
+            System.out.println("Added Student " + i);
+>>>>>>> 4c9c47cd05ff9eb3aaed4e155ee57a9a0881f35e
         }
         return projects;
     }
@@ -86,7 +107,8 @@ public class PopulateClasses {
         }
 
         if(cell.getCellType() == CellType.NUMERIC ) {
-            value = String.valueOf(cell.getNumericCellValue());
+            int num = (int) cell.getNumericCellValue();
+            value = String.valueOf(num  );
             readBook.close();
             return value;
         }
