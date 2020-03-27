@@ -2,10 +2,11 @@ package Classes;
 
 public class Project {
     //declaring class variables
-    String title;
-    String stream;
-    String proposed_by;
+    private String title;
+    private String stream;
+    private String proposed_by;
 
+    //class constructor
     public Project(String title, String stream, String proposed_by){
         this.title = title;
         this.stream = stream;

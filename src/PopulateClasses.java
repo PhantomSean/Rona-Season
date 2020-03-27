@@ -47,23 +47,6 @@ public class PopulateClasses {
         Row row = sheet.getRow(vRow);
         Cell cell = row.getCell(vColumn);
 
-        // Target Audience value assigned based on supervisor special focus
-        if(vColumn == 3) {
-            if(cell == null) {
-                // Randomised value if no focus
-                int r = new Random().nextInt(2);
-                if(r == 0)
-                    value = "CS";
-                else{
-                    value = "CS + DS";
-                }
-            }
-            else
-                value = "DS";
-            readBook.close();
-            return value;
-        }
-
         value = cell.getStringCellValue();
         readBook.close();
         return value;
