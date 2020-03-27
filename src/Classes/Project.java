@@ -6,6 +6,11 @@ public class Project {
     String stream;
     String proposed_by;
 
+    public Project(String title, String stream, String proposed_by){
+        this.title = title;
+        this.stream = stream;
+        this.proposed_by = proposed_by;
+    }
     //getters and setters
     public String getTitle() {
         return title;
