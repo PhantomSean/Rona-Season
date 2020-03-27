@@ -12,8 +12,8 @@ public class PopulateClasses {
     private static List<Staff> staff = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-        populateStaff("Staff&Projects(60).xlsx");
-        populateProjectClass("Staff&Projects(60).xlsx");
+//        populateStaff("Staff&Projects(60).xlsx");
+//        populateProjectClass("Staff&Projects(60).xlsx");
         populateStudentClass("Staff&Projects(60).xlsx");
     }
 
@@ -22,7 +22,7 @@ public class PopulateClasses {
         int numStaff = getNumRows(readFile1);
         int i = 1, j;
 
-        while (i <= numStaff) {
+        while (i < numStaff) {
             String name = readCellData(readFile1, i, 0);
             String stream = readCellData(readFile1, i, 2);
             List<String> projects = new ArrayList<String>();
@@ -36,6 +36,8 @@ public class PopulateClasses {
             Staff staff_member = new Staff(name, stream, projects);
             assert staff != null;
             staff.add(staff_member);
+//            System.out.println("Added staff member" + i);
+            i++;
         }
 
         return staff;
@@ -51,10 +53,10 @@ public class PopulateClasses {
     }
 
     public static void populateStudentClass(String readFile) throws IOException{
-        int numStaff = getNumRows(readFile);
+        int numStudents = getNumRows(readFile);
         List<String> preferences = new ArrayList<String>();
 
-        for(int i = 1; i < numStaff; i++){
+        for(int i = 1; i < numStudents; i++){
             for (int j = 0; j <= 9; j++){
                 int pos = j+3;
                 preferences.add(readCellData(readFile,i,pos));
@@ -63,6 +65,7 @@ public class PopulateClasses {
             Student student = new Student(readCellData(readFile, i, 1),readCellData(readFile, i, 3), Integer.parseInt(readCellData(readFile, i, 2)), preferences);
 
             students.add(student);
+            System.out.println("Added Student " + i);
         }
     }
 
