@@ -60,7 +60,7 @@ public class PopulateClasses {
             Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 3), Integer.valueOf(readCellData(readFile, i, 1)), preferences, false);
 
             students.add(student);
-            System.out.println("Added Student " + i);
+            //System.out.println("Added Student " + i);
         }
         return students;
     }
