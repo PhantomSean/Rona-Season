@@ -7,15 +7,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class PopulateClasses {
-    public static HashMap<String, Project> projects = new HashMap<>();
+    private static HashMap<String, Project> projects = new HashMap<>();
     private static List<Student> students = new ArrayList<>();
     private static List<Staff> staff = new ArrayList<>();
-
-    public static void main(String[] args) throws IOException {
-        populateStaff("Staff&Projects(60).xlsx");
-        populateProjectClass("Staff&Projects(60).xlsx");
-        populateStudentClass("Students&Preferences(60).xlsx");
-    }
 
     public static List<Staff> populateStaff(String readFile1) throws IOException {
 
@@ -43,16 +37,17 @@ public class PopulateClasses {
         return staff;
     }
 
-    public static void populateProjectClass(String readFile) throws IOException {
+    public static HashMap<String, Project> populateProjectClass(String readFile) throws IOException {
         int numProjects = getNumRows(readFile);
         for(int i = 1; i < numProjects; i++){
             Project project = new Project(readCellData(readFile, i, 1), readCellData(readFile, i, 2), readCellData(readFile, i, 0), false);
             projects.put(readCellData(readFile, i, 1), project);
 
         }
+        return projects;
     }
 
-    public static void populateStudentClass(String readFile) throws IOException{
+    public static List<Student> populateStudentClass(String readFile) throws IOException{
         int numStudents = getNumRows(readFile);
         List<String> preferences = new ArrayList<String>();
 
@@ -67,6 +62,7 @@ public class PopulateClasses {
             students.add(student);
             System.out.println("Added Student " + i);
         }
+        return students;
     }
 
     public static String readCellData(String file, int vRow, int vColumn) throws IOException {
