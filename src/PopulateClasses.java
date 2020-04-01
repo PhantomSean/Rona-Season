@@ -46,7 +46,7 @@ public class PopulateClasses {
     public static void populateProjectClass(String readFile) throws IOException {
         int numProjects = getNumRows(readFile);
         for(int i = 1; i < numProjects; i++){
-            Project project = new Project(readCellData(readFile, i, 1), readCellData(readFile, i, 2), readCellData(readFile, i, 0));
+            Project project = new Project(readCellData(readFile, i, 1), readCellData(readFile, i, 2), readCellData(readFile, i, 0), false);
             projects.put(readCellData(readFile, i, 1), project);
 
         }
@@ -62,7 +62,7 @@ public class PopulateClasses {
                 preferences.add(readCellData(readFile,i,pos));
             }
 
-            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 3), Integer.valueOf(readCellData(readFile, i, 1)), preferences);
+            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 3), Integer.valueOf(readCellData(readFile, i, 1)), preferences, false);
 
             students.add(student);
             System.out.println("Added Student " + i);
