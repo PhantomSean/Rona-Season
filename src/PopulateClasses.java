@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.*;
 
 public class PopulateClasses {
-    private static HashMap<String, Project> projects = new HashMap<>();
+    public static HashMap<String, Project> projects = new HashMap<>();
     private static List<Student> students = new ArrayList<>();
     private static List<Staff> staff = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-//        populateStaff("Staff&Projects(60).xlsx");
-//        populateProjectClass("Staff&Projects(60).xlsx");
+        populateStaff("Staff&Projects(60).xlsx");
+        populateProjectClass("Staff&Projects(60).xlsx");
         populateStudentClass("Students&Preferences(60).xlsx");
     }
 
