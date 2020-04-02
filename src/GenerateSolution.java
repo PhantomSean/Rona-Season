@@ -16,8 +16,9 @@ public class GenerateSolution {
     private static List<Staff> staff = new ArrayList<>();
 
 
-    public static void  main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         genSolution();
+        System.out.println(giveRandomProject().getTitle());
     }
 
     private static void genSolution() throws IOException {
@@ -74,5 +75,19 @@ public class GenerateSolution {
         return false;
     }
 
+    private static Project giveRandomProject() {
+        Project project = genProject();
+        if (project.isAllocated())
+            giveRandomProject();
+        project.setAllocated(true);
+        return project;
+    }
+
+    private static Project genProject() {
+        Random generator = new Random();
+        Object[] values = projects.values().toArray();
+        Project randomProject = (Project) values[generator.nextInt(values.length)];
+        return randomProject;
+    }
 
 }
