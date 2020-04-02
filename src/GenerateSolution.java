@@ -43,7 +43,7 @@ public class GenerateSolution {
         int tmp = 0;
         List<Student> temp = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
-            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(1)).isAllocated() && checkForOthers(students, 1, i + 1, students.get(i).getPreference(1))) {
+            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(1)).isTaken() && checkForOthers(students, 1, i + 1, students.get(i).getPreference(1))) {
                 temp.add(students.get(i));
                 //System.out.println(students.get(i).getPreference(1));
                 //System.out.println(students.get(i).getName());
@@ -61,7 +61,7 @@ public class GenerateSolution {
                     int random = r.nextInt(temp.size() - 1);
                     Solution s = new Solution(temp.get(random), projects.get(temp.get(random).getPreference(preference)));
                     temp.get(random).setHasProject(true);
-                    projects.get(temp.get(random).getPreference(preference)).setAllocated(true);
+                    projects.get(temp.get(random).getPreference(preference)).setTaken(true);
                     //System.out.println("\n");
                     //System.out.println(temp.get(random).getName());
                     solutions.add(s);
@@ -83,9 +83,9 @@ public class GenerateSolution {
 
     private static Project giveRandomProject() {
         Project project = genProject();
-        if (project.isAllocated())
+        if (project.isTaken())
             giveRandomProject();
-        project.setAllocated(true);
+        project.setTaken(true);
         return project;
     }
 	private static Project genProject() {
