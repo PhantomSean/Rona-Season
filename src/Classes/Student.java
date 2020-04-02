@@ -34,7 +34,7 @@ public class Student extends Member {
     public String getPreference(int number){ return preferences.get(number); }
 
 
-    public boolean isHasProject() {
+    public boolean hasProject() {
         return hasProject;
     }
 

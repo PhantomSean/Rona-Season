@@ -5,13 +5,13 @@ public class Project {
     private String title;
     private String stream;
     private String proposed_by;
-    private boolean taken;
+    private boolean allocated;
 
-    public Project(String title, String stream, String proposed_by, boolean taken) {
+    public Project(String title, String stream, String proposed_by, boolean allocated) {
         this.title = title;
         this.stream = stream;
         this.proposed_by = proposed_by;
-        this.taken = taken;
+        this.allocated = allocated;
     }
 
     //getters and setters
@@ -39,11 +39,11 @@ public class Project {
         this.proposed_by = proposed_by;
     }
 
-    public boolean isTaken() {
-        return taken;
+    public boolean isAllocated() {
+        return allocated;
     }
 
-    public void setTaken(boolean taken) {
-        this.taken = taken;
+    public void setAllocated(boolean allocated) {
+        this.allocated = allocated;
     }
 }

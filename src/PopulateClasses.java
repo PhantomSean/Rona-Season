@@ -49,17 +49,17 @@ public class PopulateClasses {
 
     public static List<Student> populateStudentClass(String readFile) throws IOException{
         int numStudents = getNumRows(readFile);
-        List<String> preferences = new ArrayList<String>();
 
         for(int i = 1; i < numStudents; i++){
+            List<String> preferences = new ArrayList<String>();
             for (int j = 0; j <= 9; j++){
                 int pos = j+3;
                 preferences.add(readCellData(readFile,i,pos));
+
             }
-
-            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 3), Integer.valueOf(readCellData(readFile, i, 1)), preferences, false);
-
+            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 2), Integer.valueOf(readCellData(readFile, i, 1)), preferences, false);
             students.add(student);
+
             //System.out.println("Added Student " + i);
         }
         return students;
@@ -78,23 +78,6 @@ public class PopulateClasses {
         Sheet sheet = readBook.getSheetAt(0);
         Row row = sheet.getRow(vRow);
         Cell cell = row.getCell(vColumn);
-
-        // Target Audience value assigned based on supervisor special focus
-        if(vColumn == 3) {
-            if(cell == null) {
-                // Randomised value if no focus
-                int r = new Random().nextInt(2);
-                if(r == 0)
-                    value = "CS";
-                else{
-                    value = "CS + DS";
-                }
-            }
-            else
-                value = "DS";
-            readBook.close();
-            return value;
-        }
 
         if(cell.getCellType() == CellType.NUMERIC ) {
             int num = (int) cell.getNumericCellValue();
