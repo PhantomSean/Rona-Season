@@ -19,20 +19,24 @@ public class GenerateSolution {
     public static void main(String[] args) throws IOException {
         genSolution();
         System.out.println(giveRandomProject().getTitle());
+
     }
 
     private static void genSolution() throws IOException {
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
         students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
         staff = PopulateClasses.populateStaff("Staff&Projects(60).xlsx");
+
         randomlyAssign(1);
+        List<Student> not_unique = assignUnique(students, 0);
+
         for(int i = 0; i < solutions.size(); i++){
             System.out.println(solutions.get(i).getProjectTitle());
             System.out.println(solutions.get(i).getStudentName());
             System.out.println("\n");
         }
 
-        List<Student> not_unique = assignUnique(students, 0);
+
     }
 
     private static void randomlyAssign(int preference) {
@@ -96,10 +100,12 @@ public class GenerateSolution {
 
         // traverse the list removing duplicates and adding them to not_unique
         for (int i=0; i<students.size(); i++){
+            boolean isASolution = true;
             String reference = students.get(i).getPreference(rank);
 
             for (int j = i+1; j<students.size(); j++) {
                 String compare = students.get(j).getPreference(rank);
+
 
                 if (reference.equals(compare)) {
                     not_unique.add(students.remove(j));
@@ -113,8 +119,13 @@ public class GenerateSolution {
 	            if(not_unique.get(j).getPreference(rank).equals(reference)) {
                     not_unique.add(students.remove(i));
                     i--;
+                    isASolution = false;
                     break;
                 }
+            }
+            if(isASolution){
+                Solution newSolution = new Solution(students.get(i), projects.get(students.get(i).getPreference(rank)));
+                solutions.add(newSolution);
             }
         }
         return not_unique;
