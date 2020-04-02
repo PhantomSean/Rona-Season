@@ -126,6 +126,7 @@ public class GenerateSolution {
             if(isASolution){
                 Solution newSolution = new Solution(students.get(i), projects.get(students.get(i).getPreference(rank)));
                 solutions.add(newSolution);
+
             }
         }
         return not_unique;
