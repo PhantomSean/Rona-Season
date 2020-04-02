@@ -34,7 +34,7 @@ public class CreateData {
         font.setBold(true);
         style.setFont(font);
 
-        // Header Values
+        // Header Value
         Row row = writeSheet.createRow(0);
         row.createCell(0).setCellValue("Supervisor");
         row.getCell(0).setCellStyle(style);
