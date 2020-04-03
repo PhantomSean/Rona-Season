@@ -1,5 +1,6 @@
 import Classes.Project;
 import Classes.Solution;
+import Classes.Staff;
 import Classes.Student;
 
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.util.Random;
 public class GenerateSolution {
     private static List<Solution> solutions = new ArrayList<>();
     private static HashMap<String, Project> projects = new HashMap<>();
+    private static List<Student> students = new ArrayList<>();
+    private static List<Staff> staff = new ArrayList<>();
     private static int[] prefs = new int[10];
 
     public static void main(String[] args) throws IOException {
@@ -19,14 +22,11 @@ public class GenerateSolution {
     }
 
     private static void genSolution() throws IOException {
-<<<<<<< HEAD
+
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
         students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
         staff = PopulateClasses.populateStaff("Staff&Projects(60).xlsx");
-=======
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(120).xlsx");
-        List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(120).xlsx");
->>>>>>> fed51f4c04123cdf8e955af4e1a70c13cc530ef1
+
 
         for(int i = 0; i < 10; i++){
             prefs[i] = 0;
@@ -40,19 +40,7 @@ public class GenerateSolution {
         System.out.println(prefs[2] + " students got their third preference");
         System.out.println(prefs[3] + " students got their fourth preference");
         System.out.println(prefs[4] + " students got their fifth preference");
-<<<<<<< HEAD
 
-        for(int i = 0; i < students.size(); i++){
-            System.out.println(students.get(i).getPrefGotten());
-            if(!students.get(i).hasProject()){
-                Solution sol = new Solution(students.get(i), giveRandomProject());
-                solutions.add(sol);
-            }
-        }
-
-
-
-=======
         for (Student student : students) {
             if (!student.hasProject()) {
                 Solution sol = new Solution(student, giveRandomProject());
@@ -60,7 +48,6 @@ public class GenerateSolution {
             }
         }
         System.out.println(solutions.size());
->>>>>>> fed51f4c04123cdf8e955af4e1a70c13cc530ef1
     }
 
     private static void randomlyAssign(List<Student> students, int preference) {
