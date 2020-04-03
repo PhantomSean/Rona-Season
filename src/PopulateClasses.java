@@ -56,7 +56,7 @@ public class PopulateClasses {
                 preferences.add(readCellData(readFile,i,pos));
             }
 
-            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 2), Integer.valueOf(readCellData(readFile, i, 1)), preferences, false);
+            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 2), Integer.valueOf(readCellData(readFile, i, 1)), preferences, false, 0);
 
             students.add(student);
             //System.out.println("Added Student " + i);

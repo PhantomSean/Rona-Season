@@ -22,9 +22,9 @@ public class GenerateSolution {
     }
 
     private static void genSolution() throws IOException {
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(120).xlsx");
-        students = PopulateClasses.populateStudentClass("Students&Preferences(120).xlsx");
-        staff = PopulateClasses.populateStaff("Staff&Projects(120).xlsx");
+        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
+        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+        staff = PopulateClasses.populateStaff("Staff&Projects(60).xlsx");
 
         for(int i = 0; i < 10; i++){
             prefs[i] = 0;
@@ -38,13 +38,14 @@ public class GenerateSolution {
         System.out.println(prefs[2] + " students got their third preference");
         System.out.println(prefs[3] + " students got their fourth preference");
         System.out.println(prefs[4] + " students got their fifth preference");
+
         for(int i = 0; i < students.size(); i++){
+            System.out.println(students.get(i).getPrefGotten());
             if(!students.get(i).hasProject()){
                 Solution sol = new Solution(students.get(i), giveRandomProject());
                 solutions.add(sol);
             }
         }
-        System.out.println(solutions.size());
 
 
 
@@ -68,6 +69,7 @@ public class GenerateSolution {
                     int random = r.nextInt(temp.size() - 1);
                     Solution s = new Solution(temp.get(random), projects.get(temp.get(random).getPreference(preference)));
                     temp.get(random).setHasProject(true);
+                    temp.get(random).setPrefGotten(preference + 1);
                     projects.get(temp.get(random).getPreference(preference)).setTaken(true);
                     solutions.add(s);
                     temp.clear();
@@ -115,6 +117,7 @@ public class GenerateSolution {
                 solutions.add(solution);
                 students.get(i).setHasProject(true);
                 projects.get(students.get(i).getPreference(preference)).setTaken(true);
+                students.get(i).setPrefGotten(preference + 1);
                 prefs[preference]++;
             }
         }

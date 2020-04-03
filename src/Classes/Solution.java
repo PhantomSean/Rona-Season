@@ -24,4 +24,7 @@ public class Solution {
 
     public  void  setProject(Project project) { this.project = project; }
 
+    public int getPrefGotten() { return student.getPrefGotten(); }
+
+
 }
