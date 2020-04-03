@@ -17,8 +17,8 @@ The methods will allow us to:
     - get the preference of the project assigned
 In regards to the generate solution class we decided it best to split it into three core components;
     - first to assign any student with a unique preference at a specific rank
-    - secondly to then randomly assign a project to one of the students in the cases where there are multiple students with the same preference at a given rank
-    - thirdly to randomly assign a project to any student who did not get one of their preferences
+    - second to then randomly assign a project to one of the students in the cases where there are multiple students with the same preference at a given rank
+    - third to randomly assign a project to any student who did not get one of their preferences
 With regards to the second part we made sure to design it keeping in mind that this will have to be changed from random assigning in a later sprint.
 It should be easily changeable to implement a check such as student GPA etc.
 We also thought it may be useful to include a way to count how many students got what preference if any on their list.

@@ -1,6 +1,5 @@
 import Classes.Project;
 import Classes.Solution;
-import Classes.Staff;
 import Classes.Student;
 
 import java.io.IOException;
@@ -12,8 +11,6 @@ import java.util.Random;
 public class GenerateSolution {
     private static List<Solution> solutions = new ArrayList<>();
     private static HashMap<String, Project> projects = new HashMap<>();
-    private static List<Student> students = new ArrayList<>();
-    private static List<Staff> staff = new ArrayList<>();
     private static int[] prefs = new int[10];
 
     public static void main(String[] args) throws IOException {
@@ -24,8 +21,7 @@ public class GenerateSolution {
     private static void genSolution() throws IOException {
 
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
-        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
-        staff = PopulateClasses.populateStaff("Staff&Projects(60).xlsx");
+        List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
 
 
         for(int i = 0; i < 10; i++){
@@ -43,11 +39,14 @@ public class GenerateSolution {
 
         for (Student student : students) {
             if (!student.hasProject()) {
-                Solution sol = new Solution(student, giveRandomProject());
+                Solution sol = new Solution(student, giveRandomProject(student.getStream()));
                 solutions.add(sol);
             }
         }
         System.out.println(solutions.size());
+        for (Solution solution : solutions) {
+            System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
+        }
     }
 
     private static void randomlyAssign(List<Student> students, int preference) {
@@ -88,17 +87,20 @@ public class GenerateSolution {
         return false;
     }
 
-    private static Project giveRandomProject() {
-        Project project = genProject();
+    private static Project giveRandomProject(String studentStream) {
+        Project project = genProject(studentStream);
         if (project.isTaken())
-            giveRandomProject();
+            giveRandomProject(studentStream);
         project.setTaken(true);
         return project;
     }
-	private static Project genProject() {
+	private static Project genProject(String studentStream) {
 		Random generator = new Random();
 		Object[] values = projects.values().toArray();
-        return (Project) values[generator.nextInt(values.length)];
+		Project project = (Project) values[generator.nextInt(values.length)];
+		if (!project.getStream().equals(studentStream) && !project.getStream().equals("CS + DS"))
+		    genProject(studentStream);
+		return project;
 	}
 
     private static void assignUnique(List<Student> students, HashMap<String, Project> projects, int preference) {

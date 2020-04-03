@@ -1,7 +1,5 @@
 package Classes;
 
-import java.util.List;
-
 public class Solution {
 
     private Student student;
