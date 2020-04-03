@@ -45,28 +45,28 @@ public class GenerateSolution {
         for (int i = 0; i < students.size(); i++) {
             if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, i + 1, students.get(i).getPreference(preference))) {
                 temp.add(students.get(i));
-                System.out.println(students.get(i).getPreference(1));
-                System.out.println(students.get(i).getName());
+                //System.out.println(students.get(i).getPreference(1));
+                //System.out.println(students.get(i).getName());
                 tmp = i + 1;
 
                 for (int j = tmp; j < students.size(); j++) {
                     if (temp.get(0).getPreference(preference).equals(students.get(j).getPreference(preference))) {
                         temp.add(students.get(j));
-                        System.out.println(students.get(j).getName());
+                        //System.out.println(students.get(j).getName());
                     }
                 }
                 if(temp.size() != 0) {
-                    System.out.println(temp.size());
+                    //System.out.println(temp.size());
                     Random r = new Random();
                     int random = r.nextInt(temp.size() - 1);
                     Solution s = new Solution(temp.get(random), projects.get(temp.get(random).getPreference(preference)));
                     temp.get(random).setHasProject(true);
                     projects.get(temp.get(random).getPreference(preference)).setTaken(true);
-                    System.out.println("\n");
-                    System.out.println(temp.get(random).getName());
+                    //System.out.println("\n");
+                    //System.out.println(temp.get(random).getName());
                     solutions.add(s);
                     temp.clear();
-                    System.out.println("\n");
+                    //System.out.println("\n");
                 }
             }
         }
