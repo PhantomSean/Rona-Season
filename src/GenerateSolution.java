@@ -14,7 +14,6 @@ public class GenerateSolution {
     private static HashMap<String, Project> projects = new HashMap<>();
     private static List<Student> students = new ArrayList<>();
     private static List<Staff> staff = new ArrayList<>();
-    private static int x = 0;
 
     public static void main(String[] args) throws IOException {
         genSolution();
@@ -23,12 +22,14 @@ public class GenerateSolution {
     }
 
     private static void genSolution() throws IOException {
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
-        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
-        staff = PopulateClasses.populateStaff("Staff&Projects(60).xlsx");
+        projects = PopulateClasses.populateProjectClass("Staff&Projects(120).xlsx");
+        students = PopulateClasses.populateStudentClass("Students&Preferences(120).xlsx");
+        staff = PopulateClasses.populateStaff("Staff&Projects(120).xlsx");
 
-/*
-
+        for(int i = 0; i < 10; i++){
+            assignUnique(students, projects, i);
+            randomlyAssign(students, i);
+        }
         for(int i = 0; i < students.size(); i++){
             if(!students.get(i).hasProject()){
                 Solution sol = new Solution(students.get(i), giveRandomProject());
@@ -36,12 +37,7 @@ public class GenerateSolution {
             }
         }
         System.out.println(solutions.size());
-*/
-        for(int i = 0; i < 10; i++){
-            assignUnique(students, projects, i);
-            //randomlyAssign(students, i);
-        }
-        System.out.println(solutions.size());
+
 
 
     }
@@ -50,7 +46,7 @@ public class GenerateSolution {
         int tmp = 0;
         List<Student> temp = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
-            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, i + 1, students.get(i).getPreference(preference))) {
+            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, (i + 1), students.get(i).getPreference(preference))) {
                 temp.add(students.get(i));
                 //System.out.println(students.get(i).getName());
                 tmp = i + 1;
