@@ -23,4 +23,32 @@ It should be easily changeable to implement a check such as student GPA etc.
 We also thought it may be useful to include a way to count how many students got what preference if any on their list.
 As this would give us a nice way to generate a solution score for when we start to implement SA and GA.
 
+THE METHODS:
+genSolution()
+-This method brings all the below methods together to generate a solution. It assigns the students and staff Lists and
+-the projects Hashmap and then goes through each preference row, using the assignUnique and randomlyAssign methods
+-to generate solutions for students who got projects on their preferences. It then iterates through the students List,
+-checking if there are any students who have not been given a project and randomly assigns them a project.
+
+randomlyAssign(List<Student> students, int preference)
+-This method takes in a preference as an integer and goes through a row of each students preference, checking if
+-there are any duplicate preferences on the row. If it finds any it adds them to a temporary List. A number between
+-0 and the size of the List is randomly selected and the element which is in that position on the List is selected
+-to have the project. A solution is then created of the randomly selected student along with the project.
+
+boolean checkForOthers(List<Student> students, int pref, int n, String project)
+-This method checks if there are any other preferences on the row that are the same, if it finds one it
+-returns true, else it returns false.
+
+Project giveRandomProject()
+-This method tests if the project that has been generated is already taken. If it has not been taken then it sets the
+-project as taken as a solution is about to be created which uses that project.
+
+Project genProject()
+-This method randomly generates a number, which is then used to select a project.
+
+assignUnique(List<Student> students, HashMap<String, Project> projects, int preference)
+-This method takes in a preference as an integer and goes through a row of each students preference, checking if
+-there are any preferences on the row that are unique to that row. If it finds a unique preference, it creates
+-a solution which consists of the student and the project which was unique to that row.
 
