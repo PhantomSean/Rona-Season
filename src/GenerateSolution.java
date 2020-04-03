@@ -18,8 +18,6 @@ public class GenerateSolution {
 
     public static void main(String[] args) throws IOException {
         genSolution();
-        System.out.println(giveRandomProject().getTitle());
-
     }
 
     private static void genSolution() throws IOException {
@@ -27,15 +25,14 @@ public class GenerateSolution {
         students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
         staff = PopulateClasses.populateStaff("Staff&Projects(60).xlsx");
 
-        randomlyAssign(students, 1);
-        List<Student> not_unique = assignUnique(students, 0);
+        assignUnique(students, projects);
+        System.out.println(solutions.size());
 
-
-        for(int i = 0; i < solutions.size(); i++){
-            System.out.println(solutions.get(i).getProjectTitle());
-            System.out.println(solutions.get(i).getStudentName());
-            System.out.println("\n");
-        }
+//        for(int i = 0; i < solutions.size(); i++){
+//            System.out.println(solutions.get(i).getProjectTitle());
+//            System.out.println(solutions.get(i).getStudentName());
+//            System.out.println("\n");
+//        }
 
 
     }
@@ -96,46 +93,67 @@ public class GenerateSolution {
 		return randomProject;
 	}
 
-    private static List<Student> assignUnique(List<Student> students, int rank){
-        List<Student> not_unique = new ArrayList<>();
-        List<Student> studentsCopy = new ArrayList<>();
+	private static void assignUnique(List<Student> students, HashMap<String, Project> projects) {
+        for (int i = 1; i < 10; i++) {
+            for (int j = 0; j < students.size(); j++) {
+                if (students.get(j).hasProject() == false && projects.get(students.get(j).getPreference(i)).isTaken() == false && checkForOthers(students, i, j+ 1, students.get(j).getPreference(i))) {
+                    solutions.add(new Solution(students.get(j), projects.get(students.get(j).getPreference(i))));
+                    projects.get(students.get(j).getPreference(i)).setTaken(true);
+                    students.get(j).setHasProject(true);
 
-        for (int i=0;i<students.size(); i++)
-        {
-            studentsCopy.add(students.get(i));
-        }
-        // traverse the list removing duplicates and adding them to not_unique
-        for (int i=0; i<studentsCopy.size(); i++){
-            boolean isASolution = true;
-            String reference = studentsCopy.get(i).getPreference(rank);
+                    if (j == students.size() -1) {
+                        randomlyAssign(students, i);
 
-            for (int j = i+1; j<studentsCopy.size(); j++) {
-                String compare = studentsCopy.get(j).getPreference(rank);
-
-
-                if (reference.equals(compare)) {
-                    not_unique.add(studentsCopy.remove(j));
-                    j--;
+//                        if (i == 9) {
+//
+//                        }
+                    }
                 }
             }
-
-            // Check to see if the reference needs to be removed
-            for (int j=0; j<not_unique.size(); j++) {
-
-	            if(not_unique.get(j).getPreference(rank).equals(reference)) {
-                    not_unique.add(studentsCopy.remove(i));
-                    i--;
-                    isASolution = false;
-                    break;
-                }
-            }
-            if(isASolution){
-                Solution newSolution = new Solution(studentsCopy.get(i), projects.get(studentsCopy.get(i).getPreference(rank)));
-                solutions.add(newSolution);
-
-            }
         }
-        return not_unique;
     }
+
+//    private static List<Student> assignUnique(List<Student> students, int rank){
+//        List<Student> not_unique = new ArrayList<>();
+//        List<Student> studentsCopy = new ArrayList<>();
+//
+//        for (int i=0;i<students.size(); i++)
+//        {
+//            studentsCopy.add(students.get(i));
+//        }
+//        // traverse the list removing duplicates and adding them to not_unique
+//        for (int i=0; i<studentsCopy.size(); i++){
+//            boolean isASolution = true;
+//            String reference = studentsCopy.get(i).getPreference(rank);
+//
+//            for (int j = i+1; j<studentsCopy.size(); j++) {
+//                String compare = studentsCopy.get(j).getPreference(rank);
+//
+//
+//                if (reference.equals(compare)) {
+//                    not_unique.add(studentsCopy.remove(j));
+//                    j--;
+//                }
+//            }
+//
+//            // Check to see if the reference needs to be removed
+//            for (int j=0; j<not_unique.size(); j++) {
+//
+//	            if(not_unique.get(j).getPreference(rank).equals(reference)) {
+//                    not_unique.add(studentsCopy.remove(i));
+//                    i--;
+//                    isASolution = false;
+//                    break;
+//                }
+//            }
+//            if(isASolution){
+//                Solution newSolution = new Solution(studentsCopy.get(i), projects.get(studentsCopy.get(i).getPreference(rank)));
+//                solutions.add(newSolution);
+//
+//            }
+//        }
+//        randomlyAssign(not_unique, rank);
+//        return null;
+//    }
 
 }
