@@ -14,6 +14,7 @@ public class GenerateSolution {
     private static HashMap<String, Project> projects = new HashMap<>();
     private static List<Student> students = new ArrayList<>();
     private static List<Staff> staff = new ArrayList<>();
+    private static int prefs[] = new int[10];
 
     public static void main(String[] args) throws IOException {
         genSolution();
@@ -22,14 +23,22 @@ public class GenerateSolution {
     }
 
     private static void genSolution() throws IOException {
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(120).xlsx");
-        students = PopulateClasses.populateStudentClass("Students&Preferences(120).xlsx");
-        staff = PopulateClasses.populateStaff("Staff&Projects(120).xlsx");
+        projects = PopulateClasses.populateProjectClass("Staff&Projects(500).xlsx");
+        students = PopulateClasses.populateStudentClass("Students&Preferences(500).xlsx");
+        staff = PopulateClasses.populateStaff("Staff&Projects(500).xlsx");
 
+        for(int i = 0; i < 10; i++){
+            prefs[i] = 0;
+        }
         for(int i = 0; i < 10; i++){
             assignUnique(students, projects, i);
             randomlyAssign(students, i);
         }
+        System.out.println(prefs[0] + " students got their first preference");
+        System.out.println(prefs[1] + " students got their second preference");
+        System.out.println(prefs[2] + " students got their third preference");
+        System.out.println(prefs[3] + " students got their fourth preference");
+        System.out.println(prefs[4] + " students got their fifth preference");
         for(int i = 0; i < students.size(); i++){
             if(!students.get(i).hasProject()){
                 Solution sol = new Solution(students.get(i), giveRandomProject());
@@ -48,27 +57,22 @@ public class GenerateSolution {
         for (int i = 0; i < students.size(); i++) {
             if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, (i + 1), students.get(i).getPreference(preference))) {
                 temp.add(students.get(i));
-                //System.out.println(students.get(i).getName());
                 tmp = i + 1;
 
                 for (int j = tmp; j < students.size(); j++) {
                     if (temp.get(0).getPreference(preference).equals(students.get(j).getPreference(preference))) {
                         temp.add(students.get(j));
-                        //System.out.println(students.get(j).getName());
                     }
                 }
                 if(temp.size() != 0) {
-                    //System.out.println(temp.size());
                     Random r = new Random();
                     int random = r.nextInt(temp.size() - 1);
-                    //System.out.println("\n");
-                    //System.out.println(temp.get(random).getName());
                     Solution s = new Solution(temp.get(random), projects.get(temp.get(random).getPreference(preference)));
                     temp.get(random).setHasProject(true);
-                    //System.out.println("\n");
                     projects.get(temp.get(random).getPreference(preference)).setTaken(true);
                     solutions.add(s);
                     temp.clear();
+                    prefs[preference]++;
                 }
             }
         }
@@ -108,12 +112,11 @@ public class GenerateSolution {
                 }
             }
             if(check == 1 && !students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken()) {
-                System.out.println(students.get(i).getName());
-                System.out.println(students.get(i).getPreference(preference));
                 Solution solution = new Solution(students.get(i), projects.get(students.get(i).getPreference(preference)));
                 solutions.add(solution);
                 students.get(i).setHasProject(true);
                 projects.get(students.get(i).getPreference(preference)).setTaken(true);
+                prefs[preference]++;
             }
         }
 
