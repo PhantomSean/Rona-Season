@@ -19,7 +19,7 @@ public class GenerateSolution {
     }
 
     private static void genSolution() throws IOException {
-
+        // NB! change value within rounded brackets to test the other data sets
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
         List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
 
