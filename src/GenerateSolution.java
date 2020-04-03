@@ -23,9 +23,9 @@ public class GenerateSolution {
     }
 
     private static void genSolution() throws IOException {
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(500).xlsx");
-        students = PopulateClasses.populateStudentClass("Students&Preferences(500).xlsx");
-        staff = PopulateClasses.populateStaff("Staff&Projects(500).xlsx");
+        projects = PopulateClasses.populateProjectClass("Staff&Projects(120).xlsx");
+        students = PopulateClasses.populateStudentClass("Students&Preferences(120).xlsx");
+        staff = PopulateClasses.populateStaff("Staff&Projects(120).xlsx");
 
         for(int i = 0; i < 10; i++){
             prefs[i] = 0;
@@ -50,21 +50,31 @@ public class GenerateSolution {
 
 
     }
-
+    /*
+    private static void checkSolutions(List<Solution> solutions){
+        int tmp;
+        for(int i = 0; i < solutions.size(); i++){
+            tmp = i + 1;
+            for(int j = tmp; j < solutions.size(); j++){
+                if(solutions.get(i).getStudentName())
+            }
+        }
+    }
+    */
     private static void randomlyAssign(List<Student> students, int preference) {
         int tmp = 0;
         List<Student> temp = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
-            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, (i + 1), students.get(i).getPreference(preference))) {
+            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, i, students.get(i).getPreference(preference))) {
                 temp.add(students.get(i));
                 tmp = i + 1;
 
                 for (int j = tmp; j < students.size(); j++) {
-                    if (temp.get(0).getPreference(preference).equals(students.get(j).getPreference(preference))) {
+                    if (temp.get(0).getPreference(preference).equals(students.get(j).getPreference(preference)) && !students.get(j).hasProject()) {
                         temp.add(students.get(j));
                     }
                 }
-                if(temp.size() != 0) {
+                if(temp.size() > 1) {
                     Random r = new Random();
                     int random = r.nextInt(temp.size() - 1);
                     Solution s = new Solution(temp.get(random), projects.get(temp.get(random).getPreference(preference)));
