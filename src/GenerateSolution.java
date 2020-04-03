@@ -1,6 +1,5 @@
 import Classes.Project;
 import Classes.Solution;
-import Classes.Staff;
 import Classes.Student;
 
 import java.io.IOException;
@@ -12,9 +11,7 @@ import java.util.Random;
 public class GenerateSolution {
     private static List<Solution> solutions = new ArrayList<>();
     private static HashMap<String, Project> projects = new HashMap<>();
-    private static List<Student> students = new ArrayList<>();
-    private static List<Staff> staff = new ArrayList<>();
-    private static int prefs[] = new int[10];
+    private static int[] prefs = new int[10];
 
     public static void main(String[] args) throws IOException {
         genSolution();
@@ -23,8 +20,7 @@ public class GenerateSolution {
 
     private static void genSolution() throws IOException {
         projects = PopulateClasses.populateProjectClass("Staff&Projects(120).xlsx");
-        students = PopulateClasses.populateStudentClass("Students&Preferences(120).xlsx");
-        staff = PopulateClasses.populateStaff("Staff&Projects(120).xlsx");
+        List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(120).xlsx");
 
         for(int i = 0; i < 10; i++){
             prefs[i] = 0;
@@ -38,20 +34,17 @@ public class GenerateSolution {
         System.out.println(prefs[2] + " students got their third preference");
         System.out.println(prefs[3] + " students got their fourth preference");
         System.out.println(prefs[4] + " students got their fifth preference");
-        for(int i = 0; i < students.size(); i++){
-            if(!students.get(i).hasProject()){
-                Solution sol = new Solution(students.get(i), giveRandomProject());
+        for (Student student : students) {
+            if (!student.hasProject()) {
+                Solution sol = new Solution(student, giveRandomProject());
                 solutions.add(sol);
             }
         }
         System.out.println(solutions.size());
-
-
-
     }
 
     private static void randomlyAssign(List<Student> students, int preference) {
-        int tmp = 0;
+        int tmp;
         List<Student> temp = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
             if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, i, students.get(i).getPreference(preference))) {
@@ -97,16 +90,15 @@ public class GenerateSolution {
 	private static Project genProject() {
 		Random generator = new Random();
 		Object[] values = projects.values().toArray();
-		Project randomProject = (Project) values[generator.nextInt(values.length)];
-		return randomProject;
+        return (Project) values[generator.nextInt(values.length)];
 	}
 
     private static void assignUnique(List<Student> students, HashMap<String, Project> projects, int preference) {
         int check;
         for (int i = 0; i < students.size(); i++) {
             check = 0;
-            for(int j = 0; j < students.size(); j++){
-                if(students.get(i).getPreference(preference).equals(students.get(j).getPreference(preference))){
+            for (Student student : students) {
+                if (students.get(i).getPreference(preference).equals(student.getPreference(preference))) {
                     check++;
                 }
             }

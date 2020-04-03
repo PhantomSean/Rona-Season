@@ -16,12 +16,8 @@ public class Solution {
 
     public int getStudentNumber() { return student.getStudentId(); }
 
-    public  void  setStudent(Student student) { this.student = student; }
-
     public  String getProjectTitle() { return project.getTitle(); }
 
     public String getSupervisor() { return  project.getProposed_by(); }
-
-    public  void  setProject(Project project) { this.project = project; }
 
 }
