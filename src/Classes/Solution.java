@@ -16,15 +16,16 @@ public class Solution {
 
     public int getStudentNumber() { return student.getStudentId(); }
 
-    public  void  setStudent(Student student) { this.student = student; }
-
     public  String getProjectTitle() { return project.getTitle(); }
 
     public String getSupervisor() { return  project.getProposed_by(); }
 
+<<<<<<< HEAD
     public  void  setProject(Project project) { this.project = project; }
 
     public int getPrefGotten() { return student.getPrefGotten(); }
 
 
+=======
+>>>>>>> fed51f4c04123cdf8e955af4e1a70c13cc530ef1
 }
