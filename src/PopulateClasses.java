@@ -49,7 +49,6 @@ public class PopulateClasses {
 
     public static List<Student> populateStudentClass(String readFile) throws IOException{
         int numStudents = getNumRows(readFile);
-
         for(int i = 1; i < numStudents; i++){
             List<String> preferences = new ArrayList<String>();
             for (int j = 0; j <= 9; j++){

@@ -14,11 +14,11 @@ public class GenerateSolution {
     private static HashMap<String, Project> projects = new HashMap<>();
     private static List<Student> students = new ArrayList<>();
     private static List<Staff> staff = new ArrayList<>();
-
+    private static int x = 0;
 
     public static void main(String[] args) throws IOException {
         genSolution();
-        System.out.println(giveRandomProject().getTitle());
+        //System.out.println(giveRandomProject().getTitle());
 
     }
 
@@ -27,15 +27,14 @@ public class GenerateSolution {
         students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
         staff = PopulateClasses.populateStaff("Staff&Projects(60).xlsx");
 
-        randomlyAssign(students, 1);
-        List<Student> not_unique = assignUnique(students, 0);
-
-        for(int i = 0; i < solutions.size(); i++){
-            System.out.println(solutions.get(i).getProjectTitle());
-            System.out.println(solutions.get(i).getStudentName());
-            System.out.println("\n");
+        //List<Student> not_unique = assignUnique(students, 0);
+        for(int i = 1; i < 10; i++){
+            randomlyAssign(students, i);
         }
-
+        System.out.println(x);
+        for(int i = 0; i < solutions.size(); i++){
+            System.out.println(solutions.get(i).getStudentName());
+        }
 
     }
 
@@ -45,14 +44,11 @@ public class GenerateSolution {
         for (int i = 0; i < students.size(); i++) {
             if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, i + 1, students.get(i).getPreference(preference))) {
                 temp.add(students.get(i));
-                //System.out.println(students.get(i).getPreference(1));
-                //System.out.println(students.get(i).getName());
                 tmp = i + 1;
 
                 for (int j = tmp; j < students.size(); j++) {
                     if (temp.get(0).getPreference(preference).equals(students.get(j).getPreference(preference))) {
                         temp.add(students.get(j));
-                        //System.out.println(students.get(j).getName());
                     }
                 }
                 if(temp.size() != 0) {
@@ -62,19 +58,17 @@ public class GenerateSolution {
                     Solution s = new Solution(temp.get(random), projects.get(temp.get(random).getPreference(preference)));
                     temp.get(random).setHasProject(true);
                     projects.get(temp.get(random).getPreference(preference)).setTaken(true);
-                    //System.out.println("\n");
-                    //System.out.println(temp.get(random).getName());
                     solutions.add(s);
                     temp.clear();
-                    //System.out.println("\n");
+                    x++;
                 }
             }
         }
     }
 
-    private static boolean checkForOthers(List<Student> students, int pref, int n, String p){
+    private static boolean checkForOthers(List<Student> students, int pref, int n, String project){
         for(int i = n; i < students.size(); i++){
-            if(students.get(i).getPreference(pref).equals(p)){
+            if(students.get(i).getPreference(pref).equals(project)){
                 return true;
             }
         }
@@ -126,7 +120,6 @@ public class GenerateSolution {
             if(isASolution){
                 Solution newSolution = new Solution(students.get(i), projects.get(students.get(i).getPreference(rank)));
                 solutions.add(newSolution);
-
             }
         }
         return not_unique;
