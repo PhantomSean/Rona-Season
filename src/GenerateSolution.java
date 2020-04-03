@@ -30,6 +30,7 @@ public class GenerateSolution {
         randomlyAssign(students, 1);
         List<Student> not_unique = assignUnique(students, 0);
 
+
         for(int i = 0; i < solutions.size(); i++){
             System.out.println(solutions.get(i).getProjectTitle());
             System.out.println(solutions.get(i).getStudentName());
@@ -97,18 +98,23 @@ public class GenerateSolution {
 
     private static List<Student> assignUnique(List<Student> students, int rank){
         List<Student> not_unique = new ArrayList<>();
+        List<Student> studentsCopy = new ArrayList<>();
 
+        for (int i=0;i<students.size(); i++)
+        {
+            studentsCopy.add(students.get(i));
+        }
         // traverse the list removing duplicates and adding them to not_unique
-        for (int i=0; i<students.size(); i++){
+        for (int i=0; i<studentsCopy.size(); i++){
             boolean isASolution = true;
-            String reference = students.get(i).getPreference(rank);
+            String reference = studentsCopy.get(i).getPreference(rank);
 
-            for (int j = i+1; j<students.size(); j++) {
-                String compare = students.get(j).getPreference(rank);
+            for (int j = i+1; j<studentsCopy.size(); j++) {
+                String compare = studentsCopy.get(j).getPreference(rank);
 
 
                 if (reference.equals(compare)) {
-                    not_unique.add(students.remove(j));
+                    not_unique.add(studentsCopy.remove(j));
                     j--;
                 }
             }
@@ -117,14 +123,14 @@ public class GenerateSolution {
             for (int j=0; j<not_unique.size(); j++) {
 
 	            if(not_unique.get(j).getPreference(rank).equals(reference)) {
-                    not_unique.add(students.remove(i));
+                    not_unique.add(studentsCopy.remove(i));
                     i--;
                     isASolution = false;
                     break;
                 }
             }
             if(isASolution){
-                Solution newSolution = new Solution(students.get(i), projects.get(students.get(i).getPreference(rank)));
+                Solution newSolution = new Solution(studentsCopy.get(i), projects.get(studentsCopy.get(i).getPreference(rank)));
                 solutions.add(newSolution);
 
             }
