@@ -14,6 +14,7 @@ The methods will allow us to:
     - get the student name and number
     - get the project title
     - get the supervisor overseeing the project
+    - get the preference of the project assigned
 In regards to the generate solution class we decided it best to split it into three core components;
     - first to assign any student with a unique preference at a specific rank
     - secondly to then randomly assign a project to one of the students in the cases where there are multiple students with the same preference at a given rank
