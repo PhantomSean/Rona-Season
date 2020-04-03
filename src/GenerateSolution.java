@@ -27,8 +27,8 @@ public class GenerateSolution {
         students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
         staff = PopulateClasses.populateStaff("Staff&Projects(60).xlsx");
 
-        randomlyAssign(1);
-        List<Student> not_unique = assignUnique(students, 0);
+        randomlyAssign(students, 1);
+        //List<Student> not_unique = assignUnique(students, 0);
 
         for(int i = 0; i < solutions.size(); i++){
             System.out.println(solutions.get(i).getProjectTitle());
@@ -39,34 +39,34 @@ public class GenerateSolution {
 
     }
 
-    private static void randomlyAssign(int preference) {
+    private static void randomlyAssign(List<Student> students, int preference) {
         int tmp = 0;
         List<Student> temp = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
-            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(1)).isTaken() && checkForOthers(students, 1, i + 1, students.get(i).getPreference(1))) {
+            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, i + 1, students.get(i).getPreference(preference))) {
                 temp.add(students.get(i));
-                //System.out.println(students.get(i).getPreference(1));
-                //System.out.println(students.get(i).getName());
+                System.out.println(students.get(i).getPreference(1));
+                System.out.println(students.get(i).getName());
                 tmp = i + 1;
 
                 for (int j = tmp; j < students.size(); j++) {
-                    if (temp.get(0).getPreference(1).equals(students.get(j).getPreference(1))) {
+                    if (temp.get(0).getPreference(preference).equals(students.get(j).getPreference(preference))) {
                         temp.add(students.get(j));
-                        //System.out.println(students.get(j).getName());
+                        System.out.println(students.get(j).getName());
                     }
                 }
                 if(temp.size() != 0) {
-                    //System.out.println(temp.size());
+                    System.out.println(temp.size());
                     Random r = new Random();
                     int random = r.nextInt(temp.size() - 1);
                     Solution s = new Solution(temp.get(random), projects.get(temp.get(random).getPreference(preference)));
                     temp.get(random).setHasProject(true);
                     projects.get(temp.get(random).getPreference(preference)).setTaken(true);
-                    //System.out.println("\n");
-                    //System.out.println(temp.get(random).getName());
+                    System.out.println("\n");
+                    System.out.println(temp.get(random).getName());
                     solutions.add(s);
                     temp.clear();
-                    //System.out.println("\n");
+                    System.out.println("\n");
                 }
             }
         }

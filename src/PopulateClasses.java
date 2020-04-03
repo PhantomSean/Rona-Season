@@ -49,15 +49,15 @@ public class PopulateClasses {
 
     public static List<Student> populateStudentClass(String readFile) throws IOException{
         int numStudents = getNumRows(readFile);
-        List<String> preferences = new ArrayList<String>();
 
         for(int i = 1; i < numStudents; i++){
+            List<String> preferences = new ArrayList<String>();
             for (int j = 0; j <= 9; j++){
                 int pos = j+3;
                 preferences.add(readCellData(readFile,i,pos));
             }
 
-            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 3), Integer.valueOf(readCellData(readFile, i, 1)), preferences, false);
+            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 2), Integer.valueOf(readCellData(readFile, i, 1)), preferences, false);
 
             students.add(student);
             //System.out.println("Added Student " + i);
