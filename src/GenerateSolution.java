@@ -28,7 +28,7 @@ public class GenerateSolution {
         staff = PopulateClasses.populateStaff("Staff&Projects(60).xlsx");
 
         randomlyAssign(students, 1);
-        //List<Student> not_unique = assignUnique(students, 0);
+        List<Student> not_unique = assignUnique(students, 0);
 
         for(int i = 0; i < solutions.size(); i++){
             System.out.println(solutions.get(i).getProjectTitle());
