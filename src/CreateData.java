@@ -14,14 +14,14 @@ import java.util.Random;
 
 public class CreateData {
     public static void main(String[] args) throws IOException {
-        staffProject("Miskatonic Classes.Staff Members.xlsx", "Classes.Staff&Projects(60).xlsx", 60);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Classes.Staff&Projects(60).xlsx", "Students&Preferences(60).xlsx",60);
-        staffProject("Miskatonic Classes.Staff Members.xlsx", "Classes.Staff&Projects(120).xlsx", 120);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Classes.Staff&Projects(120).xlsx", "Students&Preferences(120).xlsx",120);
-        staffProject("Miskatonic Classes.Staff Members.xlsx", "Classes.Staff&Projects(240).xlsx", 240);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Classes.Staff&Projects(240).xlsx", "Students&Preferences(240).xlsx",240);
-        staffProject("Miskatonic Classes.Staff Members.xlsx", "Classes.Staff&Projects(500).xlsx", 500);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Classes.Staff&Projects(500).xlsx", "Students&Preferences(500).xlsx",500);
+        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(60).xlsx", 60);
+        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(60).xlsx", "Students&Preferences(60).xlsx",60);
+//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(120).xlsx", 120);
+//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(120).xlsx", "Students&Preferences(120).xlsx",120);
+//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(240).xlsx", 240);
+//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(240).xlsx", "Students&Preferences(240).xlsx",240);
+//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(500).xlsx", 500);
+//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(500).xlsx", "Students&Preferences(500).xlsx",500);
     }
 
     public static void staffProject(String readFile, String writeFile, int num) throws IOException {
