@@ -11,13 +11,15 @@ public class Student extends Member {
     private List<String> preferences = new ArrayList<String>();
     private boolean hasProject;
     private int prefGot;
+    private double GPA;
 
-    public Student(String name, String stream, int id, List<String> preferences, boolean hasProject, int prefGot){
+    public Student(String name, String stream, int id, List<String> preferences, boolean hasProject, int prefGot, double GPA){
         super(name, stream);
         this.studentId = id;
         this.preferences = preferences;
         this.hasProject = hasProject;
         this.prefGot = prefGot;
+        this.GPA = GPA;
     }
 
     //getters and setters
@@ -50,5 +52,13 @@ public class Student extends Member {
 
     public void setPrefGotten(int prefGot) {
         this.prefGot = prefGot;
+    }
+
+    public double getGPA() {
+        return GPA;
+    }
+
+    public void setGPA(double GPA) {
+        this.GPA = GPA;
     }
 }

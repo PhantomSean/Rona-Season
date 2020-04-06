@@ -4,12 +4,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class PopulateClasses {
     private static HashMap<String, Project> projects = new HashMap<>();
     private static List<Student> students = new ArrayList<>();
     private static List<Staff> staff = new ArrayList<>();
+    private static DecimalFormat df = new DecimalFormat("0.00");
 
     public static List<Staff> populateStaff(String readFile1) throws IOException {
 
@@ -56,7 +58,7 @@ public class PopulateClasses {
                 preferences.add(readCellData(readFile,i,pos));
             }
 
-            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 2), Integer.valueOf(readCellData(readFile, i, 1)), preferences, false, 0);
+            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 2), Integer.valueOf(readCellData(readFile, i, 1)), preferences, false, 0, genGPA());
 
             students.add(student);
             //System.out.println("Added Student " + i);
@@ -102,6 +104,29 @@ public class PopulateClasses {
         assert readBook != null;
         Sheet sheet = readBook.getSheetAt(0);
         return sheet.getPhysicalNumberOfRows();
+    }
+
+    public static double genGPA(){
+        double GPA = 0;
+        Random r = new Random();
+        int random = r.nextInt(10) + 1;
+        if(random == 1){
+            //1.0-2.4
+            GPA = 1.0 + r.nextDouble()*(2.4-1.0);
+        }
+        if(random >= 2 && random <= 4){
+            //2.5-3.1
+            GPA = 2.5 + r.nextDouble()*(3.1-2.5);
+        }
+        if(random >= 5 && random <= 8){
+            //3.2-3.7
+            GPA = 3.2 + r.nextDouble()*(3.7-3.2);
+        }
+        if(random == 9 || random == 10){
+            //3.8-4.2
+            GPA = 3.8 + r.nextDouble()*(4.2-3.8);
+        }
+        return Math.round(GPA * 100.0) / 100.0;
     }
 
 }
