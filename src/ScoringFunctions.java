@@ -13,7 +13,7 @@ public class ScoringFunctions {
     public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution();
         change(solutions);
-        analyze(solutions);
+        //analyze(solutions);
         testSuite();
     }
 
@@ -143,7 +143,7 @@ public class ScoringFunctions {
     }
 
     private static String testReturnNumber(){
-        List<Solution> solutions = new ArrayList<>();
+        List<Solution> testSolutions = new ArrayList<>();
         List<String> preferences = new ArrayList<String>();
 
         Student studentOne = new Student("check", "CS", 0, preferences, false, 0, 4.0);
@@ -154,12 +154,12 @@ public class ScoringFunctions {
         Project project = new Project("x", "y", "z", false);
 
         Solution two = new Solution(studentTwo, project, 0);
-        solutions.add(two);
-        solutions.add(new Solution(studentOne, project, 1));
-        solutions.add(new Solution(studentThree, project, 1));
-        solutions.add(new Solution(studentFour, project, 1));
+        testSolutions.add(two);
+        testSolutions.add(new Solution(studentOne, project, 1));
+        testSolutions.add(new Solution(studentThree, project, 1));
+        testSolutions.add(new Solution(studentFour, project, 1));
 
-        if(returnNumber(solutions, two) == 0){
+        if(returnNumber(testSolutions, two) == 0){
             return "returnNumber() method works";
         }else{
             return "error in method returnNumber()";

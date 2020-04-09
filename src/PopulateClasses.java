@@ -106,26 +106,33 @@ public class PopulateClasses {
         return sheet.getPhysicalNumberOfRows();
     }
 
+    //method for generating students GPA
     public static double genGPA(){
         double GPA = 0;
         Random r = new Random();
+        //selects a random number from 1 to 10
         int random = r.nextInt(10) + 1;
+        //approx. one tenth of students will have a GPA of 1.0-2.4
         if(random == 1){
             //1.0-2.4
             GPA = 1.0 + r.nextDouble()*(2.4-1.0);
         }
+        //approx. three tenths of students will have a GPA of 2.5-3.1
         if(random >= 2 && random <= 4){
             //2.5-3.1
             GPA = 2.5 + r.nextDouble()*(3.1-2.5);
         }
+        //approx. two fifths of students will have a GPA of 3.2-3.7
         if(random >= 5 && random <= 8){
             //3.2-3.7
             GPA = 3.2 + r.nextDouble()*(3.7-3.2);
         }
+        //approx. one fifth of students will have a GPA of 3.8-4.2
         if(random == 9 || random == 10){
             //3.8-4.2
             GPA = 3.8 + r.nextDouble()*(4.2-3.8);
         }
+        //returns the number rounded to two decimal points
         return Math.round(GPA * 100.0) / 100.0;
     }
 
