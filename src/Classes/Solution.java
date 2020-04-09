@@ -20,6 +20,18 @@ public class Solution {
 
     public String getSupervisor() { return  project.getProposed_by(); }
 
+    public Project getProject() {
+        return project;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
     public  void  setProject(Project project) { this.project = project; }
 
     public int getPrefGotten() { return student.getPrefGotten(); }

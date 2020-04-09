@@ -19,7 +19,7 @@ public class GenerateSolution {
 
     }
 
-    public static List<Solution> genSolution() throws IOException {
+    static List<Solution> genSolution() throws IOException {
         // NB! change value within rounded brackets to test the other data sets
 
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
@@ -125,7 +125,7 @@ public class GenerateSolution {
         return false;
     }
 
-    private static Project giveRandomProject(String studentStream) {
+    static Project giveRandomProject(String studentStream) {
         Project project = genProject(studentStream);
         if (project.isTaken())
             giveRandomProject(studentStream);
