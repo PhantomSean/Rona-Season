@@ -18,19 +18,19 @@ public class GenerateSolution {
 
     }
 
-    private static void genSolution() throws IOException {
+    public static List<Solution> genSolution() throws IOException {
         // NB! change value within rounded brackets to test the other data sets
 
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
         List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
-
 
         for(int i = 0; i < 10; i++){
             prefs[i] = 0;
         }
         for(int i = 0; i < 10; i++){
             assignUnique(students, projects, i);
-            randomlyAssign(students, i);
+            //randomlyAssign(students, i);
+            assignByGPA(students, i);
         }
         System.out.println(prefs[0] + " students got their first preference");
         System.out.println(prefs[1] + " students got their second preference");
@@ -48,8 +48,42 @@ public class GenerateSolution {
         for (Solution solution : solutions) {
             System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
         }
+
+        return solutions;
     }
 
+    private static void assignByGPA(List<Student> students, int preference) {
+        int tmp;
+        List<Student> temp = new ArrayList<>();
+        for (int i = 0; i < students.size(); i++) {
+            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, i, students.get(i).getPreference(preference))) {
+                temp.add(students.get(i));
+                tmp = i + 1;
+
+                for (int j = tmp; j < students.size(); j++) {
+                    if (temp.get(0).getPreference(preference).equals(students.get(j).getPreference(preference)) && !students.get(j).hasProject()) {
+                        temp.add(students.get(j));
+                    }
+                }
+                if(temp.size() > 1) {
+                    while(temp.size() != 1){
+                        if(temp.get(0).getGPA() > temp.get(1).getGPA()){
+                            temp.remove(1);
+                        }else{
+                            temp.remove(0);
+                        }
+                    }
+                        Solution s = new Solution(temp.get(0), projects.get(temp.get(0).getPreference(preference)));
+                        temp.get(0).setHasProject(true);
+                        temp.get(0).setPrefGotten(preference + 1);
+                        projects.get(temp.get(0).getPreference(preference)).setTaken(true);
+                        solutions.add(s);
+                        temp.clear();
+                        prefs[preference]++;
+                }
+            }
+        }
+    }
     private static void randomlyAssign(List<Student> students, int preference) {
         int tmp;
         List<Student> temp = new ArrayList<>();
