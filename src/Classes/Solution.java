@@ -4,10 +4,12 @@ public class Solution {
 
     private Student student;
     private Project project;
+    private double score;
 
-    public Solution(Student student, Project project) {
+    public Solution(Student student, Project project, double score) {
         this.student = student;
         this.project = project;
+        this.score = score;
     }
 
     public String getStudentName() { return student.getName(); }
@@ -21,5 +23,7 @@ public class Solution {
     public  void  setProject(Project project) { this.project = project; }
 
     public int getPrefGotten() { return student.getPrefGotten(); }
+
+    public double getScore() { return score;}
 
 }

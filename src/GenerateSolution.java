@@ -12,6 +12,7 @@ public class GenerateSolution {
     private static List<Solution> solutions = new ArrayList<>();
     private static HashMap<String, Project> projects = new HashMap<>();
     private static int[] prefs = new int[10];
+    private static double score_mult = 0.75;
 
     public static void main(String[] args) throws IOException {
         genSolution();
@@ -40,15 +41,17 @@ public class GenerateSolution {
 
         for (Student student : students) {
             if (!student.hasProject()) {
-                Solution sol = new Solution(student, giveRandomProject(student.getStream()));
+                Solution sol = new Solution(student, giveRandomProject(student.getStream()), Math.pow(score_mult, 0));
                 solutions.add(sol);
             }
         }
         System.out.println(solutions.size());
+        double total_score = 0;
         for (Solution solution : solutions) {
-            System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
+//            System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
+            total_score += solution.getScore();
         }
-
+        System.out.println(total_score);
         return solutions;
     }
 
@@ -73,7 +76,7 @@ public class GenerateSolution {
                             temp.remove(0);
                         }
                     }
-                        Solution s = new Solution(temp.get(0), projects.get(temp.get(0).getPreference(preference)));
+                        Solution s = new Solution(temp.get(0), projects.get(temp.get(0).getPreference(preference)), Math.pow(score_mult, 11-preference));
                         temp.get(0).setHasProject(true);
                         temp.get(0).setPrefGotten(preference + 1);
                         projects.get(temp.get(0).getPreference(preference)).setTaken(true);
@@ -100,7 +103,7 @@ public class GenerateSolution {
                 if(temp.size() > 1) {
                     Random r = new Random();
                     int random = r.nextInt(temp.size() - 1);
-                    Solution s = new Solution(temp.get(random), projects.get(temp.get(random).getPreference(preference)));
+                    Solution s = new Solution(temp.get(random), projects.get(temp.get(random).getPreference(preference)), Math.pow(score_mult, 11-preference));
                     temp.get(random).setHasProject(true);
                     temp.get(random).setPrefGotten(preference + 1);
                     projects.get(temp.get(random).getPreference(preference)).setTaken(true);
@@ -148,7 +151,7 @@ public class GenerateSolution {
                 }
             }
             if(check == 1 && !students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken()) {
-                Solution solution = new Solution(students.get(i), projects.get(students.get(i).getPreference(preference)));
+                Solution solution = new Solution(students.get(i), projects.get(students.get(i).getPreference(preference)), Math.pow(score_mult, 11-preference));
                 solutions.add(solution);
                 students.get(i).setHasProject(true);
                 projects.get(students.get(i).getPreference(preference)).setTaken(true);
