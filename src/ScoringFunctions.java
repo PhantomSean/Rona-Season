@@ -12,11 +12,11 @@ public class ScoringFunctions {
 
     public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution();
+        analyze(solutions);
         change(solutions);
         //analyze(solutions);
         //addPenalties();
         testSuite();
-        GenerateSolution.testSuite();
         analyze(solutions);
     }
 
@@ -132,7 +132,7 @@ public class ScoringFunctions {
                 return i;
             }
         }
-        return 0;
+        return 10;
     }
 
     //method which returns which number of the list a solution is on
@@ -246,6 +246,10 @@ public class ScoringFunctions {
         System.out.println(testCheckForPref());
         System.out.println(testGetPrefNumber());
         System.out.println(testReturnNumber());
+        System.out.println("\n");
+        System.out.println("Test Results from class GenerateSolution:");
+        System.out.println(GenerateSolution.testGenGPA());
+        System.out.println(GenerateSolution.testCheckForOthers());
         System.out.println("\n");
     }
 }

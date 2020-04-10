@@ -45,7 +45,6 @@ public class GenerateSolution {
                 solutions.add(sol);
             }
         }
-        System.out.println(solutions.size());
         double total_score = 0;
         for (Solution solution : solutions) {
 //            System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
@@ -55,10 +54,12 @@ public class GenerateSolution {
         return solutions;
     }
 
+    //method which assigns preferences based on students GPA
     private static void assignByGPA(List<Student> students, int preference) {
         int tmp;
         List<Student> temp = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
+            //goes through all students and if multiple students have the same project at the same preference adds them to the List temp
             if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, i, students.get(i).getPreference(preference))) {
                 temp.add(students.get(i));
                 tmp = i + 1;
@@ -76,6 +77,7 @@ public class GenerateSolution {
                             temp.remove(0);
                         }
                     }
+                        //creates a new solution, calculates the score and stores the solution
                         Solution s = new Solution(temp.get(0), projects.get(temp.get(0).getPreference(preference)), Math.pow(score_mult, 11-preference));
                         temp.get(0).setHasProject(true);
                         temp.get(0).setPrefGotten(preference + 1);
@@ -87,34 +89,8 @@ public class GenerateSolution {
             }
         }
     }
-    private static void randomlyAssign(List<Student> students, int preference) {
-        int tmp;
-        List<Student> temp = new ArrayList<>();
-        for (int i = 0; i < students.size(); i++) {
-            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, i, students.get(i).getPreference(preference))) {
-                temp.add(students.get(i));
-                tmp = i + 1;
 
-                for (int j = tmp; j < students.size(); j++) {
-                    if (temp.get(0).getPreference(preference).equals(students.get(j).getPreference(preference)) && !students.get(j).hasProject()) {
-                        temp.add(students.get(j));
-                    }
-                }
-                if(temp.size() > 1) {
-                    Random r = new Random();
-                    int random = r.nextInt(temp.size() - 1);
-                    Solution s = new Solution(temp.get(random), projects.get(temp.get(random).getPreference(preference)), Math.pow(score_mult, 11-preference));
-                    temp.get(random).setHasProject(true);
-                    temp.get(random).setPrefGotten(preference + 1);
-                    projects.get(temp.get(random).getPreference(preference)).setTaken(true);
-                    solutions.add(s);
-                    temp.clear();
-                    prefs[preference]++;
-                }
-            }
-        }
-    }
-
+    //method which checks if there are other students with the same project as same preference, returns a boolean
     private static boolean checkForOthers(List<Student> students, int pref, int n, String project){
         n++;
         for(int i = n; i < students.size(); i++){
@@ -125,6 +101,7 @@ public class GenerateSolution {
         return false;
     }
 
+    //gives random project to student while taking students stream into account
     static Project giveRandomProject(String studentStream) {
         Project project = genProject(studentStream);
         if (project.isTaken())
@@ -132,6 +109,7 @@ public class GenerateSolution {
         project.setTaken(true);
         return project;
     }
+    //generates a random project
 	private static Project genProject(String studentStream) {
 		Random generator = new Random();
 		Object[] values = projects.values().toArray();
@@ -141,6 +119,7 @@ public class GenerateSolution {
 		return project;
 	}
 
+	//method that if a student has a unique project choice as a preference, assigns the project to the student
     private static void assignUnique(List<Student> students, HashMap<String, Project> projects, int preference) {
         int check;
         for (int i = 0; i < students.size(); i++) {
@@ -161,5 +140,36 @@ public class GenerateSolution {
         }
 
     }
+//----------------------------------------------------------------------------------------------------------------------------------//
+    //TEST METHODS
 
+    //method that tests the genGPA method
+    static String testGenGPA(){
+        List<String> preferences = new ArrayList<>();
+        Student student = new Student("check", "CS", 0, preferences, false, 0, PopulateClasses.genGPA());
+        if(student.getGPA() > 4.2 && student.getGPA() < 1){
+            return "error in method genGPA";
+        }else{
+            return "genGPA method is working";
+        }
+    }
+
+    //method that tests the checkForOthers method
+    static String testCheckForOthers(){
+        List<String> testPreferences = new ArrayList<>();
+        List<Student> testStudents = new ArrayList<>();
+        testPreferences.add("test");
+        testPreferences.add("z");
+        testPreferences.add("x");
+        testPreferences.add("y");
+
+        testStudents.add(new Student("check", "CS", 0, testPreferences, false, 0, 4.0));
+        testStudents.add(new Student("chuck", "DS", 1, testPreferences, false, 0, 1.0));
+
+        if(checkForOthers(testStudents, 0, 0, "test")){
+            return "checkForOthers method is working";
+        }else{
+            return "error in method checkForOthers";
+        }
+    }
 }
