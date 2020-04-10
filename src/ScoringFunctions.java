@@ -16,28 +16,37 @@ public class ScoringFunctions {
         //analyze(solutions);
         //addPenalties();
         testSuite();
+        GenerateSolution.testSuite();
+        analyze(solutions);
     }
 
     private static void addPenalties(List<Solution> solutions){
-        int penalty = 0;
-        penalty += checkForDuplicates(solutions);
-
+        checkForDuplicates(solutions);
+        checkStream(solutions);
     }
 
     //adds a penalty for each duplicate student or project
-    private static int checkForDuplicates(List<Solution> solutions){
-        int penalty = 0;
+    private static void checkForDuplicates(List<Solution> solutions){
+        int penalty = -100;
+
         for(int i=0; i<solutions.size(); i++){
             for(int j=i+1; j<solutions.size(); j++){
 
                 if(solutions.get(i).getStudentName().equals(solutions.get(j).getStudentName()))
-                    penalty += 100;
+                    solutions.get(i).addToScore(penalty);
                 if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle()))
-                    penalty += 100;
-
+                    solutions.get(i).addToScore(penalty);
             }
         }
-        return penalty;
+    }
+
+    private static void checkStream(List<Solution> solutions){
+    	int penalty = -100;
+
+    	for(int i=0; i<solutions.size(); i++){
+    		if(!solutions.get(i).getStudent().getStream().equals(solutions.get(i).getProject().getStream()))
+    			solutions.get(i).addToScore(penalty);
+	    }
     }
 
 
@@ -111,19 +120,27 @@ public class ScoringFunctions {
     //method for analyzing a solution
     private static void analyze(List<Solution> solutions){
         int check = 0;
+        double gotPrefs = 0;
         for(int i = 0; i < 11; i++){
             prefs[i] = 0;
         }
-        for(int i = 0; i < solutions.size(); i++){
-            prefs[solutions.get(i).getPrefGotten()]++;
+        for (Solution value : solutions) {
+            prefs[value.getPrefGotten()]++;
         }
         System.out.println(prefs[1] + " students got their first preference");
         System.out.println(prefs[2] + " students got their second preference");
         System.out.println(prefs[3] + " students got their third preference");
         System.out.println(prefs[4] + " students got their fourth preference");
         System.out.println(prefs[5] + " students got their fifth preference");
-        System.out.println(prefs[0] + " students got no preference");
-        System.out.println(solutions.size());
+        System.out.println(prefs[0] + " students got no preference" + "\n");
+
+        double size = solutions.size();
+        for(int i = 1; i < 6; i++){
+            gotPrefs += prefs[i];
+        }
+
+        System.out.println((Math.round((prefs[1]/size)* 100.0)) + "% of students got their first preference");
+        System.out.println((Math.round((gotPrefs/size)* 100.0)) + "% of students got one of their top five preferences"+ "\n");
 
         for (Solution solution : solutions) {
             System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
@@ -134,6 +151,8 @@ public class ScoringFunctions {
 
 //----------------------------------------------------------------------------------------------------------------------------------//
     //TEST METHODS
+
+    //method which tests the checkForPref method
     private static String testCheckForPref(){
         List<String> preferences = new ArrayList<String>();
         preferences.add("test");
@@ -144,12 +163,13 @@ public class ScoringFunctions {
         Student student = new Student("check", "CS", 0, preferences, false, 0, 4.0);
 
         if(checkForPref("test", student)){
-            return "checkForPref() method works";
+            return "checkForPref method is working";
         }else{
-            return "error in method checkForPref()";
+            return "error in method checkForPref";
         }
     }
 
+    //method which tests the getPrefNumber method
     private static String testGetPrefNumber(){
         List<String> preferences = new ArrayList<String>();
         preferences.add("z");
@@ -160,12 +180,13 @@ public class ScoringFunctions {
         Student student = new Student("check", "CS", 0, preferences, false, 0, 4.0);
 
         if(getPrefNumber("test", student) == 1){
-            return "getPrefNumber() method works";
+            return "getPrefNumber method is working";
         }else{
-            return "error in method getPrefNumber()";
+            return "error in method getPrefNumber";
         }
     }
 
+    //method which tests the returnNumber method
     private static String testReturnNumber(){
         List<Solution> testSolutions = new ArrayList<>();
         List<String> preferences = new ArrayList<String>();
@@ -184,15 +205,16 @@ public class ScoringFunctions {
         testSolutions.add(new Solution(studentFour, project, 1));
 
         if(returnNumber(testSolutions, two) == 0){
-            return "returnNumber() method works";
+            return "returnNumber method is working";
         }else{
-            return "error in method returnNumber()";
+            return "error in method returnNumber";
         }
     }
 
+    //method for calling all the test methods
     private static void testSuite(){
         System.out.println("\n");
-        System.out.println("Test Results:");
+        System.out.println("Test Results from class ScoringFunctions:");
         System.out.println(testCheckForPref());
         System.out.println(testGetPrefNumber());
         System.out.println(testReturnNumber());
