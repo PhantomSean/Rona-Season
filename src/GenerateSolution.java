@@ -144,7 +144,7 @@ public class GenerateSolution {
     //TEST METHODS
 
     //method that tests the genGPA method
-    private static String testGenGPA(){
+    static String testGenGPA(){
         List<String> preferences = new ArrayList<>();
         Student student = new Student("check", "CS", 0, preferences, false, 0, PopulateClasses.genGPA());
         if(student.getGPA() > 4.2 && student.getGPA() < 1){
@@ -155,7 +155,7 @@ public class GenerateSolution {
     }
 
     //method that tests the checkForOthers method
-    private static String testCheckForOthers(){
+    static String testCheckForOthers(){
         List<String> testPreferences = new ArrayList<>();
         List<Student> testStudents = new ArrayList<>();
         testPreferences.add("test");
@@ -172,15 +172,4 @@ public class GenerateSolution {
             return "error in method checkForOthers";
         }
     }
-
-    //method for calling all the test methods
-    static void testSuite(){
-        System.out.println("\n");
-        System.out.println("Test Results from class GenerateSolution:");
-        System.out.println(testGenGPA());
-        System.out.println(testCheckForOthers());
-        System.out.println("\n");
-    }
-
-
 }

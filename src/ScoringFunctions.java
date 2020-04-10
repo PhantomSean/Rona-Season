@@ -11,11 +11,10 @@ public class ScoringFunctions {
     private static int[] prefs = new int[11];
 
     public static void main(String[] args) throws IOException {
-        List<Solution> solutions = GenerateSolution.genSolution();
-        change(solutions);
+        //List<Solution> solutions = GenerateSolution.genSolution();
+        //change(solutions);
         testSuite();
-        GenerateSolution.testSuite();
-        analyze(solutions);
+        //analyze(solutions);
     }
 
     private static void change(List<Solution> solutions){
@@ -186,6 +185,10 @@ public class ScoringFunctions {
         System.out.println(testCheckForPref());
         System.out.println(testGetPrefNumber());
         System.out.println(testReturnNumber());
+        System.out.println("\n");
+        System.out.println("Test Results from class GenerateSolution:");
+        System.out.println(GenerateSolution.testGenGPA());
+        System.out.println(GenerateSolution.testCheckForOthers());
         System.out.println("\n");
     }
 }
