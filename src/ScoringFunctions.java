@@ -72,7 +72,7 @@ public class ScoringFunctions {
                 return i;
             }
         }
-        return 0;
+        return 10;
     }
 
     //method which returns which number of the list a solution is on
