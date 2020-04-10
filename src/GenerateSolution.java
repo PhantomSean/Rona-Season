@@ -148,9 +148,28 @@ public class GenerateSolution {
         List<String> preferences = new ArrayList<>();
         Student student = new Student("check", "CS", 0, preferences, false, 0, PopulateClasses.genGPA());
         if(student.getGPA() > 4.2 && student.getGPA() < 1){
-            return "error in method genGPA()";
+            return "error in method genGPA";
         }else{
-            return "genGPA() method is working";
+            return "genGPA method is working";
+        }
+    }
+
+    //method that tests the checkForOthers method
+    private static String testCheckForOthers(){
+        List<String> testPreferences = new ArrayList<>();
+        List<Student> testStudents = new ArrayList<>();
+        testPreferences.add("test");
+        testPreferences.add("z");
+        testPreferences.add("x");
+        testPreferences.add("y");
+
+        testStudents.add(new Student("check", "CS", 0, testPreferences, false, 0, 4.0));
+        testStudents.add(new Student("chuck", "DS", 1, testPreferences, false, 0, 1.0));
+
+        if(checkForOthers(testStudents, 0, 0, "test")){
+            return "checkForOthers method is working";
+        }else{
+            return "error in method checkForOthers";
         }
     }
 
@@ -159,6 +178,7 @@ public class GenerateSolution {
         System.out.println("\n");
         System.out.println("Test Results from class GenerateSolution:");
         System.out.println(testGenGPA());
+        System.out.println(testCheckForOthers());
         System.out.println("\n");
     }
 

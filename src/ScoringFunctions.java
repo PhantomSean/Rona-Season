@@ -131,9 +131,9 @@ public class ScoringFunctions {
         Student student = new Student("check", "CS", 0, preferences, false, 0, 4.0);
 
         if(checkForPref("test", student)){
-            return "checkForPref() method is working";
+            return "checkForPref method is working";
         }else{
-            return "error in method checkForPref()";
+            return "error in method checkForPref";
         }
     }
 
@@ -148,9 +148,9 @@ public class ScoringFunctions {
         Student student = new Student("check", "CS", 0, preferences, false, 0, 4.0);
 
         if(getPrefNumber("test", student) == 1){
-            return "getPrefNumber() method is working";
+            return "getPrefNumber method is working";
         }else{
-            return "error in method getPrefNumber()";
+            return "error in method getPrefNumber";
         }
     }
 
@@ -173,9 +173,9 @@ public class ScoringFunctions {
         testSolutions.add(new Solution(studentFour, project, 1));
 
         if(returnNumber(testSolutions, two) == 0){
-            return "returnNumber() method is working";
+            return "returnNumber method is working";
         }else{
-            return "error in method returnNumber()";
+            return "error in method returnNumber";
         }
     }
 
