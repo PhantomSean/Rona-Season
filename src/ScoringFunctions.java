@@ -11,10 +11,11 @@ public class ScoringFunctions {
     private static int[] prefs = new int[11];
 
     public static void main(String[] args) throws IOException {
-        //List<Solution> solutions = GenerateSolution.genSolution();
-        //change(solutions);
+        List<Solution> solutions = GenerateSolution.genSolution();
+        analyze(solutions);
+        change(solutions);
         testSuite();
-        //analyze(solutions);
+        analyze(solutions);
     }
 
     private static void change(List<Solution> solutions){
