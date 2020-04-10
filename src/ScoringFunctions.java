@@ -49,6 +49,34 @@ public class ScoringFunctions {
 	    }
     }
 
+    //user input 0-5 determines how gpa applies to score
+    private static double GPAImportance(int userInput){
+        double importance = 0;
+        switch (userInput) {
+            case 0:
+                importance = 0;
+                break;
+            case 1:
+                importance = 2;
+                break;
+            case 2:
+                importance = 2.5;
+                break;
+            case 3:
+                importance = 3.0;
+                break;
+            case 4:
+                importance = 3.2;
+                break;
+            case 5:
+                importance = 3.67;
+                break;
+            default:
+                importance = 0;
+        }
+        return importance;
+    }
+
 
     private static void change(List<Solution> solutions){
         //making list for solutions which did not get a preference
