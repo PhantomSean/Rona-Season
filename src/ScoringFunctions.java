@@ -14,8 +14,32 @@ public class ScoringFunctions {
         List<Solution> solutions = GenerateSolution.genSolution();
         change(solutions);
         //analyze(solutions);
+        //addPenalties();
         testSuite();
     }
+
+    private static void addPenalties(List<Solution> solutions){
+        int penalty = 0;
+        penalty += checkForDuplicates(solutions);
+
+    }
+
+    //adds a penalty for each duplicate student or project
+    private static int checkForDuplicates(List<Solution> solutions){
+        int penalty = 0;
+        for(int i=0; i<solutions.size(); i++){
+            for(int j=i+1; j<solutions.size(); j++){
+
+                if(solutions.get(i).getStudentName().equals(solutions.get(j).getStudentName()))
+                    penalty += 100;
+                if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle()))
+                    penalty += 100;
+
+            }
+        }
+        return penalty;
+    }
+
 
     private static void change(List<Solution> solutions){
         //making list for solutions which did not get a preference
