@@ -13,9 +13,6 @@ with their preferences. In our GenerateSolution class GPA, preferences and strea
 solutions and we decided to introduce a more randomized way of changing the solutions. The method is designed to ensure that almost all students will
 be assigned a different project from what they were originally assigned in the generateSolution method.
 
-As this change heavily affects the solutions we decided to create a method which would analyze the solutions in a way other than the energy or fitness
-of the solutions and shows off the percentages and data of the solutions.
-
 METHODS ADDED:
 assignByGPA(List<Student> students, int preference)
 -This method takes in a preference as an integer and goes through a row of each students preference, checking if there are any duplicate preferences
