@@ -93,7 +93,7 @@ public class PopulateClasses {
 
     }
 
-    public static int getNumRows(String file) {
+    private static int getNumRows(String file) {
         Workbook readBook = null;
         try {
             readBook = new XSSFWorkbook(new FileInputStream(file));
