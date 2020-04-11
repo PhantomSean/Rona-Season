@@ -184,7 +184,7 @@ public class ScoringFunctions {
         double total=0;
         double score=0;
         for (int i=0; i<solutions.size(); i++){
-            score = Math.pow(score_mult, 11-solutions.get(i).getStudent().getPrefGotten());
+            score = Math.pow(score_mult, 10-solutions.get(i).getStudent().getPrefGotten());
             solutions.get(i).setScore(score);
         }
         for(Solution solution : solutions){

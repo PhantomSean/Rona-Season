@@ -175,4 +175,22 @@ public class GenerateSolution {
             return "error in method checkForOthers";
         }
     }
+
+    static String testAssignSelfSpecified() {
+        List<String> testPreferences1 = new ArrayList<>();
+        List<Student> testStudents = new ArrayList<>();
+        testPreferences1.add("test");
+        testPreferences1.add("z");
+        testPreferences1.add("x");
+        testPreferences1.add("y");
+
+        testStudents.add(new Student("check", "CS", 0, testPreferences1, false, 0, 4.0));
+
+        assignSelfSpecified(testStudents);
+
+        if (testStudents.get(0).hasProject())
+            return "assignSelfSpecified method is working";
+        else
+            return "error in method assignSelfSpecified";
+    }
 }
