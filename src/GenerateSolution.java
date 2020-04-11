@@ -144,7 +144,8 @@ public class GenerateSolution {
         String title = "Self Specified Project";
         for (Student student : students) {
             if (!student.hasProject() && student.getPreference(0).equals(title)) {
-                Solution solution = new Solution(student, giveRandomProject(student.getStream()), Math.pow(score_mult, 10));
+                Project project = new Project("Self Specified", student.getStream(), student.getName(), true);
+                Solution solution = new Solution(student, project, Math.pow(score_mult, 10));
                 solutions.add(solution);
                 student.setHasProject(true);
                 student.setPrefGotten(1);
