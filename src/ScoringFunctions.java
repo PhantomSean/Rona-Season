@@ -24,7 +24,7 @@ public class ScoringFunctions {
 
     private static void addPenalties(List<Solution> solutions){
         checkForDuplicates(solutions);
-        //checkStream(solutions);
+        checkStream(solutions);
     }
 
     //adds a penalty for each duplicate student or project
@@ -39,7 +39,8 @@ public class ScoringFunctions {
                     System.out.println(solutions.get(i).getStudentName());
                     System.out.println(solutions.get(j).getStudentName());
                 }
-                if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle())) {
+                if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle()) &&
+                !solutions.get(i).getProjectTitle().equals("Self Specified Project")) {
                     solutions.get(i).addToScore(penalty);
                     System.out.println(solutions.get(i).getProjectTitle());
                 }
@@ -51,7 +52,12 @@ public class ScoringFunctions {
     	int penalty = 100;
 
     	for(int i=0; i<solutions.size(); i++){
-    		if(!solutions.get(i).getStudent().getStream().equals(solutions.get(i).getProject().getStream()))
+    		String studentStream = solutions.get(i).getStudent().getStream();
+    		String projectStream = solutions.get(i).getProject().getStream();
+
+    		if(!(studentStream.contains(projectStream)
+				    || studentStream.equals(projectStream)
+				    || projectStream.contains(studentStream)))
     			solutions.get(i).addToScore(penalty);
 	    }
     }
