@@ -27,34 +27,36 @@ use in later sprints when we start building out the gui.
 
 METHODS ADDED:
 assignByGPA(List<Student> students, int preference)
--This method takes in a preference as an integer and goes through a row of each students preference, checking if there are any duplicate preferences
--on the row. If it finds any it adds them to a temporary List. The student with the biggest GPA on the List is selected to have the project.
--A solution is then created of the selected student along with the project.
+-This method takes in a preference as an integer and goes through a row of each students preference, checking if there are any
+-duplicate preferences on the row. If it finds any it adds them to a temporary List. The student with the biggest GPA on the
+-List is selected to have the project. A solution is then created of the selected student along with the project.
 
 genGPA()
--method which generates a GPA between 1.0 and 4.2, approx. one tenth of students will have a GPA of 1.0-2.4, approx. three tenths of students will have a
--GPA of 2.5-3.1, approx. two fifths of students will have a GPA of 3.2-3.7 and approx. one fifth of students will have a GPA of 3.8-4.2
+-method which generates a GPA between 1.0 and 4.2, approx. one tenth of students will have a GPA of 1.0-2.4, approx. three tenths
+-of students will have a GPA of 2.5-3.1, approx. two fifths of students will have a GPA of 3.2-3.7 and approx. one fifth of
+-students will have a GPA of 3.8-4.2
 
 change(List<Solution> solutions)
--this method provides the "change" functionality that allows the system to introduce changes to given candidate solutions. The method makes random changes to
--a list of solutions while also ensuring that some students get a project that is on their preference list.
+-this method provides the "change" functionality that allows the system to introduce changes to given candidate solutions. The
+-method makes random changes to a list of solutions while also ensuring that some students get a project that is on their preference
+-list.
 
 checkForPref(String project, Student student)
--method which takes a String and student as input and outputs the boolean value true if the student has the project in their list of preferences,
--outputs false if the student does not have the project in their preferences
+-method which takes a String and student as input and outputs the boolean value true if the student has the project in their list of
+-preferences, outputs false if the student does not have the project in their preferences
 
 getPrefNumber(String project, Student student)
--method which takes a String and Student as input, and outputs the preference at which the student has the project at. If the student does not have
--the project in their list of preferences, then the integer value 10 is returned. The method has been designed to only be used if it is known that
--the student has the project in their preferences
+-method which takes a String and Student as input, and outputs the preference at which the student has the project at. If the student
+-does not have the project in their list of preferences, then the integer value 10 is returned. The method has been designed to only
+-be used if it is known that sthe student has the project in their preferences
 
 returnNumber(List<Solution> solutions, Solution s)
 -method which takes in a list of solutions and a solution s and returns which number of the list the solution is on
 
-analyze(List<Solution> solutions)
--method for analyzing a solution, takes in a list of solutions and prints out the number of students who got one of their top five preferences, the
--percentage of students who got their first preference, the percentage of students who got one of their top five preferences and lastly each students
--name along with the title of the project which they will be working on
+analyse(List<Solution> solutions)
+-method for analyzing a solution, takes in a list of solutions and prints out the number of students who got one of their top
+-five preferences, the percentage of students who got their first preference, the percentage of students who got one of their
+-top five preferences and lastly each students name along with the title of the project which they will be working on
 
 addPenalties(List<Solution> solutions)
 -method which takes the solution and calls other methods on it to check for any violations

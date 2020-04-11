@@ -179,7 +179,7 @@ public class ScoringFunctions {
         System.out.println((Math.round((gotPrefs/size)* 100.0)) + "% of students got one of their top five preferences"+ "\n");
 
         for (Solution solution : solutions) {
-            System.out.println(solution.getProjectTitle());
+            System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
         }
     }
 
