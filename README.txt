@@ -22,6 +22,8 @@ We gave a harsh penalty of 100 in the case either of these occurrences. We decid
 as they are in violation of hard constraints.
 We also added in a function to analyse the solution and give some statistical information such as the percentage of student who receive their top preference and the
 number of students who got one of their top five preferences.
+We also decided to add a method for allowing user defined GPA importance. It is not currently in use but we thought that it may be beneficial for implement it now for
+use in later sprints when we start building out the gui.
 
 METHODS ADDED:
 assignByGPA(List<Student> students, int preference)
@@ -46,7 +48,7 @@ checkForPref(String project, Student student)
 getPrefNumber(String project, Student student)
 -method which takes a String and Student as input, and outputs the preference at which the student has the project at. If the student
 -does not have the project in their list of preferences, then the integer value 10 is returned. The method has been designed to only
--be used if it is known that sthe student has the project in their preferences
+-be used if it is known that the student has the project in their preferences
 
 returnNumber(List<Solution> solutions, Solution s)
 -method which takes in a list of solutions and a solution s and returns which number of the list the solution is on
