@@ -13,11 +13,11 @@ public class ScoringFunctions {
 
     public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution();
-        analyse(solutions);
+        //analyse(solutions);
         scoreSolution(solutions);
         change(solutions);
         //addPenalties();
-        analyse(solutions);
+        //analyse(solutions);
         scoreSolution(solutions);
     }
 
@@ -294,19 +294,5 @@ public class ScoringFunctions {
         }else{
             return "error in method checkForDuplicates";
         }
-    }
-
-    //method for calling all the test methods
-    private static void testSuite(){
-        System.out.println("\n");
-        System.out.println("Test Results from class ScoringFunctions:");
-        System.out.println(testCheckForPref());
-        System.out.println(testGetPrefNumber());
-        System.out.println(testReturnNumber());
-        System.out.println("\n");
-        System.out.println("Test Results from class GenerateSolution:");
-        System.out.println(GenerateSolution.testGenGPA());
-        System.out.println(GenerateSolution.testCheckForOthers());
-        System.out.println("\n");
     }
 }
