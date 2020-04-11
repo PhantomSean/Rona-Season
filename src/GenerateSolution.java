@@ -38,14 +38,18 @@ public class GenerateSolution {
             }
         }
 
-
         double total_score = 0;
         for (Solution solution : solutions) {
-//            System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
             total_score += solution.getScore();
         }
         System.out.println(total_score);
+
+        System.out.println(students.get(0).getName());
+        System.out.println(students.get(0).getPreferences());
         return solutions;
+
+
+
     }
 
     //method which assigns preferences based on students GPA
@@ -178,23 +182,5 @@ public class GenerateSolution {
         }else{
             return "error in method checkForOthers";
         }
-    }
-
-    static String testAssignSelfSpecified() {
-        List<String> testPreferences1 = new ArrayList<>();
-        List<Student> testStudents = new ArrayList<>();
-        testPreferences1.add("test");
-        testPreferences1.add("z");
-        testPreferences1.add("x");
-        testPreferences1.add("y");
-
-        testStudents.add(new Student("check", "CS", 0, testPreferences1, false, 0, 4.0));
-
-        assignSelfSpecified(testStudents);
-
-        if (testStudents.get(0).hasProject())
-            return "assignSelfSpecified method is working";
-        else
-            return "error in method assignSelfSpecified";
     }
 }

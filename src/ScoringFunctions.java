@@ -13,11 +13,16 @@ public class ScoringFunctions {
 
     public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution();
+
+        System.out.println("Original Solution:");
         analyse(solutions);
         scoreSolution(solutions);
         change(solutions);
+        System.out.println("Changed Solution:");
         analyse(solutions);
         scoreSolution(solutions);
+
+
     }
 
     private static void addPenalties(List<Solution> solutions){
@@ -34,13 +39,10 @@ public class ScoringFunctions {
 
                 if(solutions.get(i).getStudentName().equals(solutions.get(j).getStudentName())) {
                     solutions.get(i).addToScore(penalty);
-                    System.out.println(solutions.get(i).getStudentName());
-                    System.out.println(solutions.get(j).getStudentName());
                 }
                 if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle()) &&
                 !solutions.get(i).getProjectTitle().equals("Self Specified Project")) {
                     solutions.get(i).addToScore(penalty);
-                    System.out.println(solutions.get(i).getProjectTitle());
                 }
             }
         }
@@ -53,9 +55,7 @@ public class ScoringFunctions {
             String studentStream = solution.getStudent().getStream();
             String projectStream = solution.getProject().getStream();
 
-            if (!(studentStream.contains(projectStream)
-                    || studentStream.equals(projectStream)
-                    || projectStream.contains(studentStream)))
+            if (!studentStream.contains(projectStream))
                 solution.addToScore(penalty);
         }
     }
@@ -162,6 +162,7 @@ public class ScoringFunctions {
         for (Solution value : solutions) {
             prefs[value.getPrefGotten()]++;
         }
+        System.out.println("SOLUTION ANALYSIS:");
         System.out.println(prefs[1] + " students got their first preference");
         System.out.println(prefs[2] + " students got their second preference");
         System.out.println(prefs[3] + " students got their third preference");
@@ -194,7 +195,7 @@ public class ScoringFunctions {
         for(Solution solution : solutions){
             total += solution.getScore();
         }
-        System.out.println("\n\nThe overall Score before penalties is = "+total +"\n\n");
+        System.out.println("\nThe overall score for the solutions before penalties is = "+total +"\n");
         total = 0;
         addPenalties(solutions);
 
@@ -202,7 +203,7 @@ public class ScoringFunctions {
             total += solution.getScore();
         }
 
-        System.out.println("\n\nThe overall score after penalties is = "+total +"\n\n");
+        System.out.println("The overall score the solutions after penalties is = "+total +"\n\n");
     }
 
 
@@ -276,7 +277,7 @@ public class ScoringFunctions {
 
         checkStream(testSolutions);
 
-        if(testSolutions.get(0).getScore() == -100){
+        if(testSolutions.get(0).getScore() == 100){
             return "checkStream method is working";
         }else{
             return "error in method checkStream";
@@ -293,7 +294,7 @@ public class ScoringFunctions {
 
         checkForDuplicates(testSolutions);
 
-        if(testSolutions.get(0).getScore() == -200){
+        if(testSolutions.get(0).getScore() == 200){
             return "checkForDuplicates method is working";
         }else{
             return "error in method checkForDuplicates";
