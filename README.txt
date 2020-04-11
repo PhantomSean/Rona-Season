@@ -9,10 +9,19 @@ HOW TO RUN:
 -If you wish to run the test methods, run the TestSuite class
 
 APPROACH:
-We wanted to create a change function which would completely randomize which students got which project, only taking students stream into account along
-with their preferences. In our GenerateSolution class GPA, preferences and stream are the three factors that are taken into account when choosing our
-solutions and we decided to introduce a more randomized way of changing the solutions. The method is designed to ensure that almost all students will
-be assigned a different project from what they were originally assigned in the generateSolution method.
+We wanted created a class that would be able to make a random change to our generated solutions and be able to give the solutions a score by adding penalties for any undesirable properties in the change.
+To do this we decided first start with a change function:
+    -We wanted to create a change function which would completely randomize which students got which project, only taking students stream into account along
+     with their preferences. In our GenerateSolution class GPA, preferences and stream are the three factors that are taken into account when choosing our
+     solutions and we decided to introduce a more randomized way of changing the solutions. The method is designed to ensure that almost all students will
+     be assigned a different project from what they were originally assigned in the generateSolution method.
+Then we addressed the evaluation of this new randomized solution by adding penalties.
+We decided that to create penalty function for any students with duplicate projects and another function to penalise any solution where there was a stream mismatch between
+the student and project.
+We gave a harsh penalty of 100 in the case either of these occurrences. We decides to give such a harsh penalty in order to help prevent the change being accepted
+as they are in violation of hard constraints.
+We also added in a function to analyse the solution and give some statistical information such as the percentage of student who receive their top preference and the
+number of students who got one of their top five preferences.
 
 METHODS ADDED:
 assignByGPA(List<Student> students, int preference)
