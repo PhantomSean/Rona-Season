@@ -48,7 +48,7 @@ checkForPref(String project, Student student)
 getPrefNumber(String project, Student student)
 -method which takes a String and Student as input, and outputs the preference at which the student has the project at. If the student
 -does not have the project in their list of preferences, then the integer value 10 is returned. The method has been designed to only
--be used if it is known that sthe student has the project in their preferences
+-be used if it is known that the student has the project in their preferences
 
 returnNumber(List<Solution> solutions, Solution s)
 -method which takes in a list of solutions and a solution s and returns which number of the list the solution is on
