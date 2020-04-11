@@ -9,37 +9,45 @@ import java.util.Random;
 
 public class ScoringFunctions {
     private static int[] prefs = new int[11];
+    private static double score_mult = 0.75;
 
     public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution();
         analyse(solutions);
+        scoreSolution(solutions);
         change(solutions);
         //addPenalties();
         analyse(solutions);
+        scoreSolution(solutions);
     }
 
     private static void addPenalties(List<Solution> solutions){
         checkForDuplicates(solutions);
-        checkStream(solutions);
+        //checkStream(solutions);
     }
 
     //adds a penalty for each duplicate student or project
     private static void checkForDuplicates(List<Solution> solutions){
-        int penalty = -100;
+        int penalty = 100;
 
         for(int i=0; i<solutions.size(); i++){
             for(int j=i+1; j<solutions.size(); j++){
 
-                if(solutions.get(i).getStudentName().equals(solutions.get(j).getStudentName()))
+                if(solutions.get(i).getStudentName().equals(solutions.get(j).getStudentName())) {
                     solutions.get(i).addToScore(penalty);
-                if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle()))
+                    System.out.println(solutions.get(i).getStudentName());
+                    System.out.println(solutions.get(j).getStudentName());
+                }
+                if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle())) {
                     solutions.get(i).addToScore(penalty);
+                    System.out.println(solutions.get(i).getProjectTitle());
+                }
             }
         }
     }
 
     private static void checkStream(List<Solution> solutions){
-    	int penalty = -100;
+    	int penalty = 100;
 
         for (Solution solution : solutions) {
             if (!solution.getStudent().getStream().equals(solution.getProject().getStream()))
@@ -156,6 +164,7 @@ public class ScoringFunctions {
         System.out.println(prefs[5] + " students got their fifth preference");
         System.out.println(prefs[0] + " students got no preference" + "\n");
 
+
         double size = solutions.size();
         for(int i = 1; i < 6; i++){
             gotPrefs += prefs[i];
@@ -170,6 +179,28 @@ public class ScoringFunctions {
 
 
     }
+
+    private static void scoreSolution(List<Solution> solutions){
+        double total=0;
+        double score=0;
+        for (int i=0; i<solutions.size(); i++){
+            score = Math.pow(score_mult, 11-solutions.get(i).getStudent().getPrefGotten());
+            solutions.get(i).setScore(score);
+        }
+        for(Solution solution : solutions){
+            total += solution.getScore();
+        }
+        System.out.println("\n\nThe overall Score before penalties is = "+total +"\n\n");
+        total = 0;
+        addPenalties(solutions);
+
+        for(Solution solution : solutions){
+            total += solution.getScore();
+        }
+
+        System.out.println("\n\nThe overall score after penalties is = "+total +"\n\n");
+    }
+
 
 //----------------------------------------------------------------------------------------------------------------------------------//
     //TEST METHODS
@@ -265,4 +296,17 @@ public class ScoringFunctions {
         }
     }
 
+    //method for calling all the test methods
+    private static void testSuite(){
+        System.out.println("\n");
+        System.out.println("Test Results from class ScoringFunctions:");
+        System.out.println(testCheckForPref());
+        System.out.println(testGetPrefNumber());
+        System.out.println(testReturnNumber());
+        System.out.println("\n");
+        System.out.println("Test Results from class GenerateSolution:");
+        System.out.println(GenerateSolution.testGenGPA());
+        System.out.println(GenerateSolution.testCheckForOthers());
+        System.out.println("\n");
+    }
 }
