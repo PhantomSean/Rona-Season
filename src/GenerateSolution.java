@@ -25,7 +25,7 @@ public class GenerateSolution {
         List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
 
         for(int i = 0; i < 10; i++){
-            if (i == 0)
+            if(i == 0)
                 assignSelfSpecified(students);
             assignUnique(students, projects, i);
             assignByGPA(students, i);
@@ -37,6 +37,8 @@ public class GenerateSolution {
                 solutions.add(sol);
             }
         }
+
+
         double total_score = 0;
         for (Solution solution : solutions) {
 //            System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
@@ -81,6 +83,7 @@ public class GenerateSolution {
         }
     }
 
+
     //method which checks if there are other students with the same project as same preference, returns a boolean
     private static boolean checkForOthers(List<Student> students, int pref, int n, String project){
         n++;
@@ -95,8 +98,9 @@ public class GenerateSolution {
     //gives random project to student while taking students stream into account
     static Project giveRandomProject(String studentStream) {
         Project project = genProject(studentStream);
-        if (project.isTaken())
-            giveRandomProject(studentStream);
+        while(project.isTaken()){
+            project = genProject(studentStream);
+        }
         project.setTaken(true);
         return project;
     }
@@ -136,7 +140,7 @@ public class GenerateSolution {
         String title = "Self Specified Project";
         for (Student student : students) {
             if (!student.hasProject() && student.getPreference(0).equals(title)) {
-                Solution solution = new Solution(student, projects.get(title), Math.pow(score_mult, 10));
+                Solution solution = new Solution(student, giveRandomProject(student.getStream()), Math.pow(score_mult, 10));
                 solutions.add(solution);
                 student.setHasProject(true);
                 student.setPrefGotten(1);

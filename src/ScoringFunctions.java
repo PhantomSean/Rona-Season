@@ -13,11 +13,10 @@ public class ScoringFunctions {
 
     public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution();
-        //analyse(solutions);
+        analyse(solutions);
         scoreSolution(solutions);
         change(solutions);
-        //addPenalties();
-        //analyse(solutions);
+        analyse(solutions);
         scoreSolution(solutions);
     }
 
@@ -50,15 +49,15 @@ public class ScoringFunctions {
     private static void checkStream(List<Solution> solutions){
     	int penalty = 100;
 
-    	for(int i=0; i<solutions.size(); i++){
-    		String studentStream = solutions.get(i).getStudent().getStream();
-    		String projectStream = solutions.get(i).getProject().getStream();
+        for (Solution solution : solutions) {
+            String studentStream = solution.getStudent().getStream();
+            String projectStream = solution.getProject().getStream();
 
-    		if(!(studentStream.contains(projectStream)
-				    || studentStream.equals(projectStream)
-				    || projectStream.contains(studentStream)))
-    			solutions.get(i).addToScore(penalty);
-	    }
+            if (!(studentStream.contains(projectStream)
+                    || studentStream.equals(projectStream)
+                    || projectStream.contains(studentStream)))
+                solution.addToScore(penalty);
+        }
     }
 
     //user input 0-5 determines how gpa applies to score
@@ -180,22 +179,17 @@ public class ScoringFunctions {
         System.out.println((Math.round((gotPrefs/size)* 100.0)) + "% of students got one of their top five preferences"+ "\n");
 
         for (Solution solution : solutions) {
-            System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
+            System.out.println(solution.getProjectTitle());
         }
-
-
     }
 
     private static void scoreSolution(List<Solution> solutions){
         double total=0;
         double score=0;
-        for (int i=0; i<solutions.size(); i++){
-        	if(solutions.get(i).getStudent().getPrefGotten() == 0)
-        		score = 1;
-        	else
-                score = Math.pow(score_mult, 11-solutions.get(i).getStudent().getPrefGotten());
 
-            solutions.get(i).setScore(score);
+        for (Solution value : solutions) {
+            score = Math.pow(score_mult, 11 - value.getStudent().getPrefGotten());
+            value.setScore(score);
         }
         for(Solution solution : solutions){
             total += solution.getScore();
