@@ -45,7 +45,7 @@ analyze(List<Solution> solutions)
 -name along with the title of the project which they will be working on
 
 testSuite()
--There were also test methods which were created. This method calls them.
+-There were also test methods which were created. This method calls them and prints the results.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------

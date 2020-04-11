@@ -30,14 +30,8 @@ public class GenerateSolution {
         }
         for(int i = 0; i < 10; i++){
             assignUnique(students, projects, i);
-            //randomlyAssign(students, i);
             assignByGPA(students, i);
         }
-        System.out.println(prefs[0] + " students got their first preference");
-        System.out.println(prefs[1] + " students got their second preference");
-        System.out.println(prefs[2] + " students got their third preference");
-        System.out.println(prefs[3] + " students got their fourth preference");
-        System.out.println(prefs[4] + " students got their fifth preference");
 
         for (Student student : students) {
             if (!student.hasProject()) {

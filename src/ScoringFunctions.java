@@ -14,7 +14,6 @@ public class ScoringFunctions {
         List<Solution> solutions = GenerateSolution.genSolution();
         analyze(solutions);
         change(solutions);
-        testSuite();
         analyze(solutions);
     }
 
@@ -87,7 +86,6 @@ public class ScoringFunctions {
 
     //method for analyzing a solution
     private static void analyze(List<Solution> solutions){
-        int check = 0;
         double gotPrefs = 0;
         for(int i = 0; i < 11; i++){
             prefs[i] = 0;
@@ -121,7 +119,7 @@ public class ScoringFunctions {
     //TEST METHODS
 
     //method which tests the checkForPref method
-    private static String testCheckForPref(){
+    static String testCheckForPref(){
         List<String> preferences = new ArrayList<String>();
         preferences.add("test");
         preferences.add("z");
@@ -138,7 +136,7 @@ public class ScoringFunctions {
     }
 
     //method which tests the getPrefNumber method
-    private static String testGetPrefNumber(){
+    static String testGetPrefNumber(){
         List<String> preferences = new ArrayList<String>();
         preferences.add("z");
         preferences.add("test");
@@ -155,7 +153,7 @@ public class ScoringFunctions {
     }
 
     //method which tests the returnNumber method
-    private static String testReturnNumber(){
+    static String testReturnNumber(){
         List<Solution> testSolutions = new ArrayList<>();
         List<String> preferences = new ArrayList<String>();
 
@@ -179,17 +177,4 @@ public class ScoringFunctions {
         }
     }
 
-    //method for calling all the test methods
-    private static void testSuite(){
-        System.out.println("\n");
-        System.out.println("Test Results from class ScoringFunctions:");
-        System.out.println(testCheckForPref());
-        System.out.println(testGetPrefNumber());
-        System.out.println(testReturnNumber());
-        System.out.println("\n");
-        System.out.println("Test Results from class GenerateSolution:");
-        System.out.println(GenerateSolution.testGenGPA());
-        System.out.println(GenerateSolution.testCheckForOthers());
-        System.out.println("\n");
-    }
 }
