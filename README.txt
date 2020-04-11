@@ -22,6 +22,8 @@ We gave a harsh penalty of 100 in the case either of these occurrences. We decid
 as they are in violation of hard constraints.
 We also added in a function to analyse the solution and give some statistical information such as the percentage of student who receive their top preference and the
 number of students who got one of their top five preferences.
+We also decided to add a method for allowing user defined GPA importance. It is not currently in use but we thought that it may be beneficial for implement it now for
+use in later sprints when we start building out the gui.
 
 METHODS ADDED:
 assignByGPA(List<Student> students, int preference)
