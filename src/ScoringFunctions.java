@@ -16,7 +16,8 @@ public class ScoringFunctions {
 
         System.out.println("Original Solution:");
         analyse(solutions);
-        scoreSolution(solutions);
+        double energy = scoreSolution(solutions);
+        
         change(solutions);
         System.out.println("Changed Solution:");
         analyse(solutions);
@@ -39,10 +40,14 @@ public class ScoringFunctions {
 
                 if(solutions.get(i).getStudentName().equals(solutions.get(j).getStudentName())) {
                     solutions.get(i).addToScore(penalty);
+                    System.out.println("Dupe : "+solutions.get(i).getStudentName());
+                    System.out.println("Dupe : "+solutions.get(j).getStudentName());
+
                 }
                 if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle()) &&
                 !solutions.get(i).getProjectTitle().equals("Self Specified Project")) {
                     solutions.get(i).addToScore(penalty);
+                    System.out.println("Dupe Project : "+solutions.get(i).getProjectTitle());
                 }
             }
         }
@@ -55,8 +60,14 @@ public class ScoringFunctions {
             String studentStream = solution.getStudent().getStream();
             String projectStream = solution.getProject().getStream();
 
-            if (!studentStream.contains(projectStream))
+            if (!(studentStream.contains(projectStream)
+                    || studentStream.equals(projectStream)
+                    || projectStream.contains(studentStream))){
                 solution.addToScore(penalty);
+                System.out.println("Student stream : "+studentStream +" not compatible with project stream : "+projectStream );
+                System.out.println("For student : "+solution.getStudent().getName() + " stream "+solution.getStudent().getStream());
+                System.out.println("Who is assigned : "+solution.getProject().getTitle() +" for stream : "+solution.getProject().getStream());
+            }
         }
     }
 
@@ -87,6 +98,7 @@ public class ScoringFunctions {
 
 
     private static void change(List<Solution> solutions){
+        System.out.println("\n\nCHANGING SOLUTION\n\n");
         //making list for solutions which did not get a preference
         List<Solution> notGotPref = new ArrayList<>();
         List<Solution> temp = new ArrayList<>();
@@ -154,9 +166,9 @@ public class ScoringFunctions {
     }
 
     //method for analyzing a solution
-    private static void analyse(List<Solution> solutions){
+    private static void analyse(List<Solution> solutions) {
         double gotPrefs = 0;
-        for(int i = 0; i < 11; i++){
+        for (int i = 0; i < 11; i++) {
             prefs[i] = 0;
         }
         for (Solution value : solutions) {
@@ -172,24 +184,28 @@ public class ScoringFunctions {
 
 
         double size = solutions.size();
-        for(int i = 1; i < 6; i++){
+        for (int i = 1; i < 6; i++) {
             gotPrefs += prefs[i];
         }
 
-        System.out.println((Math.round((prefs[1]/size)* 100.0)) + "% of students got their first preference");
-        System.out.println((Math.round((gotPrefs/size)* 100.0)) + "% of students got one of their top five preferences"+ "\n");
+        System.out.println((Math.round((prefs[1] / size) * 100.0)) + "% of students got their first preference");
+        System.out.println((Math.round((gotPrefs / size) * 100.0)) + "% of students got one of their top five preferences" + "\n");
 
         for (Solution solution : solutions) {
             System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
         }
     }
 
-    private static void scoreSolution(List<Solution> solutions){
+
+    private static double scoreSolution(List<Solution> solutions){
         double total=0;
         double score=0;
 
         for (Solution value : solutions) {
-            score = Math.pow(score_mult, 11 - value.getStudent().getPrefGotten());
+            if(value.getStudent().getPrefGotten() == 0)
+                score = 1;
+            else
+                score = Math.pow(score_mult, 11 - value.getStudent().getPrefGotten());
             value.setScore(score);
         }
         for(Solution solution : solutions){
@@ -204,6 +220,8 @@ public class ScoringFunctions {
         }
 
         System.out.println("The overall score the solutions after penalties is = "+total +"\n\n");
+
+        return total;
     }
 
 

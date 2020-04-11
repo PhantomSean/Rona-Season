@@ -44,8 +44,6 @@ public class GenerateSolution {
         }
         System.out.println(total_score);
 
-        System.out.println(students.get(0).getName());
-        System.out.println(students.get(0).getPreferences());
         return solutions;
 
 
@@ -110,11 +108,13 @@ public class GenerateSolution {
     }
     //generates a random project
 	private static Project genProject(String studentStream) {
-		Random generator = new Random();
-		Object[] values = projects.values().toArray();
-		Project project = (Project) values[generator.nextInt(values.length)];
-		if (!project.getStream().equals(studentStream) && !project.getStream().equals("CS + DS"))
-		    genProject(studentStream);
+        Random generator = new Random();
+        Object[] values = projects.values().toArray();
+        Project project = (Project) values[generator.nextInt(values.length)];
+        while (!project.getStream().equals(studentStream) && !project.getStream().equals("CS + DS")) {
+            values = projects.values().toArray();
+            project = (Project) values[generator.nextInt(values.length)];
+        }
 		return project;
 	}
 
