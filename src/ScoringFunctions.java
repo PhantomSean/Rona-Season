@@ -15,7 +15,8 @@ public class ScoringFunctions {
         List<Solution> solutions = GenerateSolution.genSolution();
         analyse(solutions);
         double energy = scoreSolution(solutions);
-        
+        double fitness = -energy;
+
         change(solutions);
         analyse(solutions);
         scoreSolution(solutions);
