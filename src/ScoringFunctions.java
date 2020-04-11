@@ -13,13 +13,12 @@ public class ScoringFunctions {
 
     public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution();
+        //analyse(solutions);
         scoreSolution(solutions);
-        analyze(solutions);
         change(solutions);
-        analyze(solutions);
+        //addPenalties();
+        //analyse(solutions);
         scoreSolution(solutions);
-        testSuite();
-        analyze(solutions);
     }
 
     private static void addPenalties(List<Solution> solutions){
@@ -66,9 +65,6 @@ public class ScoringFunctions {
     private static double GPAImportance(int userInput){
         double importance = 0;
         switch (userInput) {
-            case 0:
-                importance = 0;
-                break;
             case 1:
                 importance = 2;
                 break;
@@ -159,8 +155,7 @@ public class ScoringFunctions {
     }
 
     //method for analyzing a solution
-    private static void analyze(List<Solution> solutions){
-        int check = 0;
+    private static void analyse(List<Solution> solutions){
         double gotPrefs = 0;
         for(int i = 0; i < 11; i++){
             prefs[i] = 0;
@@ -195,7 +190,7 @@ public class ScoringFunctions {
         double total=0;
         double score=0;
         for (int i=0; i<solutions.size(); i++){
-            score = Math.pow(score_mult, 11-solutions.get(i).getStudent().getPrefGotten());
+            score = Math.pow(score_mult, 10-solutions.get(i).getStudent().getPrefGotten());
             solutions.get(i).setScore(score);
         }
         for(Solution solution : solutions){
@@ -275,17 +270,35 @@ public class ScoringFunctions {
         }
     }
 
-    //method for calling all the test methods
-    private static void testSuite(){
-        System.out.println("\n");
-        System.out.println("Test Results from class ScoringFunctions:");
-        System.out.println(testCheckForPref());
-        System.out.println(testGetPrefNumber());
-        System.out.println(testReturnNumber());
-        System.out.println("\n");
-        System.out.println("Test Results from class GenerateSolution:");
-        System.out.println(GenerateSolution.testGenGPA());
-        System.out.println(GenerateSolution.testCheckForOthers());
-        System.out.println("\n");
+    //method which tests the checkStream method
+    static String testCheckStream(){
+        List<Solution> testSolutions = new ArrayList<>();
+        List<String> preferences = new ArrayList<>();
+        testSolutions.add(new Solution(new Student("check", "CS", 0, preferences, false, 0, 4.0), new Project("x", "y", "z", false), 0));
+
+        checkStream(testSolutions);
+
+        if(testSolutions.get(0).getScore() == -100){
+            return "checkStream method is working";
+        }else{
+            return "error in method checkStream";
+        }
+    }
+
+    //method which tests the checkForDuplicates method
+    static String testCheckForDuplicates(){
+        List<Solution> testSolutions = new ArrayList<>();
+        List<String> preferences = new ArrayList<>();
+
+        testSolutions.add(new Solution(new Student("check", "CS", 0, preferences, false, 0, 4.0), new Project("x", "y", "z", false), 0));
+        testSolutions.add(new Solution(new Student("check", "CS", 0, preferences, false, 0, 4.0), new Project("x", "y", "z", false), 0));
+
+        checkForDuplicates(testSolutions);
+
+        if(testSolutions.get(0).getScore() == -200){
+            return "checkForDuplicates method is working";
+        }else{
+            return "error in method checkForDuplicates";
+        }
     }
 }
