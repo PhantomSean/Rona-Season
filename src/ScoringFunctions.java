@@ -12,10 +12,10 @@ public class ScoringFunctions {
 
     public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution();
-        analyze(solutions);
+        analyse(solutions);
         change(solutions);
         //addPenalties();
-        analyze(solutions);
+        analyse(solutions);
     }
 
     private static void addPenalties(List<Solution> solutions){
@@ -41,19 +41,16 @@ public class ScoringFunctions {
     private static void checkStream(List<Solution> solutions){
     	int penalty = -100;
 
-    	for(int i=0; i<solutions.size(); i++){
-    		if(!solutions.get(i).getStudent().getStream().equals(solutions.get(i).getProject().getStream()))
-    			solutions.get(i).addToScore(penalty);
-	    }
+        for (Solution solution : solutions) {
+            if (!solution.getStudent().getStream().equals(solution.getProject().getStream()))
+                solution.addToScore(penalty);
+        }
     }
 
     //user input 0-5 determines how gpa applies to score
     private static double GPAImportance(int userInput){
         double importance = 0;
         switch (userInput) {
-            case 0:
-                importance = 0;
-                break;
             case 1:
                 importance = 2;
                 break;
@@ -144,7 +141,7 @@ public class ScoringFunctions {
     }
 
     //method for analyzing a solution
-    private static void analyze(List<Solution> solutions){
+    private static void analyse(List<Solution> solutions){
         double gotPrefs = 0;
         for(int i = 0; i < 11; i++){
             prefs[i] = 0;
@@ -233,6 +230,38 @@ public class ScoringFunctions {
             return "returnNumber method is working";
         }else{
             return "error in method returnNumber";
+        }
+    }
+
+    //method which tests the checkStream method
+    static String testCheckStream(){
+        List<Solution> testSolutions = new ArrayList<>();
+        List<String> preferences = new ArrayList<>();
+        testSolutions.add(new Solution(new Student("check", "CS", 0, preferences, false, 0, 4.0), new Project("x", "y", "z", false), 0));
+
+        checkStream(testSolutions);
+
+        if(testSolutions.get(0).getScore() == -100){
+            return "checkStream method is working";
+        }else{
+            return "error in method checkStream";
+        }
+    }
+
+    //method which tests the checkForDuplicates method
+    static String testCheckForDuplicates(){
+        List<Solution> testSolutions = new ArrayList<>();
+        List<String> preferences = new ArrayList<>();
+
+        testSolutions.add(new Solution(new Student("check", "CS", 0, preferences, false, 0, 4.0), new Project("x", "y", "z", false), 0));
+        testSolutions.add(new Solution(new Student("check", "CS", 0, preferences, false, 0, 4.0), new Project("x", "y", "z", false), 0));
+
+        checkForDuplicates(testSolutions);
+
+        if(testSolutions.get(0).getScore() == -200){
+            return "checkForDuplicates method is working";
+        }else{
+            return "error in method checkForDuplicates";
         }
     }
 
