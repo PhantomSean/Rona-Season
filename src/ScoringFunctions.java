@@ -9,7 +9,6 @@ import java.util.Random;
 
 public class ScoringFunctions {
     private static int[] prefs = new int[11];
-    private static double score_mult = 0.75;
 
     public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution();
@@ -18,11 +17,16 @@ public class ScoringFunctions {
         analyse(solutions);
         double energy = scoreSolution(solutions);
         double fitness = -energy;
+        System.out.println("The overall energy score of the solutions after penalties is = "+energy);
+        System.out.println("The overall fitness score of the solutions after penalties is = "+fitness +"\n\n");
 
         change(solutions);
         System.out.println("Changed Solution:");
         analyse(solutions);
-        scoreSolution(solutions);
+        double newEnergy = scoreSolution(solutions);
+        double newFitness = -newEnergy;
+        System.out.println("The overall energy score of the solutions after penalties is = "+newEnergy);
+        System.out.println("The overall fitness score of the solutions after penalties is = "+newFitness +"\n\n");
 
 
     }
@@ -46,7 +50,7 @@ public class ScoringFunctions {
 
                 }
                 if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle()) &&
-                !solutions.get(i).getProjectTitle().equals("Self Specified Project")) {
+                !solutions.get(i).getProjectTitle().equals("Self Specified")) {
                     solutions.get(i).addToScore(penalty);
                     System.out.println("Dupe Project : "+solutions.get(i).getProjectTitle());
                 }
@@ -74,7 +78,7 @@ public class ScoringFunctions {
 
     //user input 0-5 determines how gpa applies to score
     private static double GPAImportance(int userInput){
-        double importance = 0;
+        double importance;
         switch (userInput) {
             case 1:
                 importance = 2;
@@ -195,14 +199,16 @@ public class ScoringFunctions {
         for (Solution solution : solutions) {
             System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
         }
+        System.out.println("\n\n");
     }
 
 
     private static double scoreSolution(List<Solution> solutions){
         double total=0;
-        double score=0;
+        double score;
 
         for (Solution value : solutions) {
+            double score_mult = 0.75;
             if(value.getStudent().getPrefGotten() == 0)
                 score = 1;
             else
@@ -212,15 +218,13 @@ public class ScoringFunctions {
         for(Solution solution : solutions){
             total += solution.getScore();
         }
-        System.out.println("\nThe overall score for the solutions before penalties is = "+total +"\n");
+//        System.out.println("\nThe overall energy score for the solutions before penalties is = "+total +"\n");
         total = 0;
         addPenalties(solutions);
 
         for(Solution solution : solutions){
             total += solution.getScore();
         }
-
-        System.out.println("The overall score the solutions after penalties is = "+total +"\n\n");
 
         return total;
     }
@@ -231,7 +235,7 @@ public class ScoringFunctions {
 
     //method which tests the checkForPref method
     static String testCheckForPref(){
-        List<String> preferences = new ArrayList<String>();
+        List<String> preferences = new ArrayList<>();
         preferences.add("test");
         preferences.add("z");
         preferences.add("x");
@@ -248,7 +252,7 @@ public class ScoringFunctions {
 
     //method which tests the getPrefNumber method
     static String testGetPrefNumber(){
-        List<String> preferences = new ArrayList<String>();
+        List<String> preferences = new ArrayList<>();
         preferences.add("z");
         preferences.add("test");
         preferences.add("x");
@@ -266,7 +270,7 @@ public class ScoringFunctions {
     //method which tests the returnNumber method
     static String testReturnNumber(){
         List<Solution> testSolutions = new ArrayList<>();
-        List<String> preferences = new ArrayList<String>();
+        List<String> preferences = new ArrayList<>();
 
         Student studentOne = new Student("check", "CS", 0, preferences, false, 0, 4.0);
         Student studentTwo = new Student("chuck", "DS", 1, preferences, false, 0, 1.0);
