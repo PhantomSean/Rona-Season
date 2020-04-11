@@ -17,7 +17,8 @@ public class ScoringFunctions {
         System.out.println("Original Solution:");
         analyse(solutions);
         double energy = scoreSolution(solutions);
-        
+        double fitness = -energy;
+
         change(solutions);
         System.out.println("Changed Solution:");
         analyse(solutions);
