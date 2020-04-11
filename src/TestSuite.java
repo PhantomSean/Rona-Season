@@ -17,6 +17,7 @@ public class TestSuite {
         System.out.println("Test Results from class GenerateSolution:");
         System.out.println(GenerateSolution.testGenGPA());
         System.out.println(GenerateSolution.testCheckForOthers());
+        System.out.println(GenerateSolution.testAssignSelfSpecified());
         System.out.println("\n");
     }
 }
