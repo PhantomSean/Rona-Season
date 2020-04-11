@@ -6,6 +6,7 @@ SPRINT 4:
 HOW TO RUN:
 -Select which dataset is to be used when creating the students and staff Lists and projects Hashmap( Staff&Projects(60/120/240/500).xlsx and Students&Preferences(60/120/240/500).xlsx ) in the GenerateSolution class
 -Run the ScoringFunctions class
+-If you wish to run the test methods, run the TestSuite class
 
 APPROACH:
 We wanted to create a change function which would completely randomize which students got which project, only taking students stream into account along
@@ -44,8 +45,13 @@ analyze(List<Solution> solutions)
 -percentage of students who got their first preference, the percentage of students who got one of their top five preferences and lastly each students
 -name along with the title of the project which they will be working on
 
+addPenalties(List<Solution> solutions)
+-method which takes the solution and calls other methods on it to check for any violations
+-calls checkDuplicates() and adds a penalty for any found
+-call checkStream() which makes sure that the project is suitable for the student assigned it
+
 testSuite()
--There were also test methods which were created. This method calls them.
+-There were also test methods which were created. This method calls them and prints the results.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------

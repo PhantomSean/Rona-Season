@@ -9,17 +9,16 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Random;
 
 public class CreateData {
     public static void main(String[] args) throws IOException {
-        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(60).xlsx", 60);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(60).xlsx", "Students&Preferences(60).xlsx",60);
-        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(120).xlsx", 120);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(120).xlsx", "Students&Preferences(120).xlsx",120);
-        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(240).xlsx", 240);
-        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(240).xlsx", "Students&Preferences(240).xlsx",240);
+//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(60).xlsx", 60);
+//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(60).xlsx", "Students&Preferences(60).xlsx",60);
+//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(120).xlsx", 120);
+//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(120).xlsx", "Students&Preferences(120).xlsx",120);
+//        staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(240).xlsx", 240);
+//        studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(240).xlsx", "Students&Preferences(240).xlsx",240);
         staffProject("Miskatonic Staff Members.xlsx", "Staff&Projects(500).xlsx", 500);
         studentPreference("Top Boys Names 1999. Source CSO Ireland.xlsx", "surnames.xlsx", "Staff&Projects(500).xlsx", "Students&Preferences(500).xlsx",500);
     }
@@ -273,7 +272,10 @@ public class CreateData {
             i++;
         }
         row[0] = i;
-        choice[0] = readCellData(projectFile, i, 1);
+        if(selfSpecify())
+            choice[0] = "Self Specified Project";
+        else
+            choice[0] = readCellData(projectFile, i, 1);
         for (int x = 1; x < 10; x++) {
             rand = new Random();
             index = rand.nextInt(students);
@@ -298,6 +300,12 @@ public class CreateData {
         }
         return choice;
     }
+
+    private static boolean selfSpecify() {
+        Random r = new Random();
+        return r.nextInt(10) == 0;
+    }
+
     private static boolean checkStream(String projectFile, String stream, int i) throws IOException{
         return readCellData(projectFile, i, 2).equals(stream) || readCellData(projectFile, i, 2).length() > 2;
     }

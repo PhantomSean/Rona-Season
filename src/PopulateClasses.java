@@ -46,6 +46,7 @@ public class PopulateClasses {
             projects.put(readCellData(readFile, i, 1), project);
 
         }
+        projects.put("Self Specified Project", new Project("Self Specified Project", "CS + DS", "Student", false));
         return projects;
     }
 
