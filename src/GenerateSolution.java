@@ -24,9 +24,8 @@ public class GenerateSolution {
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
         List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
 
+        assignSelfSpecified(students);
         for(int i = 0; i < 10; i++){
-            if (i == 0)
-                assignSelfSpecified(students);
             assignUnique(students, projects, i);
             assignByGPA(students, i);
         }
@@ -136,7 +135,7 @@ public class GenerateSolution {
         String title = "Self Specified Project";
         for (Student student : students) {
             if (!student.hasProject() && student.getPreference(0).equals(title)) {
-                Solution solution = new Solution(student, projects.get(title), Math.pow(score_mult, 10));
+                Solution solution = new Solution(student, genProject(student.getStream()), Math.pow(score_mult, 10));
                 solutions.add(solution);
                 student.setHasProject(true);
                 student.setPrefGotten(1);

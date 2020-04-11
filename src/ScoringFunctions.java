@@ -13,11 +13,10 @@ public class ScoringFunctions {
 
     public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution();
-        //analyse(solutions);
+        analyse(solutions);
         scoreSolution(solutions);
         change(solutions);
-        //addPenalties();
-        //analyse(solutions);
+        analyse(solutions);
         scoreSolution(solutions);
     }
 
@@ -176,16 +175,14 @@ public class ScoringFunctions {
         for (Solution solution : solutions) {
             System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
         }
-
-
     }
 
     private static void scoreSolution(List<Solution> solutions){
         double total=0;
         double score=0;
-        for (int i=0; i<solutions.size(); i++){
-            score = Math.pow(score_mult, 11-solutions.get(i).getStudent().getPrefGotten());
-            solutions.get(i).setScore(score);
+        for (Solution value : solutions) {
+            score = Math.pow(score_mult, 11 - value.getStudent().getPrefGotten());
+            value.setScore(score);
         }
         for(Solution solution : solutions){
             total += solution.getScore();
