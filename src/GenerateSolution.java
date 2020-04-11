@@ -11,7 +11,6 @@ import java.util.Random;
 public class GenerateSolution {
     private static List<Solution> solutions = new ArrayList<>();
     private static HashMap<String, Project> projects = new HashMap<>();
-    private static int[] prefs = new int[10];
     private static double score_mult = 0.75;
 
     public static void main(String[] args) throws IOException {
@@ -25,9 +24,6 @@ public class GenerateSolution {
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
         List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
 
-        for(int i = 0; i < 10; i++){
-            prefs[i] = 0;
-        }
         for(int i = 0; i < 10; i++){
             if (i == 0)
                 assignSelfSpecified(students);
@@ -80,7 +76,6 @@ public class GenerateSolution {
                         projects.get(temp.get(0).getPreference(preference)).setTaken(true);
                         solutions.add(s);
                         temp.clear();
-                        prefs[preference]++;
                 }
             }
         }
@@ -131,7 +126,6 @@ public class GenerateSolution {
                 students.get(i).setHasProject(true);
                 projects.get(students.get(i).getPreference(preference)).setTaken(true);
                 students.get(i).setPrefGotten(preference + 1);
-                prefs[preference]++;
             }
         }
 
@@ -146,7 +140,6 @@ public class GenerateSolution {
                 solutions.add(solution);
                 student.setHasProject(true);
                 student.setPrefGotten(1);
-                prefs[0]++;
             }
         }
     }
