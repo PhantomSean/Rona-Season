@@ -29,6 +29,8 @@ public class GenerateSolution {
             prefs[i] = 0;
         }
         for(int i = 0; i < 10; i++){
+            if (i == 0)
+                assignSelfSpecified(students);
             assignUnique(students, projects, i);
             assignByGPA(students, i);
         }
@@ -64,15 +66,15 @@ public class GenerateSolution {
                     }
                 }
                 if(temp.size() > 1) {
-                        while(temp.size() != 1){                                           //removing all elements of temp until only the element
-                        if(temp.get(0).getGPA() > temp.get(1).getGPA()){                   //with the biggest GPA is left
+                    while(temp.size() != 1){
+                        if(temp.get(0).getGPA() > temp.get(1).getGPA()){
                             temp.remove(1);
                         }else{
                             temp.remove(0);
                         }
                     }
                         //creates a new solution, calculates the score and stores the solution
-                        Solution s = new Solution(temp.get(0), projects.get(temp.get(0).getPreference(preference)), Math.pow(score_mult, 11-preference));
+                        Solution s = new Solution(temp.get(0), projects.get(temp.get(0).getPreference(preference)), Math.pow(score_mult, 10-preference));
                         temp.get(0).setHasProject(true);
                         temp.get(0).setPrefGotten(preference + 1);
                         projects.get(temp.get(0).getPreference(preference)).setTaken(true);
@@ -124,7 +126,7 @@ public class GenerateSolution {
                 }
             }
             if(check == 1 && !students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken()) {
-                Solution solution = new Solution(students.get(i), projects.get(students.get(i).getPreference(preference)), Math.pow(score_mult, 11-preference));
+                Solution solution = new Solution(students.get(i), projects.get(students.get(i).getPreference(preference)), Math.pow(score_mult, 10-preference));
                 solutions.add(solution);
                 students.get(i).setHasProject(true);
                 projects.get(students.get(i).getPreference(preference)).setTaken(true);
@@ -133,6 +135,20 @@ public class GenerateSolution {
             }
         }
 
+    }
+
+    //method that if a student has a self specified project, the project is assigned
+    private static void assignSelfSpecified(List<Student> students) {
+        String title = "Self Specified Project";
+        for (Student student : students) {
+            if (!student.hasProject() && student.getPreference(0).equals(title)) {
+                Solution solution = new Solution(student, projects.get(title), Math.pow(score_mult, 10));
+                solutions.add(solution);
+                student.setHasProject(true);
+                student.setPrefGotten(1);
+                prefs[0]++;
+            }
+        }
     }
 //----------------------------------------------------------------------------------------------------------------------------------//
     //TEST METHODS

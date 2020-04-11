@@ -14,8 +14,67 @@ public class ScoringFunctions {
         List<Solution> solutions = GenerateSolution.genSolution();
         analyze(solutions);
         change(solutions);
+        //addPenalties();
         analyze(solutions);
     }
+
+    private static void addPenalties(List<Solution> solutions){
+        checkForDuplicates(solutions);
+        checkStream(solutions);
+    }
+
+    //adds a penalty for each duplicate student or project
+    private static void checkForDuplicates(List<Solution> solutions){
+        int penalty = -100;
+
+        for(int i=0; i<solutions.size(); i++){
+            for(int j=i+1; j<solutions.size(); j++){
+
+                if(solutions.get(i).getStudentName().equals(solutions.get(j).getStudentName()))
+                    solutions.get(i).addToScore(penalty);
+                if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle()))
+                    solutions.get(i).addToScore(penalty);
+            }
+        }
+    }
+
+    private static void checkStream(List<Solution> solutions){
+    	int penalty = -100;
+
+    	for(int i=0; i<solutions.size(); i++){
+    		if(!solutions.get(i).getStudent().getStream().equals(solutions.get(i).getProject().getStream()))
+    			solutions.get(i).addToScore(penalty);
+	    }
+    }
+
+    //user input 0-5 determines how gpa applies to score
+    private static double GPAImportance(int userInput){
+        double importance = 0;
+        switch (userInput) {
+            case 0:
+                importance = 0;
+                break;
+            case 1:
+                importance = 2;
+                break;
+            case 2:
+                importance = 2.5;
+                break;
+            case 3:
+                importance = 3.0;
+                break;
+            case 4:
+                importance = 3.2;
+                break;
+            case 5:
+                importance = 3.67;
+                break;
+            default:
+                importance = 0;
+        }
+        return importance;
+    }
+
 
     private static void change(List<Solution> solutions){
         //making list for solutions which did not get a preference

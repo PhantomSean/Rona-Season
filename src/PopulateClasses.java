@@ -46,6 +46,7 @@ public class PopulateClasses {
             projects.put(readCellData(readFile, i, 1), project);
 
         }
+        projects.put("Self Specified Project", new Project("Self Specified Project", "CS + DS", "Student", false));
         return projects;
     }
 
@@ -93,7 +94,7 @@ public class PopulateClasses {
 
     }
 
-    private static int getNumRows(String file) {
+    public static int getNumRows(String file) {
         Workbook readBook = null;
         try {
             readBook = new XSSFWorkbook(new FileInputStream(file));

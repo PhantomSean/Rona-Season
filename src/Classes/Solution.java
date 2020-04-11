@@ -36,6 +36,10 @@ public class Solution {
 
     public int getPrefGotten() { return student.getPrefGotten(); }
 
+    public void addToScore(int num){
+        this.score += num;
+    }
+
     public double getScore() { return score;}
 
 }
