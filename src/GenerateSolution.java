@@ -49,9 +49,13 @@ public class GenerateSolution {
         for (Student student : students) {
             if (!student.hasProject()) {
                 Solution sol = new Solution(student, giveRandomProject(student.getStream()), Math.pow(score_mult, 0));
+                student.setPrefGotten(0);
+                student.setHasProject(true);
                 solutions.add(sol);
             }
+
         }
+        System.out.println("Got out of for loop 2");
 
         double total_score = 0;
         for (Solution solution : solutions) {
