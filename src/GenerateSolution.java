@@ -26,13 +26,13 @@ public class GenerateSolution {
         // For giving students their first preference when coming from the hillClimbing class
         for (Student change : changes) {
             for(Student student : students) {
-                if (student == change)
-                    if (!projects.get(student.getPreference(0)).isTaken()) {
-                        projects.get(student.getPreference(0)).setTaken(true);
-                        student.setHasProject(true);
-                        student.setPrefGotten(0);
-                        solutions.add(new Solution(student, projects.get(student.getPreference(0)), Math.pow(score_mult, 10)));
-                    }
+                if (student.getStudentId() == change.getStudentId() && !projects.get(student.getPreference(0)).isTaken()) {
+                    projects.get(student.getPreference(0)).setTaken(true);
+                    student.setHasProject(true);
+                    student.setPrefGotten(0);
+                    solutions.add(new Solution(student, projects.get(student.getPreference(0)), Math.pow(score_mult, 10)));
+                    System.out.println(student.getName() + "\t" + projects.get(student.getPreference(0)).getTitle());
+                }
             }
         }
 
@@ -160,6 +160,7 @@ public class GenerateSolution {
                 Solution solution = new Solution(student, project, Math.pow(score_mult, 10));
                 solutions.add(solution);
                 student.setHasProject(true);
+                student.setPrefGotten(0);
                 student.setPrefGotten(1);
             }
         }

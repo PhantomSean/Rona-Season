@@ -26,6 +26,12 @@ public class HillClimbing {
             }
         }
 
+        System.out.println("---------------------------------------------");
+        for (Student student : students) {
+            System.out.println(student.getName());
+        }
+        System.out.println("---------------------------------------------");
+
         List<Solution> newSolutions = GenerateSolution.genSolution(students);
         for (Solution solution : newSolutions) {
             System.out.println(solution.getStudentName() + "\t" + solution.getPrefGotten());
