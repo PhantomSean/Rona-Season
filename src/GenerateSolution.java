@@ -13,16 +13,28 @@ public class GenerateSolution {
     private static HashMap<String, Project> projects = new HashMap<>();
     private static double score_mult = 0.75;
 
-    public static void main(String[] args) throws IOException {
-        genSolution();
-
+    public static void main(String[] args) {
+//        genSolution();
     }
 
-    static List<Solution> genSolution() throws IOException {
+    static List<Solution> genSolution(List<Student> changes) throws IOException {
         // NB! change value within rounded brackets to test the other data sets
 
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
         List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+
+        // For giving students their first preference when coming from the hillClimbing class
+        for (Student change : changes) {
+            for(Student student : students) {
+                if (student == change)
+                    if (!projects.get(student.getPreference(0)).isTaken()) {
+                        projects.get(student.getPreference(0)).setTaken(true);
+                        student.setHasProject(true);
+                        student.setPrefGotten(0);
+                        solutions.add(new Solution(student, projects.get(student.getPreference(0)), Math.pow(score_mult, 10)));
+                    }
+            }
+        }
 
         for(int i = 0; i < 10; i++){
             if(i == 0)
