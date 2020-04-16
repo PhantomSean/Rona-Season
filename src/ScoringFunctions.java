@@ -11,7 +11,7 @@ public class ScoringFunctions {
     private static int[] prefs = new int[11];
 
     public static void main(String[] args) throws IOException {
-        List<Solution> solutions = GenerateSolution.genSolution();
+        List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
 
         System.out.println("Original Solution:");
         analyse(solutions);
@@ -216,7 +216,6 @@ public class ScoringFunctions {
         for(Solution solution : solutions){
             total += solution.getScore();
         }
-//        System.out.println("\nThe overall energy score for the solutions before penalties is = "+total +"\n");
         total = 0;
         addPenalties(solutions);
 

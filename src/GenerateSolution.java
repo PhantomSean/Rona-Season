@@ -13,16 +13,31 @@ public class GenerateSolution {
     private static HashMap<String, Project> projects = new HashMap<>();
     private static double score_mult = 0.75;
 
-    public static void main(String[] args) throws IOException {
-        genSolution();
-
+    public static void main(String[] args) {
+//        genSolution();
     }
 
-    static List<Solution> genSolution() throws IOException {
+    static List<Solution> genSolution(List<Student> changes) throws IOException {
         // NB! change value within rounded brackets to test the other data sets
+        solutions = new ArrayList<>();
 
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
         List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+
+        // For giving students their first preference when coming from the hillClimbing class
+        for (Student change : changes) {
+            for(Student student : students) {
+                if (student.getStudentId() == change.getStudentId() && !projects.get(student.getPreference(0)).isTaken()) {
+                    projects.get(student.getPreference(0)).setTaken(true);
+                    student.setHasProject(true);
+                    student.setPrefGotten(1);
+                    solutions.add(new Solution(student, projects.get(student.getPreference(0)), Math.pow(score_mult, 10)));
+                }
+            }
+        }
+        for (Solution solution : solutions)
+            System.out.println("This change has been added to solutions " + solution.getStudent().getName() + "\t" + solution.getProject().getTitle());
+
 
         for(int i = 0; i < 10; i++){
             if(i == 0)
@@ -148,6 +163,7 @@ public class GenerateSolution {
                 Solution solution = new Solution(student, project, Math.pow(score_mult, 10));
                 solutions.add(solution);
                 student.setHasProject(true);
+                student.setPrefGotten(0);
                 student.setPrefGotten(1);
             }
         }
