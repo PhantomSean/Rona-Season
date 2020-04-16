@@ -27,7 +27,7 @@ public class GenerateSolution {
         // For giving students their first preference when coming from the hillClimbing class
         for (Student change : changes) {
             for(Student student : students) {
-                if (student.getStudentId() == change.getStudentId() && !projects.get(student.getPreference(0)).isTaken()) {
+                if (student.getStudentId() == change.getStudentId() && !student.hasProject() && !projects.get(student.getPreference(0)).isTaken()) {
                     projects.get(student.getPreference(0)).setTaken(true);
                     student.setHasProject(true);
                     student.setPrefGotten(1);
@@ -55,7 +55,6 @@ public class GenerateSolution {
             }
 
         }
-        System.out.println("Got out of for loop 2");
 
         double total_score = 0;
         for (Solution solution : solutions) {

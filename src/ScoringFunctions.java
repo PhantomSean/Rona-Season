@@ -10,23 +10,23 @@ import java.util.Random;
 public class ScoringFunctions {
     private static int[] prefs = new int[11];
 
-    public static void main(String[] args) throws IOException {
-        List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
+    public static void main(List<Solution> solutions) throws IOException {
+//        List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
 
-        System.out.println("Original Solution:");
+//        System.out.println("Original Solution:");
         analyse(solutions);
         double energy = scoreSolution(solutions);
         double fitness = -energy;
         System.out.println("The overall energy score of the solutions after penalties is = "+energy);
         System.out.println("The overall fitness score of the solutions after penalties is = "+fitness +"\n\n");
 
-        change(solutions);
-        System.out.println("Changed Solution:");
-        analyse(solutions);
-        double newEnergy = scoreSolution(solutions);
-        double newFitness = -newEnergy;
-        System.out.println("The overall energy score of the solutions after penalties is = "+newEnergy);
-        System.out.println("The overall fitness score of the solutions after penalties is = "+newFitness +"\n\n");
+//        change(solutions);
+//        System.out.println("Changed Solution:");
+//        analyse(solutions);
+//        double newEnergy = scoreSolution(solutions);
+//        double newFitness = -newEnergy;
+//        System.out.println("The overall energy score of the solutions after penalties is = "+newEnergy);
+//        System.out.println("The overall fitness score of the solutions after penalties is = "+newFitness +"\n\n");
 
 
     }
@@ -196,9 +196,9 @@ public class ScoringFunctions {
         System.out.println((Math.round((prefs[1] / size) * 100.0)) + "% of students got their first preference");
         System.out.println((Math.round((gotPrefs / size) * 100.0)) + "% of students got one of their top five preferences" + "\n");
 
-        for (Solution solution : solutions) {
-            System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
-        }
+//        for (Solution solution : solutions) {
+//            System.out.println(solution.getStudentName() + ": " + solution.getProjectTitle());
+//        }
         System.out.println("\n\n");
     }
 

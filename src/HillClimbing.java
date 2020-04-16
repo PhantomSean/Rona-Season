@@ -8,11 +8,14 @@ import java.util.List;
 public class HillClimbing {
 
     public static void main(String[] args) throws IOException {
-        List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
-        for (Solution solution : solutions) {
-            System.out.println(solution.getStudentName() + "\t" + solution.getPrefGotten());
+        for (int i =0; i < 10; i ++){
+            List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
+            ScoringFunctions.main(solutions);
         }
-        change(solutions);
+//        for (Solution solution : solutions) {
+//            System.out.println(solution.getStudentName() + "\t" + solution.getPrefGotten());
+//        }
+//        change(solutions);
     }
 
     private static void change(List<Solution> solutions) throws IOException {
@@ -33,8 +36,9 @@ public class HillClimbing {
         System.out.println("---------------------------------------------");
 
         List<Solution> newSolutions = GenerateSolution.genSolution(students);
-        for (Solution solution : newSolutions) {
-            System.out.println(solution.getStudentName() + "\t" + solution.getPrefGotten());
-        }
+//        for (Solution solution : newSolutions) {
+//            System.out.println(solution.getStudentName() + "\t" + solution.getPrefGotten());
+//        }
+        ScoringFunctions.main(newSolutions);
     }
 }
