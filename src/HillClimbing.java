@@ -7,7 +7,7 @@ import java.util.List;
 
 public class HillClimbing {
 
-    public void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
         for (Solution solution : solutions) {
             System.out.println(solution.getStudentName() + "\t" + solution.getPrefGotten());
@@ -15,7 +15,7 @@ public class HillClimbing {
         change(solutions);
     }
 
-    private void change(List<Solution> solutions) throws IOException {
+    private static void change(List<Solution> solutions) throws IOException {
         // Get two students who didn't get their preference whose GPA is 3.2 or higher
         List<Student> students = new ArrayList<>();
         int num = 0;
