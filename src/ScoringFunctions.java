@@ -27,8 +27,6 @@ public class ScoringFunctions {
         double newFitness = -newEnergy;
         System.out.println("The overall energy score of the solutions after penalties is = "+newEnergy);
         System.out.println("The overall fitness score of the solutions after penalties is = "+newFitness +"\n\n");
-
-
     }
 
     private static void addPenalties(List<Solution> solutions){
