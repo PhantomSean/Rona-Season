@@ -20,7 +20,7 @@ public class HillClimbing {
         List<Student> students = new ArrayList<>();
         int num = 0;
         for (Solution solution: solutions) {
-            if (solution.getPrefGotten() == 0 && solution.getStudent().getGPA() >= 3.2 && num < 5) {
+            if (solution.getPrefGotten() == 0 && solution.getStudent().getGPA() >= 3.8 && num < 2) {
                 students.add(solution.getStudent());
                 num++;
             }
