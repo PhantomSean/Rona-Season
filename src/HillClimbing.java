@@ -28,7 +28,7 @@ public class HillClimbing {
 
         System.out.println("---------------------------------------------");
         for (Student student : students) {
-            System.out.println(student.getName());
+            System.out.println("Students to change: " + student.getName());
         }
         System.out.println("---------------------------------------------");
 
