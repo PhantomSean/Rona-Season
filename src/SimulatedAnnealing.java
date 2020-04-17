@@ -24,23 +24,20 @@ public class SimulatedAnnealing {
 
     static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions, int temperature, double score){
         System.out.println(boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score));
+        System.out.println("\n");
         if(score > ScoringFunctions.scoreSolution(changedSolutions)){
             return changedSolutions;
-        }else{/*
-            if(boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), ScoringFunctions.scoreSolution(solutions)) > 0.5){
+        }else{
+            if(boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), ScoringFunctions.scoreSolution(solutions)) < 0.97){
                 return changedSolutions;
-            }*/
+            }
             return solutions;
         }
     }
 
     private static double boltzmann(int temp, double energyOne, double energyTwo){
         double energy = (energyOne - energyTwo) * 10;
-        System.out.println(energyOne);
-        System.out.println(energyTwo);
-        System.out.println("------------------");
         System.out.println(energy);
-        System.out.println("\n");
         return 1/(Math.pow(Math.exp(1), (energy/ (double) temp)));
     }
 
