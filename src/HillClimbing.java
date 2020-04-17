@@ -15,7 +15,7 @@ public class HillClimbing {
         ScoringFunctions.main(solutions);
         List<Solution> tmp = solutions;
 
-        for(int i = 0; i < 80; i++) {
+        for(int i = 0; i < 100; i++) {
             solutions = acceptance(solutions, change(solutions));
             //change(solutions);
             //ScoringFunctions.main(solutions);
@@ -38,10 +38,10 @@ public class HillClimbing {
 
         // Get two students who didn't get their preference whose GPA is 3.2 or higher
         List<Solution> tempSols = new ArrayList<>();
-        if(GPAImportance >0) {
+        if (GPAImportance > 0) {
             int num = 0;
             for (Solution solution : solutions) {
-                if (solution.getPrefGotten() == 0 && solution.getStudent().getGPA() >= GPAImportance && num < 2) {
+                if (solution.getPrefGotten() == 0 && solution.getStudent().getGPA() >= GPAImportance && num < 1) {
                     tempSols.add(solution);
                     num++;
                 }
@@ -59,36 +59,36 @@ public class HillClimbing {
             tempSols.add(solutions.get(y));
 
         }
-
+/*
         System.out.println("---------------------------------------------");
         for (Solution solution : tempSols) {
             System.out.println("Students to change: " + solution.getStudent().getName());
         }
         System.out.println("---------------------------------------------");
+*/
 
-
-        for (Solution tempSol : tempSols) {
+        if (tempSols.size() != 0){
             for (int j = 0; j < 10; j++) {
-                if (tempSol.getStudent().getGPA() > findStudentbyProject(solutions, tempSol.getStudent().getPreference(j)).getGPA()) {
-                    int tmpOne = findSolNumberByStudent(solutions, tempSol.getStudent());
-                    int tmpTwo = findSolNumberByStudent(solutions, findStudentbyProject(solutions, tempSol.getStudent().getPreference(j)));
-                    Project tmpProject = findProjectbyTitle(solutions, tempSol.getStudent().getPreference(j));
+                if (tempSols.get(0).getStudent().getGPA() > findStudentByProject(solutions, tempSols.get(0).getStudent().getPreference(j)).getGPA()) {
+                    int tmpOne = findSolNumberByStudent(solutions, tempSols.get(0).getStudent());
+                    int tmpTwo = findSolNumberByStudent(solutions, findStudentByProject(solutions, tempSols.get(0).getStudent().getPreference(j)));
+                    Project tmpProject = findProjectbyTitle(solutions, tempSols.get(0).getStudent().getPreference(j));
                     solutions.get(tmpOne).getProject().setTaken(false);
                     solutions.get(tmpOne).setProject(tmpProject);
                     solutions.get(tmpTwo).setProject(GenerateSolution.giveRandomProject(solutions.get(tmpTwo).getStudent().getStream()));
-                    solutions.get(tmpOne).setScore(Math.pow(score_mult, 10-j));
+                    solutions.get(tmpOne).setScore(Math.pow(score_mult, 10 - j));
                     solutions.get(tmpTwo).setScore(Math.pow(score_mult, 0));
                     solutions.get(tmpOne).getStudent().setPrefGotten(j);
                     solutions.get(tmpTwo).getStudent().setPrefGotten(0);
                     break;
                 }
             }
-        }
+         }
         tempSols.clear();
         return solutions;
     }
 
-    private static Student findStudentbyProject(List<Solution> solutions, String project){
+    private static Student findStudentByProject(List<Solution> solutions, String project){
         for(int i = 0; i < solutions.size(); i++){
             if(project.equals(solutions.get(i).getProjectTitle())){
                 return solutions.get(i).getStudent();

@@ -226,6 +226,13 @@ public class ScoringFunctions {
             total += solution.getScore();
         }
 
+        for(Solution solution : solutions){
+            if(solution.getStudent().getGPA() > 3.3 && solution.getStudent().getPrefGotten() != 0) {
+                double tmp = solution.getStudent().getPrefGotten();
+                total -= ((solution.getStudent().getGPA() * 0.1) * (1 / tmp));
+            }
+        }
+
         return total;
     }
 
