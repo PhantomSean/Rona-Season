@@ -33,7 +33,7 @@ public class SimulatedAnnealing {
         if(score > ScoringFunctions.scoreSolution(changedSolutions)){
             return changedSolutions;
         }else{
-            if(boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), ScoringFunctions.scoreSolution(solutions)) < 0.97){
+            if(boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score) < 0.97){
                 return changedSolutions;
             }
             return solutions;
