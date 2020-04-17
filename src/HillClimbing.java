@@ -22,14 +22,14 @@ public class HillClimbing {
 
 
     }
-    private static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions){
+    static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions){
         if(ScoringFunctions.scoreSolution(solutions) > ScoringFunctions.scoreSolution(changedSolutions)){
             return changedSolutions;
         }else{
             return solutions;
         }
     }
-    private static List<Solution> change(List<Solution> solutions) throws IOException {
+    static List<Solution> change(List<Solution> solutions) throws IOException {
         //GPA Importance to do after
         double GPAImportance = 3.3;
 
@@ -78,9 +78,9 @@ public class HillClimbing {
     }
 
     private static Student findStudentByProject(List<Solution> solutions, String project){
-        for(int i = 0; i < solutions.size(); i++){
-            if(project.equals(solutions.get(i).getProjectTitle())){
-                return solutions.get(i).getStudent();
+        for (Solution solution : solutions) {
+            if (project.equals(solution.getProjectTitle())) {
+                return solution.getStudent();
             }
         }
         return solutions.get(0).getStudent();
