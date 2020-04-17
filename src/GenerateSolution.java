@@ -10,7 +10,9 @@ import java.util.Random;
 
 public class GenerateSolution {
     private static List<Solution> solutions = new ArrayList<>();
-    private static HashMap<String, Project> projects = new HashMap<>();
+    private static HashMap<String, Project> projects;
+    private static List<Student> students = new ArrayList<>();
+
     private static double score_mult = 0.75;
 
     public static void main(String[] args) {
@@ -20,14 +22,13 @@ public class GenerateSolution {
     static List<Solution> genSolution(List<Student> changes) throws IOException {
         // NB! change value within rounded brackets to test the other data sets
         solutions = new ArrayList<>();
-
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
-        List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
 
         // For giving students their first preference when coming from the hillClimbing class
         for (Student change : changes) {
             for(Student student : students) {
-                if (student.getStudentId() == change.getStudentId() && !projects.get(student.getPreference(0)).isTaken()) {
+                if (student.getStudentId() == change.getStudentId() && !student.hasProject() && !projects.get(student.getPreference(0)).isTaken()) {
                     projects.get(student.getPreference(0)).setTaken(true);
                     student.setHasProject(true);
                     student.setPrefGotten(1);
@@ -42,15 +43,18 @@ public class GenerateSolution {
         for(int i = 0; i < 10; i++){
             if(i == 0)
                 assignSelfSpecified(students);
-            assignUnique(students, projects, i);
+            assignUnique(students, i);
             assignByGPA(students, i);
         }
 
         for (Student student : students) {
             if (!student.hasProject()) {
                 Solution sol = new Solution(student, giveRandomProject(student.getStream()), Math.pow(score_mult, 0));
+                student.setPrefGotten(0);
+                student.setHasProject(true);
                 solutions.add(sol);
             }
+
         }
 
         double total_score = 0;
@@ -134,7 +138,7 @@ public class GenerateSolution {
 	}
 
 	//method that if a student has a unique project choice as a preference, assigns the project to the student
-    private static void assignUnique(List<Student> students, HashMap<String, Project> projects, int preference) {
+    private static void assignUnique(List<Student> students, int preference) {
         int check;
         for (int i = 0; i < students.size(); i++) {
             check = 0;
