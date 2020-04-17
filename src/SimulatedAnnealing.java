@@ -14,20 +14,17 @@ public class SimulatedAnnealing {
         int temperature = 100;
         List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
         ScoringFunctions.main(solutions);
-
         while(temperature > 0){
-            solutions = acceptance(solutions, HillClimbing.change(solutions), temperature);
+            double score = ScoringFunctions.scoreSolution(solutions);
+            solutions = acceptance(solutions, HillClimbing.change(solutions), temperature, score);
             temperature -= 5;
         }
         ScoringFunctions.main(solutions);
     }
 
-    static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions, int temperature){
-
-        System.out.println(ScoringFunctions.scoreSolution(changedSolutions));
-        System.out.println(ScoringFunctions.scoreSolution(solutions));
-        //boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), ScoringFunctions.scoreSolution(solutions));
-        if(ScoringFunctions.scoreSolution(solutions) > ScoringFunctions.scoreSolution(changedSolutions)){
+    static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions, int temperature, double score){
+        System.out.println(boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score));
+        if(score > ScoringFunctions.scoreSolution(changedSolutions)){
             return changedSolutions;
         }else{/*
             if(boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), ScoringFunctions.scoreSolution(solutions)) > 0.5){
@@ -38,13 +35,11 @@ public class SimulatedAnnealing {
     }
 
     private static double boltzmann(int temp, double energyOne, double energyTwo){
-        double energy = (energyOne - energyTwo) * 100;
+        double energy = (energyOne - energyTwo) * 10;
         System.out.println(energyOne);
         System.out.println(energyTwo);
         System.out.println("------------------");
         System.out.println(energy);
-        System.out.println("\n");
-        System.out.println(Math.exp(1));
         System.out.println("\n");
         return 1/(Math.pow(Math.exp(1), (energy/ (double) temp)));
     }
