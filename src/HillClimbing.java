@@ -11,26 +11,32 @@ public class HillClimbing {
 
     public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
-        change(solutions);
+        ScoringFunctions.main(solutions);
+        List<Solution> tmp = solutions;
+
+        for(int i = 0; i < 80; i++) {
+            solutions = acceptance(solutions, change(solutions));
+            //change(solutions);
+            //ScoringFunctions.main(solutions);
+            //solutions = tmp;
+        }
         ScoringFunctions.main(solutions);
 
-        //List<Solution> tmpSolutions = solutions;
-        //ScoringFunctions.main(solutions);
-        //for (int i = 0; i < 50; i++) {
-           // tmpSolutions = solutions;
-           // if (ScoringFunctions.scoreSolution(change(tmpSolutions)) < ScoringFunctions.scoreSolution(solutions)) {
-             //   change(solutions);
-            //    ScoringFunctions.main(solutions);
-            //}
-      //  }
-    }
 
+    }
+    private static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions){
+        if(ScoringFunctions.scoreSolution(solutions) > ScoringFunctions.scoreSolution(changedSolutions)){
+            return changedSolutions;
+        }else{
+            return solutions;
+        }
+    }
     private static List<Solution> change(List<Solution> solutions) throws IOException {
         // Get two students who didn't get their preference whose GPA is 3.2 or higher
         List<Solution> tempSols = new ArrayList<>();
         int num = 0;
         for (Solution solution: solutions) {
-            if (solution.getPrefGotten() == 0 && solution.getStudent().getGPA() >= 3.5 && num < 2) {
+            if (solution.getPrefGotten() == 0 && solution.getStudent().getGPA() >= 3.3 && num < 2) {
                 tempSols.add(solution);
                 num++;
             }
@@ -56,6 +62,7 @@ public class HillClimbing {
                     solutions.get(tmpTwo).setScore(Math.pow(score_mult, 0));
                     solutions.get(tmpOne).getStudent().setPrefGotten(j);
                     solutions.get(tmpTwo).getStudent().setPrefGotten(0);
+                    break;
                 }
             }
         }
