@@ -18,5 +18,11 @@ public class TestSuite {
         System.out.println(GenerateSolution.testGenGPA());
         System.out.println(GenerateSolution.testCheckForOthers());
         System.out.println("\n");
+        System.out.println("Test Results from class HillClimbing:");
+        System.out.println(HillClimbing.testFindProjectByTitle());
+        System.out.println(HillClimbing.testFindSolNumberByStudent());
+        System.out.println(HillClimbing.testFindStudentByProject());
+        System.out.println(HillClimbing.testAcceptance());
+        System.out.println("\n");
     }
 }

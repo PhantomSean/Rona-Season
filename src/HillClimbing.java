@@ -17,9 +17,6 @@ public class HillClimbing {
 
         for(int i = 0; i < 100; i++) {
             solutions = acceptance(solutions, change(solutions));
-            //change(solutions);
-            //ScoringFunctions.main(solutions);
-            //solutions = tmp;
         }
         ScoringFunctions.main(solutions);
 
@@ -59,26 +56,18 @@ public class HillClimbing {
             tempSols.add(solutions.get(y));
 
         }
-/*
-        System.out.println("---------------------------------------------");
-        for (Solution solution : tempSols) {
-            System.out.println("Students to change: " + solution.getStudent().getName());
-        }
-        System.out.println("---------------------------------------------");
-*/
-
         if (tempSols.size() != 0){
             for (int j = 0; j < 10; j++) {
                 if (tempSols.get(0).getStudent().getGPA() > findStudentByProject(solutions, tempSols.get(0).getStudent().getPreference(j)).getGPA()) {
                     int tmpOne = findSolNumberByStudent(solutions, tempSols.get(0).getStudent());
                     int tmpTwo = findSolNumberByStudent(solutions, findStudentByProject(solutions, tempSols.get(0).getStudent().getPreference(j)));
                     Project tmpProject = findProjectbyTitle(solutions, tempSols.get(0).getStudent().getPreference(j));
-                    solutions.get(tmpOne).getProject().setTaken(false);
+                    solutions.get(tmpOne).getProject().setTaken(false);                                       //swapping the projects
                     solutions.get(tmpOne).setProject(tmpProject);
                     solutions.get(tmpTwo).setProject(GenerateSolution.giveRandomProject(solutions.get(tmpTwo).getStudent().getStream()));
-                    solutions.get(tmpOne).setScore(Math.pow(score_mult, 10 - j));
+                    solutions.get(tmpOne).setScore(Math.pow(score_mult, 10 - j));                             //assigning new scores
                     solutions.get(tmpTwo).setScore(Math.pow(score_mult, 0));
-                    solutions.get(tmpOne).getStudent().setPrefGotten(j);
+                    solutions.get(tmpOne).getStudent().setPrefGotten(j);                                      //assigning the new preferences gotten
                     solutions.get(tmpTwo).getStudent().setPrefGotten(0);
                     break;
                 }
@@ -107,12 +96,80 @@ public class HillClimbing {
     }
 
     private static Project findProjectbyTitle(List<Solution> solutions, String project){
-        for(int i = 0; i < solutions.size(); i++){
-            if(project.equals(solutions.get(i).getProjectTitle())){
-                return solutions.get(i).getProject();
+        for (Solution solution : solutions) {
+            if (project.equals(solution.getProjectTitle())) {
+                return solution.getProject();
             }
         }
         return solutions.get(0).getProject();
     }
 
+//-----------------------------------------------------------------------------------------------------------------------------------------//
+    //TEST METHODS
+
+    //method for checking if acceptance is working
+    static String testAcceptance(){
+        List<Solution> testSolutionsOne = new ArrayList<>();
+        List<Solution> testSolutionsTwo = new ArrayList<>();
+        List<String> prefs = new ArrayList<>();
+        Project testProject = new Project("test", "t", "t", true);
+        testSolutionsOne.add(new Solution( new Student("Sam", "t", 1, prefs, true, 1, 4.2), testProject, 0));
+        testSolutionsTwo.add(new Solution( new Student("Sean", "t", 1, prefs, true, 1, 1.2), testProject, 20));
+
+        List<Solution> test = acceptance(testSolutionsOne, testSolutionsTwo);
+
+        if(test.get(0).getStudent().getName().equals("Sam")){
+            return "method acceptance is working";
+        }else{
+            return "error in method acceptance";
+        }
+    }
+
+    //method for checking if findStudentByProject is working
+    static String testFindStudentByProject(){
+        List<Solution> testSolutions = new ArrayList<>();
+        List<String> prefs = new ArrayList<>();
+        Project testProject = new Project("test", "t", "t", true);
+        testSolutions.add(new Solution( new Student("Sean", "t", 1, prefs, true, 1, 4.2), testProject, 0));
+
+        Student testStudent = findStudentByProject(testSolutions, "test");
+
+        if(testStudent.getName().equals("Sean")){
+            return "method findStudentByProject is working";
+        }else{
+            return "error in method findStudentByProject";
+        }
+    }
+
+    //method for checking if findSolNumberByStudent is working
+    static String testFindSolNumberByStudent(){
+        List<Solution> testSolutions = new ArrayList<>();
+        List<String> prefs = new ArrayList<>();
+        Student testStudent = new Student("t", "t", 1, prefs, true, 1, 4.2);
+        testSolutions.add(new Solution( testStudent, new Project("test", "t", "t", true), 0));
+
+        int test = findSolNumberByStudent(testSolutions, testStudent);
+
+        if(test == 0){
+            return "method findSolNumberByStudent is working";
+        }else{
+            return "error in method findSolNumberByStudent";
+        }
+    }
+
+    //method for checking if findProjectbyTitle is working
+    static String testFindProjectByTitle(){
+        String project = "test";
+        List<Solution> testSolutions = new ArrayList<>();
+        List<String> prefs = new ArrayList<>();
+        testSolutions.add(new Solution(new Student("t", "t", 1, prefs, true, 1, 4.2), new Project("test", "t", "t", true), 0));
+
+        Project test = findProjectbyTitle(testSolutions, project);
+
+        if(test.getTitle().equals(project)){
+            return "method findProjectbyTitle is working";
+        }else{
+            return "error in method findProjectbyTitle";
+        }
+    }
 }

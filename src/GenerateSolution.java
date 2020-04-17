@@ -57,15 +57,7 @@ public class GenerateSolution {
 
         }
 
-        double total_score = 0;
-        for (Solution solution : solutions) {
-            total_score += solution.getScore();
-        }
-        System.out.println(total_score);
-
         return solutions;
-
-
 
     }
 
