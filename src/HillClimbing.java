@@ -8,12 +8,10 @@ import java.util.List;
 import java.util.Random;
 
 public class HillClimbing {
-    private static double score_mult = 0.75;
 
     public static void main(String[] args) throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
         ScoringFunctions.main(solutions);
-        List<Solution> tmp = solutions;
 
         for(int i = 0; i < 100; i++) {
             solutions = acceptance(solutions, change(solutions));
@@ -22,6 +20,7 @@ public class HillClimbing {
 
 
     }
+    // Decide whether or not to accept the new solution
     private static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions){
         if(ScoringFunctions.scoreSolution(solutions) > ScoringFunctions.scoreSolution(changedSolutions)){
             return changedSolutions;
@@ -29,11 +28,12 @@ public class HillClimbing {
             return solutions;
         }
     }
-    private static List<Solution> change(List<Solution> solutions) throws IOException {
+    // Makes a change to the current solution by swapping the preference of a person that got a randomly assigned project
+    private static List<Solution> change(List<Solution> solutions) {
         //GPA Importance to do after
         double GPAImportance = 3.3;
 
-        // Get two students who didn't get their preference whose GPA is 3.2 or higher
+        // Get a student who didn't get their preference whose GPA is the same as GPAImportance or higher
         List<Solution> tempSols = new ArrayList<>();
         if (GPAImportance > 0) {
             int num = 0;
@@ -61,10 +61,11 @@ public class HillClimbing {
                 if (tempSols.get(0).getStudent().getGPA() > findStudentByProject(solutions, tempSols.get(0).getStudent().getPreference(j)).getGPA()) {
                     int tmpOne = findSolNumberByStudent(solutions, tempSols.get(0).getStudent());
                     int tmpTwo = findSolNumberByStudent(solutions, findStudentByProject(solutions, tempSols.get(0).getStudent().getPreference(j)));
-                    Project tmpProject = findProjectbyTitle(solutions, tempSols.get(0).getStudent().getPreference(j));
+                    Project tmpProject = findProjectByTitle(solutions, tempSols.get(0).getStudent().getPreference(j));
                     solutions.get(tmpOne).getProject().setTaken(false);                                       //swapping the projects
                     solutions.get(tmpOne).setProject(tmpProject);
                     solutions.get(tmpTwo).setProject(GenerateSolution.giveRandomProject(solutions.get(tmpTwo).getStudent().getStream()));
+                    double score_mult = 0.75;
                     solutions.get(tmpOne).setScore(Math.pow(score_mult, 10 - j));                             //assigning new scores
                     solutions.get(tmpTwo).setScore(Math.pow(score_mult, 0));
                     solutions.get(tmpOne).getStudent().setPrefGotten(j);                                      //assigning the new preferences gotten
@@ -78,9 +79,9 @@ public class HillClimbing {
     }
 
     private static Student findStudentByProject(List<Solution> solutions, String project){
-        for(int i = 0; i < solutions.size(); i++){
-            if(project.equals(solutions.get(i).getProjectTitle())){
-                return solutions.get(i).getStudent();
+        for (Solution solution : solutions) {
+            if (project.equals(solution.getProjectTitle())) {
+                return solution.getStudent();
             }
         }
         return solutions.get(0).getStudent();
@@ -95,7 +96,7 @@ public class HillClimbing {
         return 0;
     }
 
-    private static Project findProjectbyTitle(List<Solution> solutions, String project){
+    private static Project findProjectByTitle(List<Solution> solutions, String project){
         for (Solution solution : solutions) {
             if (project.equals(solution.getProjectTitle())) {
                 return solution.getProject();
@@ -157,14 +158,14 @@ public class HillClimbing {
         }
     }
 
-    //method for checking if findProjectbyTitle is working
+    //method for checking if findProjectByTitle is working
     static String testFindProjectByTitle(){
         String project = "test";
         List<Solution> testSolutions = new ArrayList<>();
         List<String> prefs = new ArrayList<>();
         testSolutions.add(new Solution(new Student("t", "t", 1, prefs, true, 1, 4.2), new Project("test", "t", "t", true), 0));
 
-        Project test = findProjectbyTitle(testSolutions, project);
+        Project test = findProjectByTitle(testSolutions, project);
 
         if(test.getTitle().equals(project)){
             return "method findProjectbyTitle is working";
