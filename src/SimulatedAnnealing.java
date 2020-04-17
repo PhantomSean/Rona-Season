@@ -16,8 +16,13 @@ public class SimulatedAnnealing {
         ScoringFunctions.main(solutions);
         while(temperature > 0){
             double score = ScoringFunctions.scoreSolution(solutions);
-            solutions = acceptance(solutions, HillClimbing.change(solutions), temperature, score);
+            List<Solution> changedSolutions = HillClimbing.change(solutions);
+            solutions = acceptance(solutions, changedSolutions, temperature, score);
             temperature -= 5;
+
+            if(boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score) == 1.0){
+                temperature -= 10;
+            }
         }
         ScoringFunctions.main(solutions);
     }
