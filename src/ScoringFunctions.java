@@ -159,7 +159,7 @@ public class ScoringFunctions {
     }
 
     //method which returns which number of the list a solution is on
-    private static int returnNumber(List<Solution> solutions, Solution s){
+    static int returnNumber(List<Solution> solutions, Solution s){
         for(int i = 0; i < solutions.size(); i++){
             if(solutions.get(i).getProjectTitle().equals(s.getProjectTitle())){
                 return i;
@@ -201,7 +201,7 @@ public class ScoringFunctions {
     }
 
 
-    private static double scoreSolution(List<Solution> solutions){
+    static double scoreSolution(List<Solution> solutions){
         double total=0;
         double score;
 
