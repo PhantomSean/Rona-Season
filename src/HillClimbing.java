@@ -5,6 +5,7 @@ import Classes.Student;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class HillClimbing {
     private static double score_mult = 0.75;
@@ -32,14 +33,31 @@ public class HillClimbing {
         }
     }
     private static List<Solution> change(List<Solution> solutions) throws IOException {
+        //GPA Importance to do after
+        double GPAImportance = 3.3;
+
         // Get two students who didn't get their preference whose GPA is 3.2 or higher
         List<Solution> tempSols = new ArrayList<>();
-        int num = 0;
-        for (Solution solution: solutions) {
-            if (solution.getPrefGotten() == 0 && solution.getStudent().getGPA() >= 3.3 && num < 2) {
-                tempSols.add(solution);
-                num++;
+        if(GPAImportance >0) {
+            int num = 0;
+            for (Solution solution : solutions) {
+                if (solution.getPrefGotten() == 0 && solution.getStudent().getGPA() >= GPAImportance && num < 2) {
+                    tempSols.add(solution);
+                    num++;
+                }
             }
+        } else {
+            Random rand = new Random();
+            int x = rand.nextInt(solutions.size());
+            int y = rand.nextInt(solutions.size());
+            while (y == x) {
+                y = rand.nextInt(60);
+            }
+            System.out.println("Getting 2 Random Students");
+
+            tempSols.add(solutions.get(x));
+            tempSols.add(solutions.get(y));
+
         }
 
         System.out.println("---------------------------------------------");
