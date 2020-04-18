@@ -44,15 +44,11 @@ public class SimulatedAnnealing {
 
     //method for checking if the changed solution is to be accepted or not, takes Boltzmann probability into account
     private static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions, double temperature, double score){
-
-        System.out.println("Boltzmann " + boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score));
-        System.out.println("\n");
         if(score > ScoringFunctions.scoreSolution(changedSolutions)){
             return changedSolutions;
         }else{
             double boltzmann = boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score);
             if(new Random().nextDouble() < (1-boltzmann) && boltzmann < 1.0){
-                System.out.println("ACCEPTED");
                 return changedSolutions;
             }
             return solutions;
