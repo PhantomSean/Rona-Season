@@ -6,12 +6,17 @@ import java.util.List;
 import java.util.Random;
 
 
-public class SimulatedAnnealing {
+public class SimulatedAnnealing implements Solver{
     public static void main(String[] args) throws IOException {
+        simulatedAnnealing();
+
+    }
+    public void solve() throws IOException {
         simulatedAnnealing();
     }
 
     //method for performing Simulated Annealing
+
     public static void simulatedAnnealing() throws IOException {
         int check = 0;
         List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
@@ -44,16 +49,12 @@ public class SimulatedAnnealing {
 
     //method for checking if the changed solution is to be accepted or not, takes Boltzmann probability into account
     private static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions, double temperature, double score){
-
-        System.out.println("Boltzmann " + boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score));
-        System.out.println("\n");
         if(score > ScoringFunctions.scoreSolution(changedSolutions)){
             return changedSolutions;
         }else{
             double boltzmann = boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score);
             // The chance of accepting a worse result is 1-boltzmann score
             if(new Random().nextDouble() < (1-boltzmann) && boltzmann < 1.0){
-                System.out.println("ACCEPTED");
                 return changedSolutions;
             }
             return solutions;
