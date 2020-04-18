@@ -22,5 +22,8 @@ public class TestSuite {
         System.out.println(HillClimbing.testFindStudentByProject());
         System.out.println(HillClimbing.testAcceptance());
         System.out.println("\n");
+        System.out.println("Test Results from class SimulatedAnnealing:");
+        System.out.println(SimulatedAnnealing.testBoltzmann());
+        System.out.println("\n");
     }
 }

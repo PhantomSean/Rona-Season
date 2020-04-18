@@ -15,10 +15,6 @@ public class GenerateSolution {
 
     private static double score_mult = 0.75;
 
-    public static void main(String[] args) {
-//        genSolution();
-    }
-
     static List<Solution> genSolution(List<Student> changes) throws IOException {
         // NB! change value within rounded brackets to test the other data sets
         solutions = new ArrayList<>();
