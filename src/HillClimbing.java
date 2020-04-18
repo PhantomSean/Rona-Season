@@ -22,7 +22,7 @@ public class HillClimbing {
     }
 
     // Decide whether or not to accept the new solution
-    static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions){
+    private static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions){
 
         if(ScoringFunctions.scoreSolution(solutions) > ScoringFunctions.scoreSolution(changedSolutions)){
             return changedSolutions;
