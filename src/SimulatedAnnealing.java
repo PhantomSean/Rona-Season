@@ -6,11 +6,15 @@ import java.util.List;
 import java.util.Random;
 
 
-public class SimulatedAnnealing {
+public class SimulatedAnnealing implements Solver{
     public static void main(String[] args) throws IOException {
         simulatedAnnealing();
 
     }
+    public void solve() throws IOException {
+        simulatedAnnealing();
+    }
+
     public static void simulatedAnnealing() throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
         ScoringFunctions.main(solutions);
