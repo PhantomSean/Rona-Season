@@ -11,7 +11,7 @@ public class SimulatedAnnealing {
         simulatedAnnealing();
 
     }
-    private static void simulatedAnnealing() throws IOException {
+    public static void simulatedAnnealing() throws IOException {
         List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
         ScoringFunctions.main(solutions);
         double temperature = solutions.size() * 1.7;
