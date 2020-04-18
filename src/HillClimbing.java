@@ -39,26 +39,12 @@ public class HillClimbing {
 
         // Get a student who didn't get their preference whose GPA is the same as GPAImportance or higher
         List<Solution> tempSols = new ArrayList<>();
-        if (GPAImportance > 0) {
-            int num = 0;
-            for (Solution solution : solutions) {
-                if (solution.getPrefGotten() == 0 && solution.getStudent().getGPA() >= GPAImportance && num < 1) {
-                    tempSols.add(solution);
-                    num++;
-                }
+        int num = 0;
+        for (Solution solution : solutions) {
+            if (solution.getPrefGotten() == 0 && solution.getStudent().getGPA() >= GPAImportance && num < 1) {
+                tempSols.add(solution);
+                num++;
             }
-        } else {
-            Random rand = new Random();
-            int x = rand.nextInt(solutions.size());
-            int y = rand.nextInt(solutions.size());
-            while (y == x) {
-                y = rand.nextInt(60);
-            }
-            System.out.println("Getting 2 Random Students");
-
-            tempSols.add(solutions.get(x));
-            tempSols.add(solutions.get(y));
-
         }
         if (tempSols.size() != 0){
             for (int j = 0; j < 10; j++) {
@@ -99,7 +85,7 @@ public class HillClimbing {
         }
         return 0;
     }
-
+    
     private static Project findProjectByTitle(List<Solution> solutions, String project){
         for (Solution solution : solutions) {
             if (project.equals(solution.getProjectTitle())) {

@@ -1,12 +1,51 @@
 TEAM NAME: Rona Season
 CONTRIBUTORS: Sean Stewart, Oscar Byrne Carty, Caolán Power
 
-SPRINT 4:
+SPRINT 5:
 
 HOW TO RUN:
 -Select which dataset is to be used when creating the students and staff Lists and projects Hashmap( Staff&Projects(60/120/240/500).xlsx and Students&Preferences(60/120/240/500).xlsx ) in the GenerateSolution class
--Run the ScoringFunctions class
--If you wish to run the test methods, run the TestSuite class
+-If you wish to find a solution using Hill Climbing, run the HillClimbing class. If you wish to adjust how many times the Hill Climbing is performed, decrease/increase the number in the loop in main.
+-If you wish to find a solution using Simulated Annealing, run the Simulated Annealing class
+-If you wish to test the methods, run the TestSuite class
+
+APPROACH:
+
+METHODS ADDED:
+acceptance
+-We added two acceptance classes. One in the HillClimbing class which returns the solution with the better score out of the
+-two solutions inputted and another in the SimulatedAnnealing class which works almost exactly the same way except it takes
+-the Boltzmann distribution into account
+
+change(List<Solution> solutions)
+-We added a new change class to HillClimbing as the original change class in ScoringFunctions wasn't giving us the results
+-that we were looking for. This change class looks at which students are needed to be given and takes their GPA and
+-preferences into account. The class only changes one student at a time.
+
+simulatedAnnealing()
+-This class performs the Simulated Annealing approach to getting the best set of solutions. The temperature variable is
+-based of how many solutions there are in the list and is decreased each time, with the amount that it is decreased by
+-dependant on if there have been any changes to the set of solutions and if no changes have been made, the size of the
+-list is taken into account. When making changes, Boltzmann distribution is also taken into account.
+
+boltzmann(double temp, double energyOne, double energyTwo)
+-This class returns the number produced by the Boltzmann formula, taking the temperature and energy into consideration.
+
+findStudentByProject(List<Solution> solutions, String project)
+-This method takes a list of solutions and a String as input. It searches through the solutions and if a student has
+-the project assigned to them, the student is returned.
+
+findSolNumberByStudent(List<Solution> solutions, Student student)
+-This method takes a list of solutions and a Student as input. It searches through the solutions and if the list contains
+-that Student, the number at which the student is stored in the list is returned.
+
+findProjectByTitle(List<Solution> solutions, String project)
+-This method takes a list of solutions and a String as input. It searches through the solutions and if one of the solutions
+-contains a project of that name, the project is returned.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SPRINT 4:
 
 APPROACH:
 We wanted created a class that would be able to make a random change to our generated solutions and be able to give the solutions a score by adding penalties for any undesirable properties in the change.
