@@ -17,7 +17,7 @@ public class SimulatedAnnealing implements Solver{
 
     //method for performing Simulated Annealing
 
-    public static void simulatedAnnealing() throws IOException {
+    private static void simulatedAnnealing() throws IOException {
         int check = 0;
         List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
         //analysing the solution before the Simulated Annealing has been performed
@@ -40,6 +40,7 @@ public class SimulatedAnnealing implements Solver{
                     temperature -= solutions.size() * 0.06;
                 }
             }else{
+                //resetting check if there is a change made
                 check = 0;
             }
         }
