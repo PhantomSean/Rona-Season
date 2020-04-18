@@ -4,6 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 public interface Solver {
-    public void accept();
+    public void solve();
 }
 

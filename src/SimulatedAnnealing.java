@@ -3,6 +3,7 @@ import Classes.Solution;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class SimulatedAnnealing {
@@ -11,7 +12,7 @@ public class SimulatedAnnealing {
     }
 
     //method for performing Simulated Annealing
-    private static void simulatedAnnealing() throws IOException {
+    public static void simulatedAnnealing() throws IOException {
         int check = 0;
         List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
         //analysing the solution before the Simulated Annealing has been performed
@@ -43,11 +44,15 @@ public class SimulatedAnnealing {
 
     //method for checking if the changed solution is to be accepted or not, takes Boltzmann probability into account
     private static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions, double temperature, double score){
+
+        System.out.println("Boltzmann " + boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score));
+        System.out.println("\n");
         if(score > ScoringFunctions.scoreSolution(changedSolutions)){
             return changedSolutions;
         }else{
             double boltzmann = boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score);
-            if(boltzmann > 0.98 && boltzmann < 1.0){
+            if(new Random().nextDouble() < (1-boltzmann) && boltzmann < 1.0){
+                System.out.println("ACCEPTED");
                 return changedSolutions;
             }
             return solutions;
@@ -56,7 +61,7 @@ public class SimulatedAnnealing {
 
     //method for calculating Boltzmann probability
     private static double boltzmann(double temp, double energyOne, double energyTwo){
-        double energy = (energyOne - energyTwo) * 10;
+        double energy = (energyOne - energyTwo) * 100;
         return 1/(Math.pow(Math.exp(1), (energy/ temp)));
     }
 
