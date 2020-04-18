@@ -10,6 +10,14 @@ HOW TO RUN:
 -If you wish to test the methods, run the TestSuite class
 
 APPROACH:
+We created a Solver interface to allow plug-in compatibility in the future.
+We then started off by creating a hill climbing class that will make a change to a solution and accept it
+if the overall energy score is lower than the original. We decided it best to use GPA and preference score to indicate who if changed would be most likely to produce an overall better
+score.
+We the moved onto the SimulatedAnnealing class which we implement the solver interface in. We started off by creating a call to the hill climbing and making sure that the acceptance was
+working correctly. Then we worked on introducing the boltzmann distribution to accept worse solution on our path for finding a better solution.
+We then began to introduce a cooling schedule. We had to do a bit of experimentation with values for cooling but we made what we feel is quite a good solution that adjusts based on the
+size of the data set being operated on and takes into account how many changes are rejected in a row and increases cooling when this occurs.
 
 METHODS ADDED:
 acceptance

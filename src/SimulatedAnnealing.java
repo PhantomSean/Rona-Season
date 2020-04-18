@@ -51,6 +51,7 @@ public class SimulatedAnnealing {
             return changedSolutions;
         }else{
             double boltzmann = boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score);
+            // The chance of accepting a worse result is 1-boltzmann score
             if(new Random().nextDouble() < (1-boltzmann) && boltzmann < 1.0){
                 System.out.println("ACCEPTED");
                 return changedSolutions;
