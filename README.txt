@@ -8,6 +8,7 @@ HOW TO RUN:
 -If you wish to find a solution using Hill Climbing, run the HillClimbing class. If you wish to adjust how many times the Hill Climbing is performed, decrease/increase the number in the loop in main.
 -If you wish to find a solution using Simulated Annealing, run the Simulated Annealing class
 -If you wish to test the methods, run the TestSuite class
+-There is a solve class which can run the Simulated Annealing class and which will be used to run the Genetic Algorithm in future sprints
 
 APPROACH:
 We created a Solver interface to allow plug-in compatibility in the future.
