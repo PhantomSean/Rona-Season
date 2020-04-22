@@ -57,22 +57,30 @@ public class GeneticAlgorithm implements Solver{
 		return population;
 	}
 
-	public static ArrayList<Solution> mate(ArrayList<Solution> parentOne, ArrayList<Solution> parentTwo) {
-		ArrayList<Solution> child = new ArrayList<>();
+	public static List<Solution> mate(List<Solution> parentOne, List<Solution> parentTwo) {
+		List<Solution> child = new ArrayList<>();
+		int count = 0;
 		for (Solution solution: parentOne) {
 			double inherit = new Random().nextDouble();
-			if(inherit < 0.475)
+			if(inherit < 0.4875) {
 				child.add(solution);
-			else if(inherit >= 0.475 && inherit < 0.95) {
+				count++;
+			}
+			else if(inherit >= 0.4875 && inherit < 0.975) {
 				for (Solution solution1 : parentTwo) {
-					if (solution.getStudent().equals(solution1.getStudent())) {
+					if (solution.getStudent().getName().equals(solution1.getStudent().getName())) {
 						child.add(solution1);
+						count++;
 					}
 				}
 			}
-			else if(inherit >= 0.95)
-				mutate(parentOne, parentTwo);
+			else if(inherit >= 0.975) {
+//				child.add(new Solution(solution.getStudent(), mutate(parentOne, parentTwo), null);
+				System.out.println("Call to mutate");
+				count++;
+			}
 		}
+		System.out.println("Count = " + count);
 		return child;
 	}
 
@@ -124,5 +132,17 @@ public class GeneticAlgorithm implements Solver{
 		}
 	}
 
-
+	static String testMate() throws IOException {
+		List<Solution> parentOne = GenerateSolution.genSolution(new ArrayList<>());
+		List<Solution> parentTwo = GenerateSolution.genSolution(new ArrayList<>());
+		List<Solution> child = mate(parentOne, parentTwo);
+//		for (Solution solution : child) {
+//			System.out.println(solution.getStudentName() + " " + solution.getProjectTitle());
+//		}
+//		System.out.println(child.size());
+		if (child.size() == parentOne.size())
+			return "testMate method is working";
+		else
+			return "error in method mate";
+	}
 }
