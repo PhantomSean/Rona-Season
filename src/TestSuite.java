@@ -1,9 +1,11 @@
+import java.io.IOException;
+
 public class TestSuite {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         testSuite();
     }
     //method for calling all the test methods
-    private static void testSuite(){
+    private static void testSuite() throws IOException {
         System.out.println("\n");
         System.out.println("Test Results from class ScoringFunctions:");
         System.out.println(ScoringFunctions.testCheckForPref());
@@ -25,5 +27,11 @@ public class TestSuite {
         System.out.println("Test Results from class SimulatedAnnealing:");
         System.out.println(SimulatedAnnealing.testBoltzmann());
         System.out.println("\n");
+        System.out.println("Test Results from class GeneticAlgorithm:");
+        System.out.println(GeneticAlgorithm.testGenPopulation());
+        System.out.println(GeneticAlgorithm.testSortPopulation());
+        System.out.println(GeneticAlgorithm.testCullPopulation());
+        System.out.println("\n");
+
     }
 }
