@@ -1,9 +1,11 @@
 import Classes.Solution;
+import Classes.Student;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class GeneticAlgorithm implements Solver{
 
@@ -39,5 +41,24 @@ public class GeneticAlgorithm implements Solver{
 			}
 		}
 		return population;
+	}
+
+	public static ArrayList<Solution> mate(ArrayList<Solution> parentOne, ArrayList<Solution> parentTwo) {
+		ArrayList<Solution> child = new ArrayList<>();
+		for (Solution solution: parentOne) {
+			double inherit = new Random().nextDouble();
+			if(inherit < 0.475)
+				child.add(solution);
+			else if(inherit >= 0.475 && inherit < 0.95) {
+				for (Solution solution1 : parentTwo) {
+					if (solution.getStudent().equals(solution1.getStudent())) {
+						child.add(solution1);
+					}
+				}
+			}
+			else if(inherit >= 0.95)
+				mutate(parentOne, parentTwo);
+		}
+		return child;
 	}
 }
