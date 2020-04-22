@@ -3,12 +3,12 @@ import Classes.Solution;
 import Classes.Student;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GeneticAlgorithm implements Solver{
+
+//	static Collection<Project> projectsCollection = GenerateSolution.getProjects().values();
+//	static ArrayList<Project> projects = new ArrayList<Project>(projectsCollection);
 
 	private static List<ArrayList<Solution>> population = new ArrayList<>();
 
@@ -35,6 +35,7 @@ public class GeneticAlgorithm implements Solver{
 			solutions = GenerateSolution.genSolution(new ArrayList<>());
 			population.add((ArrayList<Solution>) solutions);
 		}
+
 		return population;
 	}
 
@@ -59,6 +60,9 @@ public class GeneticAlgorithm implements Solver{
 	}
 
 	public static List<Solution> mate(List<Solution> parentOne, List<Solution> parentTwo) {
+		Collection<Project> projectsCollection = GenerateSolution.getProjects().values();
+		ArrayList<Project> projects = new ArrayList<Project>(projectsCollection);
+
 		List<Solution> child = new ArrayList<>();
 		int count = 0;
 		for (Solution solution: parentOne) {
@@ -76,7 +80,7 @@ public class GeneticAlgorithm implements Solver{
 				}
 			}
 			else if(inherit >= 0.975) {
-//				child.add(new Solution(solution.getStudent(), mutate(parentOne, parentTwo), null);
+				//child.add(new Solution(solution.getStudent(), mutate(parentOne, parentTwo, projects), 0.0));
 				System.out.println("Call to mutate");
 				count++;
 			}
@@ -87,6 +91,8 @@ public class GeneticAlgorithm implements Solver{
 
 
 	private static Project mutate(List<Solution> parent1, List<Solution> parent2, List<Project> projects){
+
+
 		List<Project> unassignedProjects = new ArrayList<>(projects);
 
 		for(int i=0; i<parent1.size(); i++){
