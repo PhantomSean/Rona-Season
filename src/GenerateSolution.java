@@ -136,11 +136,12 @@ public class GenerateSolution {
                 }
             }
             if(check == 1 && !students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken()) {
-                Solution solution = new Solution(students.get(i), projects.get(students.get(i).getPreference(preference)), Math.pow(score_mult, 10-preference));
-                solutions.add(solution);
+                //Solution solution = new Solution(students.get(i), projects.get(students.get(i).getPreference(preference)), Math.pow(score_mult, 10-preference));
                 students.get(i).setHasProject(true);
                 projects.get(students.get(i).getPreference(preference)).setTaken(true);
                 students.get(i).setPrefGotten(preference + 1);
+                Solution solution = new Solution(students.get(i), projects.get(students.get(i).getPreference(preference)), Math.pow(score_mult, 10-preference));
+                solutions.add(solution);
             }
         }
 
