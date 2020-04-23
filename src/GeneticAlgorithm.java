@@ -28,6 +28,25 @@ public class GeneticAlgorithm implements Solver{
 	public void solve() throws IOException {
 
 	}
+
+	public static List<ArrayList<Solution>> geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException {
+		population = genPopulation(popNumber);
+		for(int i = 0; i < numGenerations; i++){
+			population = sortPopulation(population);
+			cullPopulation(cullPercentage, population);
+			int numberMates = (int) Math.round((0.01 * matePercentage) * population.size());
+			if(numberMates % 2 != 0){
+				numberMates++;
+			}
+			for(int j = 0; j < numberMates; j+=2){
+				population.add((ArrayList<Solution>) mate(population.get(j), population.get(j+1)));
+				population.remove(j);
+				population.remove(j+1);
+			}
+		}
+		return population;
+	}
+
 	private static List<ArrayList<Solution>> genPopulation(int popNumber) throws IOException {
 		List<ArrayList<Solution>> population = new ArrayList<>();
 		for(int i = 0; i < popNumber; i++){
@@ -82,6 +101,7 @@ public class GeneticAlgorithm implements Solver{
 			else if(inherit >= 0.975) {
 				//child.add(new Solution(solution.getStudent(), mutate(parentOne, parentTwo, projects), 0.0));
 				System.out.println("Call to mutate");
+				mutate(parentOne, parentTwo, projects);
 				count++;
 			}
 		}
