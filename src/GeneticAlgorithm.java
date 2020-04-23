@@ -11,19 +11,14 @@ public class GeneticAlgorithm implements Solver{
 //	static ArrayList<Project> projects = new ArrayList<Project>(projectsCollection);
 
 	private static List<ArrayList<Solution>> population = new ArrayList<>();
+	private static double score_mult = 0.75;
 
 	public static void main(String[] args) throws IOException {
-		population = genPopulation(10);
-		for(int i = 0; i < population.size(); i++) {
-			ScoringFunctions.main(population.get(i));
-		}
-		cullPopulation(10, sortPopulation(population));
-		System.out.println("\n");
-		System.out.println("CULLED");
-		System.out.println("\n");
-		for(int i = 0; i < population.size(); i++) {
-			ScoringFunctions.main(population.get(i));
-		}
+		population = geneticAlgorithm(1000, 10, 10, 10);
+		sortPopulation(population);
+		ScoringFunctions.main(population.get(0));
+
+
 	}
 	public void solve() throws IOException {
 
@@ -34,7 +29,7 @@ public class GeneticAlgorithm implements Solver{
 		for(int i = 0; i < numGenerations; i++){
 			population = sortPopulation(population);
 			cullPopulation(cullPercentage, population);
-			for (int j = 0; j < population.size()*cullPercentage*0.01; j++) {
+			for (int j = 0; j < (int) (population.size()*cullPercentage*0.01); j++) {
 				population.add((ArrayList<Solution>) mate(matePercentage));
 			}
 		}
@@ -94,27 +89,44 @@ public class GeneticAlgorithm implements Solver{
 		ArrayList<Project> projects = new ArrayList<Project>(projectsCollection);
 
 		List<Solution> child = new ArrayList<>();
+		int count = 0;
 		for (Solution solution: parentOne) {
 			double inherit = new Random().nextDouble();
 			if(inherit < 0.4875) {
 				child.add(solution);
+				count++;
 			}
 			else if(inherit >= 0.4875 && inherit < 0.975) {
 				for (Solution solution1 : parentTwo) {
 					if (solution.getStudent().getName().equals(solution1.getStudent().getName())) {
 						child.add(solution1);
+						count++;
 					}
 				}
 			}
 			else if(inherit >= 0.975) {
-				child.add(new Solution(solution.getStudent(), mutate(parentOne, parentTwo, projects), 0.0));
+				Solution sol = new Solution(solution.getStudent(), mutate(parentOne, parentTwo, projects), 0);
+				sol.setScore(getSolutionScore(sol));
+				child.add(sol);
 //				System.out.println("Call to mutate");
 //				mutate(parentOne, parentTwo, projects);
+//				count++;
 			}
 		}
+		System.out.println("Count = " + count);
 		return child;
 	}
 
+	private static double getSolutionScore(Solution solution){
+		int j = 10;
+		for(int i = 0; i < solution.getStudent().getPreferences().size(); i++){
+			if(solution.getProject().getTitle().equals(solution.getStudent().getPreference(i))){
+				j = i;
+				solution.getStudent().setPrefGotten(i);
+			}
+		}
+		return Math.pow(score_mult, 10 - j);
+	}
 
 	private static Project mutate(List<Solution> parent1, List<Solution> parent2, List<Project> projects){
 
@@ -235,5 +247,16 @@ public class GeneticAlgorithm implements Solver{
 		for (Solution solution : parent)
 			System.out.println(solution.getStudentName() + " " + solution.getProjectTitle());
 		return "testGetParent working";
+	}
+
+	static String testGetSolutionScore(){
+		List<String> empty = new ArrayList<>();
+		empty.add("testProject");
+		Solution sol = new Solution(new Student("test", "CS", 1, empty, true, 1, 4.2), new Project("testProject", "CS","x", true), 0);
+		if(Math.abs(getSolutionScore(sol) - 0.056313514) < 1e-4){
+			return "getSolutionScore method is working";
+		}else{
+			return "error in method getSolutionScore";
+		}
 	}
 }
