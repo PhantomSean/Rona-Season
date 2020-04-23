@@ -17,7 +17,8 @@ public class GeneticAlgorithm implements Solver{
 		for(int i = 0; i < population.size(); i++) {
 			ScoringFunctions.main(population.get(i));
 		}
-		cullPopulation(10, sortPopulation(population));
+		sortPopulation(population);
+		cullPopulation(10, population);
 		System.out.println("\n");
 		System.out.println("CULLED");
 		System.out.println("\n");
@@ -101,7 +102,6 @@ public class GeneticAlgorithm implements Solver{
 			else if(inherit >= 0.975) {
 				//child.add(new Solution(solution.getStudent(), mutate(parentOne, parentTwo, projects), 0.0));
 				System.out.println("Call to mutate");
-				mutate(parentOne, parentTwo, projects);
 				count++;
 			}
 		}
