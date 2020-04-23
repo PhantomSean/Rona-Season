@@ -33,6 +33,8 @@ public class TestSuite {
         System.out.println(GeneticAlgorithm.testCullPopulation());
         System.out.println(GeneticAlgorithm.testMate());
         System.out.println(GeneticAlgorithm.testMutate());
+        System.out.println(GeneticAlgorithm.testGetSolutionScore());
+        System.out.println(GeneticAlgorithm.testGetParent());
         System.out.println("\n");
 
     }
