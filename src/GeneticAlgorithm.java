@@ -13,17 +13,18 @@ public class GeneticAlgorithm implements Solver{
 	private static List<ArrayList<Solution>> population = new ArrayList<>();
 
 	public static void main(String[] args) throws IOException {
-		population = genPopulation(5);
-		for(int i = 0; i < population.size(); i++) {
-			ScoringFunctions.main(population.get(i));
-		}
-		cullPopulation(10, sortPopulation(population));
-		System.out.println("\n");
-		System.out.println("CULLED");
-		System.out.println("\n");
-		for(int i = 0; i < population.size(); i++) {
-			ScoringFunctions.main(population.get(i));
-		}
+		testGetParent();
+//		population = genPopulation(5);
+//		for(int i = 0; i < population.size(); i++) {
+//			ScoringFunctions.main(population.get(i));
+//		}
+//		cullPopulation(10, sortPopulation(population));
+//		System.out.println("\n");
+//		System.out.println("CULLED");
+//		System.out.println("\n");
+//		for(int i = 0; i < population.size(); i++) {
+//			ScoringFunctions.main(population.get(i));
+//		}
 	}
 	public void solve() throws IOException {
 
@@ -34,15 +35,14 @@ public class GeneticAlgorithm implements Solver{
 		for(int i = 0; i < numGenerations; i++){
 			population = sortPopulation(population);
 			cullPopulation(cullPercentage, population);
+			for (int j = 0; j < population.size()*cullPercentage*0.01; j++) {
+				population.add((ArrayList<Solution>) mate(matePercentage));
+			}
 			int numberMates = (int) Math.round((0.01 * matePercentage) * population.size());
 			if(numberMates % 2 != 0){
 				numberMates++;
 			}
-			for(int j = 0; j < numberMates; j+=2){
-				population.add((ArrayList<Solution>) mate(population.get(j), population.get(j+1)));
-				population.remove(j);
-				population.remove(j+1);
-			}
+
 		}
 		return population;
 	}
@@ -78,8 +78,25 @@ public class GeneticAlgorithm implements Solver{
 		return population;
 	}
 
-	public static List<Solution> mate(List<Solution> parentOne, List<Solution> parentTwo) {
-		Collection<Project> projectsCollection = GenerateSolution.getProjects().values();
+	public static List<Solution> getParent(double matingPercentage) {
+		double poolSample = new Random().nextDouble();
+
+		int matingPool = (int) (population.size()*matingPercentage*0.01);
+		int parentId;
+
+		if (poolSample < 0.9)
+			parentId = new Random().nextInt(matingPool);
+		else
+			parentId = new Random().nextInt(population.size()-matingPool) + matingPool;
+
+		ArrayList<Solution> parent = population.get(parentId);
+		return parent;
+	}
+
+	public static List<Solution> mate(double matingPercentage) {
+		List<Solution> parentOne = getParent(matingPercentage);
+		List<Solution> parentTwo = getParent(matingPercentage);
+ 		Collection<Project> projectsCollection = GenerateSolution.getProjects().values();
 		ArrayList<Project> projects = new ArrayList<Project>(projectsCollection);
 
 		List<Solution> child = new ArrayList<>();
@@ -99,10 +116,10 @@ public class GeneticAlgorithm implements Solver{
 				}
 			}
 			else if(inherit >= 0.975) {
-				//child.add(new Solution(solution.getStudent(), mutate(parentOne, parentTwo, projects), 0.0));
-				System.out.println("Call to mutate");
-				mutate(parentOne, parentTwo, projects);
-				count++;
+				child.add(new Solution(solution.getStudent(), mutate(parentOne, parentTwo, projects), 0.0));
+//				System.out.println("Call to mutate");
+//				mutate(parentOne, parentTwo, projects);
+//				count++;
 			}
 		}
 		System.out.println("Count = " + count);
@@ -181,7 +198,7 @@ public class GeneticAlgorithm implements Solver{
 	static String testMate() throws IOException {
 		List<Solution> parentOne = GenerateSolution.genSolution(new ArrayList<>());
 		List<Solution> parentTwo = GenerateSolution.genSolution(new ArrayList<>());
-		List<Solution> child = mate(parentOne, parentTwo);
+		List<Solution> child = mate(20);
 //		for (Solution solution : child) {
 //			System.out.println(solution.getStudentName() + " " + solution.getProjectTitle());
 //		}
@@ -220,5 +237,14 @@ public class GeneticAlgorithm implements Solver{
 			return "Mutate method working";
 		else
 			return "Mutate method not working";
+	}
+
+	// Test for getParent
+	static  String testGetParent() throws IOException {
+		population = genPopulation(6);
+		List<Solution> parent = getParent(20);
+		for (Solution solution : parent)
+			System.out.println(solution.getStudentName() + " " + solution.getProjectTitle());
+		return "testGetParent working";
 	}
 }
