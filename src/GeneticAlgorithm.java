@@ -13,18 +13,17 @@ public class GeneticAlgorithm implements Solver{
 	private static List<ArrayList<Solution>> population = new ArrayList<>();
 
 	public static void main(String[] args) throws IOException {
-		testGetParent();
-//		population = genPopulation(5);
-//		for(int i = 0; i < population.size(); i++) {
-//			ScoringFunctions.main(population.get(i));
-//		}
-//		cullPopulation(10, sortPopulation(population));
-//		System.out.println("\n");
-//		System.out.println("CULLED");
-//		System.out.println("\n");
-//		for(int i = 0; i < population.size(); i++) {
-//			ScoringFunctions.main(population.get(i));
-//		}
+		population = genPopulation(10);
+		for(int i = 0; i < population.size(); i++) {
+			ScoringFunctions.main(population.get(i));
+		}
+		cullPopulation(10, sortPopulation(population));
+		System.out.println("\n");
+		System.out.println("CULLED");
+		System.out.println("\n");
+		for(int i = 0; i < population.size(); i++) {
+			ScoringFunctions.main(population.get(i));
+		}
 	}
 	public void solve() throws IOException {
 
@@ -38,11 +37,6 @@ public class GeneticAlgorithm implements Solver{
 			for (int j = 0; j < population.size()*cullPercentage*0.01; j++) {
 				population.add((ArrayList<Solution>) mate(matePercentage));
 			}
-			int numberMates = (int) Math.round((0.01 * matePercentage) * population.size());
-			if(numberMates % 2 != 0){
-				numberMates++;
-			}
-
 		}
 		return population;
 	}
@@ -100,18 +94,15 @@ public class GeneticAlgorithm implements Solver{
 		ArrayList<Project> projects = new ArrayList<Project>(projectsCollection);
 
 		List<Solution> child = new ArrayList<>();
-		int count = 0;
 		for (Solution solution: parentOne) {
 			double inherit = new Random().nextDouble();
 			if(inherit < 0.4875) {
 				child.add(solution);
-				count++;
 			}
 			else if(inherit >= 0.4875 && inherit < 0.975) {
 				for (Solution solution1 : parentTwo) {
 					if (solution.getStudent().getName().equals(solution1.getStudent().getName())) {
 						child.add(solution1);
-						count++;
 					}
 				}
 			}
@@ -119,10 +110,8 @@ public class GeneticAlgorithm implements Solver{
 				child.add(new Solution(solution.getStudent(), mutate(parentOne, parentTwo, projects), 0.0));
 //				System.out.println("Call to mutate");
 //				mutate(parentOne, parentTwo, projects);
-//				count++;
 			}
 		}
-		System.out.println("Count = " + count);
 		return child;
 	}
 
