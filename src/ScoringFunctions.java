@@ -198,21 +198,17 @@ public class ScoringFunctions {
                 score = Math.pow(score_mult, 11 - value.getStudent().getPrefGotten());
             value.setScore(score);
         }
-        for(Solution solution : solutions){
-            total += solution.getScore();
-        }
-        total = 0;
         addPenalties(solutions);
-
-        for(Solution solution : solutions){
-            total += solution.getScore();
-        }
 
         for(Solution solution : solutions){
             if(solution.getStudent().getGPA() > 3.3 && solution.getStudent().getPrefGotten() != 0) {
                 double tmp = solution.getStudent().getPrefGotten();
-                total -= ((solution.getStudent().getGPA() * 0.1) * (1 / tmp));
+                solution.addToScore(-((solution.getStudent().getGPA() * 0.1) * (1 / tmp)));
             }
+        }
+
+        for(Solution solution : solutions){
+            total += solution.getScore();
         }
 
         return total;

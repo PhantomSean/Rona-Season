@@ -15,17 +15,17 @@ public class GeneticAlgorithm implements Solver{
 		long startTime = System.currentTimeMillis();
 		projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
 		students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
-		population = geneticAlgorithm(100, 10, 10, 100);
+		population = geneticAlgorithm(1000, 10, 5, 100);
 		sortPopulation(population);
 
-		for (ArrayList<Solution> solutions : population)
-			ScoringFunctions.main(solutions);
+//		for (ArrayList<Solution> solutions : population)
+//			ScoringFunctions.main(solutions);
 
-//		ScoringFunctions.main(population.get(0));
+		ScoringFunctions.main(population.get(0));
 
 		long endTime = System.currentTimeMillis();
 
-		System.out.println("Execution time : " + (endTime-startTime)/10000);
+		System.out.println("Execution time : " + (endTime-startTime)/60000);
 
 	}
 	public void solve() {
@@ -34,12 +34,13 @@ public class GeneticAlgorithm implements Solver{
 
 	public static List<ArrayList<Solution>> geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException {
 		genPopulation(popNumber);
-		sortPopulation(population);
-		for (ArrayList<Solution> solutions : population)
-			ScoringFunctions.main(solutions);
-		System.out.println("\n---------------------------------------------------------------\n");
+//		sortPopulation(population);
+//		for (ArrayList<Solution> solutions : population)
+//			ScoringFunctions.main(solutions);
+//		System.out.println("\n---------------------------------------------------------------\n");
 		for(int i = 0; i < numGenerations; i++){
 			sortPopulation(population);
+			System.out.println("Generation " + i+1);
 //			ScoringFunctions.main(population.get(0));
 			cullPopulation(cullPercentage, population);
 			for (int j = 0; j < (int) (popNumber*cullPercentage*0.01); j++) {
@@ -92,8 +93,6 @@ public class GeneticAlgorithm implements Solver{
 	public static List<Solution> mate(int popNumber, double matingPercentage) {
 		List<Solution> parentOne = getParent(popNumber, matingPercentage);
 		List<Solution> parentTwo = getParent(popNumber, matingPercentage);
- 		Collection<Project> projectsCollection = GenerateSolution.getProjects().values();
-		ArrayList<Project> projects = new ArrayList<>(projectsCollection);
 
 		List<Solution> child = new ArrayList<>();
 		for (Solution solution: parentOne) {
@@ -109,14 +108,12 @@ public class GeneticAlgorithm implements Solver{
 				}
 			}
 			else if(inherit >= 0.975) {
-				Solution sol = new Solution(solution.getStudent(), mutate(parentOne, parentTwo, projects), 0);
+				Solution sol = new Solution(solution.getStudent(), mutate(parentOne, parentTwo), 0);
 				sol.setScore(getSolutionScore(sol));
 				child.add(sol);
-//				System.out.println("Call to mutate");
-//				mutate(parentOne, parentTwo, projects);
-//				count++;
 			}
 		}
+		ScoringFunctions.scoreSolution(child);
 		return child;
 	}
 
@@ -132,7 +129,9 @@ public class GeneticAlgorithm implements Solver{
 		return Math.pow(score_mult, 10 - j);
 	}
 
-	private static Project mutate(List<Solution> parent1, List<Solution> parent2, List<Project> projects){
+	private static Project mutate(List<Solution> parent1, List<Solution> parent2){
+		Collection<Project> projectsCollection = projects.values();
+		ArrayList<Project> projects = new ArrayList<>(projectsCollection);
 
 
 		List<Project> unassignedProjects = new ArrayList<>(projects);
@@ -234,7 +233,7 @@ public class GeneticAlgorithm implements Solver{
 		projects.add(three);
 		projects.add(four);
 
-		Project test = mutate(parent1, parent2, projects);
+		Project test = mutate(parent1, parent2);
 
 		if (test.getTitle().equals("Three") || test.getTitle().equals("Four"))
 			return "Mutate method working";
