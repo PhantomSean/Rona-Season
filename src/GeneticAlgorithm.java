@@ -9,27 +9,44 @@ public class GeneticAlgorithm implements Solver{
 
 	private static List<ArrayList<Solution>> population = new ArrayList<>();
 
+    @Override
+    public void solve() throws IOException {
+
+    }
+
 	public static void main(String[] args) throws IOException {
+        HashMap<String, Project> projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
+        List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+        /*
 		long startTime = System.currentTimeMillis();
 
-		population = geneticAlgorithm(10, 10, 10, 100);
-		sortPopulation(population);
-		ScoringFunctions.main(population.get(0));
+		population = geneticAlgorithm(students, projects, 30, 10, 10, 10);
+		ScoringFunctions.main(sortPopulation(population).get(0));
+
+        System.out.println("\n");
+		for(int i = 0; i < population.size(); i++){
+		    System.out.println(ScoringFunctions.scoreSolution(population.get(i)));
+        }
 
 		long endTime = System.currentTimeMillis();
 
 		System.out.println("Execution time : " + (endTime-startTime)/10000);
-	}
-	public void solve() {
+        */
+        population = genPopulation(30, students, projects);
+
+        for(int i = 0; i < population.size(); i++){
+            System.out.println(population.get(i).size());
+        }
 
 	}
 
-	public static List<ArrayList<Solution>> geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException {
-		genPopulation(popNumber);
+	public static List<ArrayList<Solution>> geneticAlgorithm(List<Student> students, HashMap<String, Project> projects, int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException {
+		genPopulation(popNumber, students, projects);
 		for(int i = 0; i < numGenerations; i++){
-			sortPopulation(population);
+            System.out.println("Best:");
 			ScoringFunctions.main(population.get(0));
-			cullPopulation(cullPercentage, population);
+            System.out.println("\n");
+			cullPopulation(cullPercentage, sortPopulation(population));
 			for (int j = 0; j < (int) (popNumber*cullPercentage*0.01); j++) {
 				population.add((ArrayList<Solution>) mate(popNumber, matePercentage));
 			}
@@ -37,15 +54,18 @@ public class GeneticAlgorithm implements Solver{
 		return population;
 	}
 
-	private static void genPopulation(int popNumber) throws IOException {
+	private static List<ArrayList<Solution>> genPopulation(int popNumber, List<Student> students, HashMap<String, Project> projects) throws IOException {
 		for(int i = 0; i < popNumber; i++){
+            List<Student> s = students;
+            HashMap<String, Project> p = projects;
 			List<Solution> solutions;
-			solutions = GenerateSolution.genSolution(new ArrayList<>());
+			solutions = GenerateSolution.genSolution(new ArrayList<>(), s, p);
 			population.add((ArrayList<Solution>) solutions);
 		}
+		return population;
 	}
 
-	private static void sortPopulation(List<ArrayList<Solution>> population) {
+	private static List<ArrayList<Solution>> sortPopulation(List<ArrayList<Solution>> population) {
 		int n = population.size();
 		for(int i = 0; i < n-1; i++){
 			for(int j = 0; j < n-i-1; j++){
@@ -54,11 +74,15 @@ public class GeneticAlgorithm implements Solver{
 				}
 			}
 		}
+		return population;
 	}
 
 	private static void cullPopulation(double percentage, List<ArrayList<Solution>> population){
 		int number = (int) Math.round((0.01 * percentage) * population.size());
+        System.out.println("\n");
+        System.out.println("Culled:");
 		for(int i = population.size() - number; i < population.size(); i++){
+            System.out.println(ScoringFunctions.scoreSolution(population.get(i)));
 			population.remove(i);
 		}
 	}
@@ -108,7 +132,7 @@ public class GeneticAlgorithm implements Solver{
 		return child;
 	}
 
-	private static double getSolutionScore(Solution solution){
+	static double getSolutionScore(Solution solution){
 		int j = 10;
 		for(int i = 0; i < solution.getStudent().getPreferences().size(); i++){
 			if(solution.getProject().getTitle().equals(solution.getStudent().getPreference(i))){
@@ -249,4 +273,6 @@ public class GeneticAlgorithm implements Solver{
 			return "error in method getSolutionScore";
 		}
 	}
+
+
 }

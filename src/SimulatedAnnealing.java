@@ -8,15 +8,15 @@ import java.util.Random;
 
 public class SimulatedAnnealing implements Solver{
     public static void main(String[] args) throws IOException {
-        simulatedAnnealing();
+        //simulatedAnnealing();
 
     }
     public void solve() throws IOException {
-        simulatedAnnealing();
+        //simulatedAnnealing();
     }
 
     //method for performing Simulated Annealing
-
+/*
     private static void simulatedAnnealing() throws IOException {
         int check = 0;
         List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
@@ -82,4 +82,6 @@ public class SimulatedAnnealing implements Solver{
             return "error in method boltzmann";
         }
     }
+
+ */
 }

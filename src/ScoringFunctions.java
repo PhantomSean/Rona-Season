@@ -3,12 +3,13 @@ import Classes.Solution;
 import Classes.Student;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 public class ScoringFunctions {
     private static int[] prefs = new int[11];
-
+    private static HashMap<String, Project> projects;
     static void main(List<Solution> solutions){
         analyse(solutions);
         double energy = scoreSolution(solutions);
@@ -115,7 +116,7 @@ public class ScoringFunctions {
                         temp.get(random).getProject().setTaken(false);                                                                           //then a random student who had the project on their
                         temp.get(0).getStudent().setPrefGotten(0);                                                                               //list gets it
                         solutions.get(returnNumber(solutions, temp.get(random))).setProject(temp.get(0).getProject());
-                        solutions.get(returnNumber(solutions, temp.get(0))).setProject(GenerateSolution.giveRandomProject(temp.get(0).getStudent().getStream()));
+                        solutions.get(returnNumber(solutions, temp.get(0))).setProject(GenerateSolution.giveRandomProject(temp.get(0).getStudent().getStream(), projects));
                         solutions.get(returnNumber(solutions, temp.get(0))).getProject().setTaken(true);
                         temp.clear();
                     }

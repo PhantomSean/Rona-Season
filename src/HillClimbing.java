@@ -4,16 +4,20 @@ import Classes.Student;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HillClimbing {
 
     public static void main(String[] args) throws IOException {
-        List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
+        HashMap<String, Project> projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
+        List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+
+        List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>(), students, projects);
         ScoringFunctions.main(solutions);
 
         for(int i = 0; i < 100; i++) {
-            solutions = acceptance(solutions, change(solutions));
+            solutions = acceptance(solutions, change(solutions, projects));
         }
         ScoringFunctions.main(solutions);
 
@@ -32,7 +36,7 @@ public class HillClimbing {
 
 
     // Makes a change to the current solution by swapping the preference of a person that got a randomly assigned project
-    static List<Solution> change(List<Solution> solutions) {
+    static List<Solution> change(List<Solution> solutions, HashMap<String, Project> projects) {
         //GPA Importance to do after
         double GPAImportance = 3.3;
 
@@ -53,7 +57,7 @@ public class HillClimbing {
                     Project tmpProject = findProjectByTitle(solutions, tempSols.get(0).getStudent().getPreference(j));
                     solutions.get(tmpOne).getProject().setTaken(false);                                       //swapping the projects
                     solutions.get(tmpOne).setProject(tmpProject);
-                    solutions.get(tmpTwo).setProject(GenerateSolution.giveRandomProject(solutions.get(tmpTwo).getStudent().getStream()));
+                    solutions.get(tmpTwo).setProject(GenerateSolution.giveRandomProject(solutions.get(tmpTwo).getStudent().getStream(), projects));
                     double score_mult = 0.75;
                     solutions.get(tmpOne).setScore(Math.pow(score_mult, 10 - j));                             //assigning new scores
                     solutions.get(tmpTwo).setScore(Math.pow(score_mult, 0));
@@ -162,4 +166,6 @@ public class HillClimbing {
             return "error in method findProjectbyTitle";
         }
     }
+
+
 }

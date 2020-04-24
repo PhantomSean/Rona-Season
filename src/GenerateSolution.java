@@ -15,11 +15,9 @@ public class GenerateSolution {
 
     private static double score_mult = 0.75;
 
-    static List<Solution> genSolution(List<Student> changes) throws IOException {
+    static List<Solution> genSolution(List<Student> changes, List<Student> students, HashMap<String, Project> projects) throws IOException {
         // NB! change value within rounded brackets to test the other data sets
         solutions = new ArrayList<>();
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
-        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
 
         // For giving students their first preference when coming from the hillClimbing class
         for (Student change : changes) {
@@ -39,13 +37,13 @@ public class GenerateSolution {
         for(int i = 0; i < 10; i++){
             if(i == 0)
                 assignSelfSpecified(students);
-            assignUnique(students, i);
-            assignByGPA(students, i);
+            assignUnique(students, projects, i);
+            assignByGPA(students, projects, i);
         }
 
         for (Student student : students) {
             if (!student.hasProject()) {
-                Solution sol = new Solution(student, giveRandomProject(student.getStream()), Math.pow(score_mult, 0));
+                Solution sol = new Solution(student, giveRandomProject(student.getStream(), projects), Math.pow(score_mult, 0));
                 student.setPrefGotten(0);
                 student.setHasProject(true);
                 solutions.add(sol);
@@ -58,7 +56,7 @@ public class GenerateSolution {
     }
 
     //method which assigns preferences based on students GPA
-    private static void assignByGPA(List<Student> students, int preference) {
+    private static void assignByGPA(List<Student> students, HashMap<String, Project> projects, int preference) {
         int tmp;
         List<Student> temp = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
@@ -105,16 +103,16 @@ public class GenerateSolution {
     }
 
     //gives random project to student while taking students stream into account
-    static Project giveRandomProject(String studentStream) {
-        Project project = genProject(studentStream);
+    static Project giveRandomProject(String studentStream, HashMap<String, Project> projects) {
+        Project project = genProject(studentStream, projects);
         while(project.isTaken()){
-            project = genProject(studentStream);
+            project = genProject(studentStream, projects);
         }
         project.setTaken(true);
         return project;
     }
     //generates a random project
-	private static Project genProject(String studentStream) {
+	private static Project genProject(String studentStream, HashMap<String, Project> projects) {
         Random generator = new Random();
         Object[] values = projects.values().toArray();
         Project project = (Project) values[generator.nextInt(values.length)];
@@ -126,7 +124,7 @@ public class GenerateSolution {
 	}
 
 	//method that if a student has a unique project choice as a preference, assigns the project to the student
-    private static void assignUnique(List<Student> students, int preference) {
+    private static void assignUnique(List<Student> students, HashMap<String, Project> projects, int preference) {
         int check;
         for (int i = 0; i < students.size(); i++) {
             check = 0;
