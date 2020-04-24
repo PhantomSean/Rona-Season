@@ -15,9 +15,13 @@ public class GeneticAlgorithm implements Solver{
 		long startTime = System.currentTimeMillis();
 		projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
 		students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
-		population = geneticAlgorithm(100, 10, 10, 10);
+		population = geneticAlgorithm(100, 10, 10, 100);
 		sortPopulation(population);
-		ScoringFunctions.main(population.get(0));
+
+		for (ArrayList<Solution> solutions : population)
+			ScoringFunctions.main(solutions);
+
+//		ScoringFunctions.main(population.get(0));
 
 		long endTime = System.currentTimeMillis();
 
@@ -30,9 +34,13 @@ public class GeneticAlgorithm implements Solver{
 
 	public static List<ArrayList<Solution>> geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException {
 		genPopulation(popNumber);
+		sortPopulation(population);
+		for (ArrayList<Solution> solutions : population)
+			ScoringFunctions.main(solutions);
+		System.out.println("\n---------------------------------------------------------------\n");
 		for(int i = 0; i < numGenerations; i++){
 			sortPopulation(population);
-			ScoringFunctions.main(population.get(0));
+//			ScoringFunctions.main(population.get(0));
 			cullPopulation(cullPercentage, population);
 			for (int j = 0; j < (int) (popNumber*cullPercentage*0.01); j++) {
 				population.add((ArrayList<Solution>) mate(popNumber, matePercentage));
