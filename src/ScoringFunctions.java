@@ -197,10 +197,7 @@ public class ScoringFunctions {
                 score = Math.pow(score_mult, 11 - value.getStudent().getPrefGotten());
             value.setScore(score);
         }
-        for(Solution solution : solutions){
-            total += solution.getScore();
-        }
-        total = 0;
+
         addPenalties(solutions);
 
         for(Solution solution : solutions){
