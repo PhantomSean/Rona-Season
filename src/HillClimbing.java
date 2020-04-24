@@ -4,12 +4,18 @@ import Classes.Student;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HillClimbing {
+    private  static HashMap<String, Project> projects;
+    private static List<Student> students;
 
     public static void main(String[] args) throws IOException {
-        List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
+        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
+        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+
+        List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
         ScoringFunctions.main(solutions);
 
         for(int i = 0; i < 100; i++) {

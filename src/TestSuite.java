@@ -16,7 +16,7 @@ public class TestSuite {
         System.out.println("\n");
         System.out.println("Test Results from class GenerateSolution:");
         System.out.println(GenerateSolution.testGenGPA());
-        System.out.println(GenerateSolution.testCheckForOthers());
+//        System.out.println(GenerateSolution.testCheckForOthers());
         System.out.println("\n");
         System.out.println("Test Results from class HillClimbing:");
         System.out.println(HillClimbing.testFindProjectByTitle());

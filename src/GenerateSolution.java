@@ -2,28 +2,33 @@ import Classes.Project;
 import Classes.Solution;
 import Classes.Student;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GenerateSolution {
-    private static List<Solution> solutions = new ArrayList<>();
+    private static List<Solution> solutions;
     private static HashMap<String, Project> projects;
-    private static List<Student> students = new ArrayList<>();
+    private static List<Student> students;
 
     private static double score_mult = 0.75;
 
-    static List<Solution> genSolution(List<Student> changes) throws IOException {
+    static List<Solution> genSolution(HashMap<String, Project> projectsList, List<Student> studentsList, List<Student> changes) {
         // NB! change value within rounded brackets to test the other data sets
         solutions = new ArrayList<>();
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
-        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+        projects = projectsList;
+        students = studentsList;
+
+        for (Map.Entry<String, Project> project : projects.entrySet()){
+            project.getValue().setTaken(false);
+        }
+
+        for (Student student : students){
+            student.setHasProject(false);
+        }
+
 
         // For giving students their first preference when coming from the hillClimbing class
         for (Student change : changes) {
-            for(Student student : students) {
+            for(Student student : studentsList) {
                 if (student.getStudentId() == change.getStudentId() && !student.hasProject() && !projects.get(student.getPreference(0)).isTaken()) {
                     projects.get(student.getPreference(0)).setTaken(true);
                     student.setHasProject(true);
@@ -38,12 +43,12 @@ public class GenerateSolution {
 
         for(int i = 0; i < 10; i++){
             if(i == 0)
-                assignSelfSpecified(students);
-            assignUnique(students, i);
-            assignByGPA(students, i);
+                assignSelfSpecified();
+            assignUnique(i);
+            assignByGPA(i);
         }
 
-        for (Student student : students) {
+        for (Student student : studentsList) {
             if (!student.hasProject()) {
                 Solution sol = new Solution(student, giveRandomProject(student.getStream()), Math.pow(score_mult, 0));
                 student.setPrefGotten(0);
@@ -52,18 +57,17 @@ public class GenerateSolution {
             }
 
         }
-
         return solutions;
 
     }
 
     //method which assigns preferences based on students GPA
-    private static void assignByGPA(List<Student> students, int preference) {
+    private static void assignByGPA(int preference) {
         int tmp;
         List<Student> temp = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
             //goes through all students and if multiple students have the same project at the same preference adds them to the List temp
-            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(students, preference, i, students.get(i).getPreference(preference))) {
+            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(preference, i, students.get(i).getPreference(preference))) {
                 temp.add(students.get(i));
                 tmp = i + 1;
 
@@ -94,7 +98,7 @@ public class GenerateSolution {
 
 
     //method which checks if there are other students with the same project as same preference, returns a boolean
-    private static boolean checkForOthers(List<Student> students, int pref, int n, String project){
+    private static boolean checkForOthers(int pref, int n, String project){
         n++;
         for(int i = n; i < students.size(); i++){
             if(students.get(i).getPreference(pref).equals(project)){
@@ -126,7 +130,7 @@ public class GenerateSolution {
 	}
 
 	//method that if a student has a unique project choice as a preference, assigns the project to the student
-    private static void assignUnique(List<Student> students, int preference) {
+    private static void assignUnique(int preference) {
         int check;
         for (int i = 0; i < students.size(); i++) {
             check = 0;
@@ -148,7 +152,7 @@ public class GenerateSolution {
     }
 
     //method that if a student has a self specified project, the project is assigned
-    private static void assignSelfSpecified(List<Student> students) {
+    private static void assignSelfSpecified() {
         String title = "Self Specified Project";
         for (Student student : students) {
             if (!student.hasProject() && student.getPreference(0).equals(title)) {
@@ -181,21 +185,21 @@ public class GenerateSolution {
     }
 
     //method that tests the checkForOthers method
-    static String testCheckForOthers(){
-        List<String> testPreferences = new ArrayList<>();
-        List<Student> testStudents = new ArrayList<>();
-        testPreferences.add("test");
-        testPreferences.add("z");
-        testPreferences.add("x");
-        testPreferences.add("y");
-
-        testStudents.add(new Student("check", "CS", 0, testPreferences, false, 0, 4.0));
-        testStudents.add(new Student("chuck", "DS", 1, testPreferences, false, 0, 1.0));
-
-        if(checkForOthers(testStudents, 0, 0, "test")){
-            return "checkForOthers method is working";
-        }else{
-            return "error in method checkForOthers";
-        }
-    }
+//    static String testCheckForOthers(){
+//        List<String> testPreferences = new ArrayList<>();
+//        List<Student> testStudents = new ArrayList<>();
+//        testPreferences.add("test");
+//        testPreferences.add("z");
+//        testPreferences.add("x");
+//        testPreferences.add("y");
+//
+//        testStudents.add(new Student("check", "CS", 0, testPreferences, false, 0, 4.0));
+//        testStudents.add(new Student("chuck", "DS", 1, testPreferences, false, 0, 1.0));
+//
+//        if(checkForOthers(testStudents, 0, 0, "test")){
+//            return "checkForOthers method is working";
+//        }else{
+//            return "error in method checkForOthers";
+//        }
+//    }
 }

@@ -8,17 +8,21 @@ import java.util.*;
 public class GeneticAlgorithm implements Solver{
 
 	private static List<ArrayList<Solution>> population = new ArrayList<>();
+	private  static HashMap<String, Project> projects;
+	private static List<Student> students;
 
 	public static void main(String[] args) throws IOException {
 		long startTime = System.currentTimeMillis();
-
-		population = geneticAlgorithm(10, 10, 10, 100);
+		projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
+		students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+		population = geneticAlgorithm(100, 10, 10, 10);
 		sortPopulation(population);
 		ScoringFunctions.main(population.get(0));
 
 		long endTime = System.currentTimeMillis();
 
 		System.out.println("Execution time : " + (endTime-startTime)/10000);
+
 	}
 	public void solve() {
 
@@ -40,7 +44,7 @@ public class GeneticAlgorithm implements Solver{
 	private static void genPopulation(int popNumber) throws IOException {
 		for(int i = 0; i < popNumber; i++){
 			List<Solution> solutions;
-			solutions = GenerateSolution.genSolution(new ArrayList<>());
+			solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
 			population.add((ArrayList<Solution>) solutions);
 		}
 	}
