@@ -1,25 +1,33 @@
+import Classes.Project;
 import Classes.Solution;
+import Classes.Student;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 
 public class SimulatedAnnealing implements Solver{
+    private  static HashMap<String, Project> projects;
+    private static List<Student> students;
+
     public static void main(String[] args) throws IOException {
-        //simulatedAnnealing();
+        simulatedAnnealing();
 
     }
     public void solve() throws IOException {
-        //simulatedAnnealing();
+        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
+        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+        simulatedAnnealing();
     }
 
     //method for performing Simulated Annealing
-/*
+
     private static void simulatedAnnealing() throws IOException {
         int check = 0;
-        List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>());
+        List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
         //analysing the solution before the Simulated Annealing has been performed
         ScoringFunctions.main(solutions);
         //temperature starts at the size of the list of solutions multiplied by 1.7
@@ -82,6 +90,4 @@ public class SimulatedAnnealing implements Solver{
             return "error in method boltzmann";
         }
     }
-
- */
 }

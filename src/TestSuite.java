@@ -6,7 +6,6 @@ public class TestSuite {
     }
     //method for calling all the test methods
     private static void testSuite() throws IOException {
-        /*
         System.out.println("\n");
         System.out.println("Test Results from class ScoringFunctions:");
         System.out.println(ScoringFunctions.testCheckForPref());
@@ -17,7 +16,7 @@ public class TestSuite {
         System.out.println("\n");
         System.out.println("Test Results from class GenerateSolution:");
         System.out.println(GenerateSolution.testGenGPA());
-        System.out.println(GenerateSolution.testCheckForOthers());
+//        System.out.println(GenerateSolution.testCheckForOthers());
         System.out.println("\n");
         System.out.println("Test Results from class HillClimbing:");
         System.out.println(HillClimbing.testFindProjectByTitle());
@@ -37,6 +36,6 @@ public class TestSuite {
         System.out.println(GeneticAlgorithm.testGetSolutionScore());
 //        System.out.println(GeneticAlgorithm.testGetParent());
         System.out.println("\n");
-    */
+
     }
 }

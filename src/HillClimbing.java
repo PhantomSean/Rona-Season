@@ -8,16 +8,18 @@ import java.util.HashMap;
 import java.util.List;
 
 public class HillClimbing {
+    private  static HashMap<String, Project> projects;
+    private static List<Student> students;
 
     public static void main(String[] args) throws IOException {
-        HashMap<String, Project> projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
-        List<Student> students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
+        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
 
-        List<Solution> solutions = GenerateSolution.genSolution(new ArrayList<>(), students, projects);
+        List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
         ScoringFunctions.main(solutions);
 
         for(int i = 0; i < 100; i++) {
-            solutions = acceptance(solutions, change(solutions, projects));
+            solutions = acceptance(solutions, change(solutions));
         }
         ScoringFunctions.main(solutions);
 
@@ -36,7 +38,7 @@ public class HillClimbing {
 
 
     // Makes a change to the current solution by swapping the preference of a person that got a randomly assigned project
-    static List<Solution> change(List<Solution> solutions, HashMap<String, Project> projects) {
+    static List<Solution> change(List<Solution> solutions) {
         //GPA Importance to do after
         double GPAImportance = 3.3;
 
@@ -57,7 +59,7 @@ public class HillClimbing {
                     Project tmpProject = findProjectByTitle(solutions, tempSols.get(0).getStudent().getPreference(j));
                     solutions.get(tmpOne).getProject().setTaken(false);                                       //swapping the projects
                     solutions.get(tmpOne).setProject(tmpProject);
-                    solutions.get(tmpTwo).setProject(GenerateSolution.giveRandomProject(solutions.get(tmpTwo).getStudent().getStream(), projects));
+                    solutions.get(tmpTwo).setProject(GenerateSolution.giveRandomProject(solutions.get(tmpTwo).getStudent().getStream()));
                     double score_mult = 0.75;
                     solutions.get(tmpOne).setScore(Math.pow(score_mult, 10 - j));                             //assigning new scores
                     solutions.get(tmpTwo).setScore(Math.pow(score_mult, 0));
@@ -66,7 +68,7 @@ public class HillClimbing {
                     break;
                 }
             }
-         }
+        }
         tempSols.clear();
         return solutions;
     }
@@ -88,7 +90,7 @@ public class HillClimbing {
         }
         return 0;
     }
-    
+
     private static Project findProjectByTitle(List<Solution> solutions, String project){
         for (Solution solution : solutions) {
             if (project.equals(solution.getProjectTitle())) {
@@ -166,6 +168,4 @@ public class HillClimbing {
             return "error in method findProjectbyTitle";
         }
     }
-
-
 }
