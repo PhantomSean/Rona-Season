@@ -2,7 +2,6 @@ import Classes.Project;
 import Classes.Solution;
 import Classes.Student;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -32,14 +31,14 @@ public class ScoringFunctions {
 
                 if(solutions.get(i).getStudentName().equals(solutions.get(j).getStudentName())) {
                     solutions.get(i).addToScore(penalty);
-                    System.out.println("Dupe : "+solutions.get(i).getStudentName());
-                    System.out.println("Dupe : "+solutions.get(j).getStudentName());
+//                    System.out.println("Dupe : "+solutions.get(i).getStudentName());
+//                    System.out.println("Dupe : "+solutions.get(j).getStudentName());
 
                 }
                 if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle()) &&
                 !solutions.get(i).getProjectTitle().equals("Self Specified")) {
                     solutions.get(i).addToScore(penalty);
-                    System.out.println("Dupe Project : "+solutions.get(i).getProjectTitle());
+//                    System.out.println("Dupe Project : "+solutions.get(i).getProjectTitle());
                 }
             }
         }
@@ -56,9 +55,9 @@ public class ScoringFunctions {
                     || studentStream.equals(projectStream)
                     || projectStream.contains(studentStream))){
                 solution.addToScore(penalty);
-                System.out.println("Student stream : "+studentStream +" not compatible with project stream : "+projectStream );
-                System.out.println("For student : "+solution.getStudent().getName() + " stream "+solution.getStudent().getStream());
-                System.out.println("Who is assigned : "+solution.getProject().getTitle() +" for stream : "+solution.getProject().getStream());
+//                System.out.println("Student stream : "+studentStream +" not compatible with project stream : "+projectStream );
+//                System.out.println("For student : "+solution.getStudent().getName() + " stream "+solution.getStudent().getStream());
+//                System.out.println("Who is assigned : "+solution.getProject().getTitle() +" for stream : "+solution.getProject().getStream());
             }
         }
     }
