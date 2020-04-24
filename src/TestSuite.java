@@ -16,7 +16,6 @@ public class TestSuite {
         System.out.println("\n");
         System.out.println("Test Results from class GenerateSolution:");
         System.out.println(GenerateSolution.testGenGPA());
-//        System.out.println(GenerateSolution.testCheckForOthers());
         System.out.println("\n");
         System.out.println("Test Results from class HillClimbing:");
         System.out.println(HillClimbing.testFindProjectByTitle());
@@ -28,14 +27,8 @@ public class TestSuite {
         System.out.println(SimulatedAnnealing.testBoltzmann());
         System.out.println("\n");
         System.out.println("Test Results from class GeneticAlgorithm:");
-//        System.out.println(GeneticAlgorithm.testGenPopulation());
-//        System.out.println(GeneticAlgorithm.testSortPopulation());
-//        System.out.println(GeneticAlgorithm.testCullPopulation());
-//        System.out.println(GeneticAlgorithm.testMate());
         System.out.println(GeneticAlgorithm.testMutate());
         System.out.println(GeneticAlgorithm.testGetSolutionScore());
-//        System.out.println(GeneticAlgorithm.testGetParent());
         System.out.println("\n");
-
     }
 }

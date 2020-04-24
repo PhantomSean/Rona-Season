@@ -2,6 +2,7 @@ import Classes.Project;
 import Classes.Solution;
 import Classes.Student;
 
+import java.io.IOException;
 import java.util.*;
 
 public class GenerateSolution {
@@ -57,6 +58,7 @@ public class GenerateSolution {
             }
 
         }
+
         return solutions;
 
     }
@@ -97,13 +99,13 @@ public class GenerateSolution {
                             temp.remove(0);
                         }
                     }
-                        //creates a new solution, calculates the score and stores the solution
-                        Solution s = new Solution(temp.get(0), projects.get(temp.get(0).getPreference(preference)), Math.pow(score_mult, 10-preference));
-                        temp.get(0).setHasProject(true);
-                        temp.get(0).setPrefGotten(preference + 1);
-                        projects.get(temp.get(0).getPreference(preference)).setTaken(true);
-                        solutions.add(s);
-                        temp.clear();
+                    //creates a new solution, calculates the score and stores the solution
+                    Solution s = new Solution(temp.get(0), projects.get(temp.get(0).getPreference(preference)), Math.pow(score_mult, 10-preference));
+                    temp.get(0).setHasProject(true);
+                    temp.get(0).setPrefGotten(preference + 1);
+                    projects.get(temp.get(0).getPreference(preference)).setTaken(true);
+                    solutions.add(s);
+                    temp.clear();
                 }
             }
         }
@@ -131,7 +133,7 @@ public class GenerateSolution {
         return project;
     }
     //generates a random project
-	private static Project genProject(String studentStream) {
+    private static Project genProject(String studentStream) {
         Random generator = new Random();
         Object[] values = projects.values().toArray();
         Project project = (Project) values[generator.nextInt(values.length)];
@@ -139,10 +141,10 @@ public class GenerateSolution {
             values = projects.values().toArray();
             project = (Project) values[generator.nextInt(values.length)];
         }
-		return project;
-	}
+        return project;
+    }
 
-	//method that if a student has a unique project choice as a preference, assigns the project to the student
+    //method that if a student has a unique project choice as a preference, assigns the project to the student
     private static void assignUnique(int preference) {
         int check;
         for (int i = 0; i < students.size(); i++) {

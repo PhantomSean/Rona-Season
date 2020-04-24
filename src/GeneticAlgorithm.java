@@ -7,89 +7,102 @@ import java.util.*;
 
 public class GeneticAlgorithm implements Solver{
 
-	private static List<ArrayList<Solution>> population = new ArrayList<>();
-	private  static HashMap<String, Project> projects;
-	private static List<Student> students;
+    private static List<ArrayList<Solution>> population = new ArrayList<>();
+    private  static HashMap<String, Project> projects;
+    private static List<Student> students;
+    private static List<Solution> temp;
 
-	public static void main(String[] args) throws IOException {
-		long startTime = System.currentTimeMillis();
-		projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
-		students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
-		population = geneticAlgorithm(1000, 10, 5, 100);
-		sortPopulation(population);
+    public static void main(String[] args) throws IOException {
+        long startTime = System.currentTimeMillis();            //starting the timer
+        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");             //populating projects HashMap and students List
+        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+        //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
+        population = geneticAlgorithm(100, 10, 10, 100);
+        sortPopulation(population);             //sorting the finalized list of solutions
+		ScoringFunctions.main(population.get(0));           //Analysing the most optimal solution found
 
-//		for (ArrayList<Solution> solutions : population)
-//			ScoringFunctions.main(solutions);
+        long endTime = System.currentTimeMillis();
+        //Stating the time took to complete
+        System.out.println("Execution time : " + (endTime-startTime)/1000 + " seconds");
+        System.out.println("\n");
+    }
+    public void solve() {
 
-		ScoringFunctions.main(population.get(0));
+    }
 
-		long endTime = System.currentTimeMillis();
+    //method for performing the genetic algorithm
+    public static List<ArrayList<Solution>> geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException {
+        int check = 0;
+        genPopulation(popNumber);           //generating and sorting the population
+        sortPopulation(population);
+        System.out.println("\n---------------------------------------------------------------\n");
+        for(int i = 0; i < numGenerations; i++){        //Each generation is sorted and then culled
+            sortPopulation(population);
+            cullPopulation(cullPercentage, population);
+            for (int j = 0; j < (int) (popNumber*cullPercentage*0.01); j++) {               //mating is performed with the amount of new solutions produced during mating
+                population.add((ArrayList<Solution>) mate(popNumber, matePercentage));      //matching the amount that was culled
+            }
+            sortPopulation(population);
+            System.out.println("\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0))+"\n");         //printing the best score of the generation
+            if((ScoringFunctions.scoreSolution(population.get(0)) < 25) && (ScoringFunctions.scoreSolution(population.get(0)) == ScoringFunctions.scoreSolution(temp))){        //if the score is underneath 25 and the best score
+                check++;                                                                                                                                                        //is the same as the last generation, then check is incremented
+            }else{                                                                                                                                                              //otherwise check is reset
+                check = 0;
+            }
+            if(check == 5){                         //if check reaches 5 then the current population is judged as the best and is returned
+                return population;                  //to ensure that the runtime is not longer than it needs to be
+            }
+            temp = population.get(0);
+        }
+        return population;
+    }
 
-		System.out.println("Execution time : " + (endTime-startTime)/60000);
+    //method for generating the population
+    private static List<ArrayList<Solution>> genPopulation(int popNumber) throws IOException {
+        for(int i = 0; i < popNumber; i++){
+            List<Solution> solutions;
+            solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
+            population.add((ArrayList<Solution>) solutions);
+        }
+        return population;
+    }
 
-	}
-	public void solve() {
+    //method for sorting the population
+    private static void sortPopulation(List<ArrayList<Solution>> population) {
+        int n = population.size();                                              //We decided to use bubbleSort
+        for(int i = 0; i < n-1; i++){
+            for(int j = 0; j < n-i-1; j++){
+                if(ScoringFunctions.scoreSolution(population.get(j)) > ScoringFunctions.scoreSolution(population.get(j+1))){
+                    Collections.swap(population, j, j+1);                       //swapping the solution sets if the score of solution j is greater than the score of solution j+1
+                }
+            }
+        }
+    }
 
-	}
+    //method for culling the population
+    private static void cullPopulation(double percentage, List<ArrayList<Solution>> population){
+        int number = (int) Math.round((0.01 * percentage) * population.size());         //takes in the percentage to be culled and the sorted population
+        for(int i = population.size() - number; i < population.size(); i++){             //removes the bottom x% of the population
+            population.remove(i);
+        }
+    }
 
-	public static List<ArrayList<Solution>> geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException {
-		genPopulation(popNumber);
-//		sortPopulation(population);
-//		for (ArrayList<Solution> solutions : population)
-//			ScoringFunctions.main(solutions);
-//		System.out.println("\n---------------------------------------------------------------\n");
-		for(int i = 0; i < numGenerations; i++){
-			sortPopulation(population);
-			System.out.println("Generation " + i+1);
-//			ScoringFunctions.main(population.get(0));
-			cullPopulation(cullPercentage, population);
-			for (int j = 0; j < (int) (popNumber*cullPercentage*0.01); j++) {
-				population.add((ArrayList<Solution>) mate(popNumber, matePercentage));
-			}
-		}
-		return population;
-	}
+    //method for randomly choosing a parent to mate
+    private static List<Solution> getParent(int popNumber, double matingPercentage) {
+        double poolSample = new Random().nextDouble();
 
-	private static void genPopulation(int popNumber) throws IOException {
-		for(int i = 0; i < popNumber; i++){
-			List<Solution> solutions;
-			solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
-			population.add((ArrayList<Solution>) solutions);
-		}
-	}
+        int matingPool = (int) (popNumber*matingPercentage*0.01);
+        int parentId;
 
-	private static void sortPopulation(List<ArrayList<Solution>> population) {
-		int n = population.size();
-		for(int i = 0; i < n-1; i++){
-			for(int j = 0; j < n-i-1; j++){
-				if(ScoringFunctions.scoreSolution(population.get(j)) > ScoringFunctions.scoreSolution(population.get(j+1))){
-					Collections.swap(population, j, j+1);
-				}
-			}
-		}
-	}
+        if (poolSample < 0.9)                                                                  //there is a 90% chance that the parent chosen will be part of the percentage chosen to mate
+            parentId = new Random().nextInt(matingPool);                                       //otherwise a completely random parent is chosen
+        else
+            parentId = new Random().nextInt(population.size()-matingPool) + matingPool;
 
-	private static void cullPopulation(double percentage, List<ArrayList<Solution>> population){
-		int number = (int) Math.round((0.01 * percentage) * population.size());
-		for(int i = population.size() - number; i < population.size(); i++){
-			population.remove(i);
-		}
-	}
+        return population.get(parentId);
+    }
 
-	public static List<Solution> getParent(int popNumber, double matingPercentage) {
-		double poolSample = new Random().nextDouble();
-
-		int matingPool = (int) (popNumber*matingPercentage*0.01);
-		int parentId;
-
-		if (poolSample < 0.9)
-			parentId = new Random().nextInt(matingPool);
-		else
-			parentId = new Random().nextInt(population.size()-matingPool) + matingPool;
-
-		return population.get(parentId);
-	}
-
+	//method for mating two parents
 	public static List<Solution> mate(int popNumber, double matingPercentage) {
 		List<Solution> parentOne = getParent(popNumber, matingPercentage);
 		List<Solution> parentTwo = getParent(popNumber, matingPercentage);
@@ -117,147 +130,78 @@ public class GeneticAlgorithm implements Solver{
 		return child;
 	}
 
-	private static double getSolutionScore(Solution solution){
-		int j = 10;
-		for(int i = 0; i < solution.getStudent().getPreferences().size(); i++){
-			if(solution.getProject().getTitle().equals(solution.getStudent().getPreference(i))){
-				j = i;
-				solution.getStudent().setPrefGotten(i);
-			}
-		}
-		double score_mult = 0.75;
-		return Math.pow(score_mult, 10 - j);
-	}
+    //method that calculates a solutions score in case of mutation
+    private static double getSolutionScore(Solution solution){
+        int j = 10;
+        for(int i = 0; i < solution.getStudent().getPreferences().size(); i++){                        //Goes through the students preferences and if one of them equals the project given
+            if(solution.getProject().getTitle().equals(solution.getStudent().getPreference(i))){       //then sets the students prefGotten accordingly
+                j = i;
+                solution.getStudent().setPrefGotten(i);
+            }
+        }
+        double score_mult = 0.75;
+        return Math.pow(score_mult, 10 - j);            //calculating the solutions score
+    }
 
+	//method for assigning a project to mutation
 	private static Project mutate(List<Solution> parent1, List<Solution> parent2){
 		Collection<Project> projectsCollection = projects.values();
 		ArrayList<Project> projects = new ArrayList<>(projectsCollection);
-
-
 		List<Project> unassignedProjects = new ArrayList<>(projects);
 
 		for(int i=0; i<parent1.size(); i++){
-
 			if (projects.contains(parent1.get(i).getProject()))
 				unassignedProjects.remove(parent1.get(i).getProject());
 			if (projects.contains(parent2.get(i).getProject()))
 				unassignedProjects.remove(parent2.get(i).getProject());
-
 		}
 		Random rand = new Random();
-
 		return unassignedProjects.get(rand.nextInt(unassignedProjects.size()));
 	}
 
 //----------------------------------------------------------------------------------------------------------------------------------//
-	//TEST METHODS
+    //TEST METHODS
 
-	//method to test genPopulation
-//	static String testGenPopulation() throws IOException {
-//		int popNumber = 3;
-//		List<ArrayList<Solution>> testPopulation = genPopulation(3);
-//		if(testPopulation.size() == popNumber){
-//			return "genPopulation method is working";
-//		}else{
-//			return "error in method genPopulation";
-//		}
-//	}
+    //method to test the mutate method
+    static String testMutate(){
+        List<Solution> parent1 = new ArrayList<>();
+        List<Solution> parent2 = new ArrayList<>();
 
-	//method to test sortPopulation
-//	static String testSortPopulation() throws IOException {
-//		int check = 0;
-//		List<ArrayList<Solution>> testPopulation = sortPopulation(genPopulation(3));
-//		for(int i = 0; i < testPopulation.size() - 1; i++){
-//			if(ScoringFunctions.scoreSolution(testPopulation.get(i)) > ScoringFunctions.scoreSolution(testPopulation.get(i + 1))){
-//				check = 1;
-//			}
-//		}
-//		if(check == 0){
-//			return "sortPopulation method is working";
-//		}else{
-//			return "error in method sortPopulation";
-//		}
-//	}
+        Project one = new Project("One", "CS", "ME", false);
+        Project two = new Project("Two", "CS", "ME", false);
+        Project three = new Project("Three", "CS", "ME", false);
+        Project four = new Project("Four", "CS", "ME", false);
+        List<String> empty = new ArrayList<>();
 
-	//method to test cullPopulation
-//	static String testCullPopulation() throws IOException {
-//		int check = 0;
-//		List<ArrayList<Solution>> testPopulation = sortPopulation(genPopulation(3));
-//		double temp = ScoringFunctions.scoreSolution(testPopulation.get(2));
-//		testPopulation = cullPopulation(33, testPopulation);
-//		for (ArrayList<Solution> solutions : testPopulation) {
-//			if (ScoringFunctions.scoreSolution(solutions) == temp) {
-//				check = 1;
-//			}
-//		}
-//		if(check == 0){
-//			return "cullPopulation method is working";
-//		}else{
-//			return "error in method cullPopulation";
-//		}
-//	}
+        Student me = new Student("ME", "CS", 0, empty, true, 0, 4.0);
 
-//	static String testMate() throws IOException {
-//		List<Solution> parentOne = GenerateSolution.genSolution(new ArrayList<>());
-//		List<Solution> parentTwo = GenerateSolution.genSolution(new ArrayList<>());
-//		List<Solution> child = mate(10,20);
-////		for (Solution solution : child) {
-////			System.out.println(solution.getStudentName() + " " + solution.getProjectTitle());
-////		}
-////		System.out.println(child.size());
-//		if (child.size() == parentOne.size())
-//			return "testMate method is working";
-//		else
-//			return "error in method mate";
-//	}
+        parent1.add(new Solution(me, one, 0));
+        parent2.add(new Solution(me, two, 0));
 
-	static String testMutate(){
-		List<Solution> parent1 = new ArrayList<>();
-		List<Solution> parent2 = new ArrayList<>();
+        List<Project> projects = new ArrayList<>();
 
-		Project one = new Project("One", "CS", "ME", false);
-		Project two = new Project("Two", "CS", "ME", false);
-		Project three = new Project("Three", "CS", "ME", false);
-		Project four = new Project("Four", "CS", "ME", false);
-		List<String> empty = new ArrayList<>();
-
-		Student me = new Student("ME", "CS", 0, empty, true, 0, 4.0);
-
-		parent1.add(new Solution(me, one, 0));
-		parent2.add(new Solution(me, two, 0));
-
-		List<Project> projects = new ArrayList<>();
-
-		projects.add(one);
-		projects.add(two);
-		projects.add(three);
-		projects.add(four);
+        projects.add(one);
+        projects.add(two);
+        projects.add(three);
+        projects.add(four);
 
 		Project test = mutate(parent1, parent2);
 
-		if (test.getTitle().equals("Three") || test.getTitle().equals("Four"))
-			return "Mutate method working";
-		else
-			return "Mutate method not working";
-	}
+        if (test.getTitle().equals("Three") || test.getTitle().equals("Four"))
+            return "Mutate method working";
+        else
+            return "Mutate method not working";
+    }
 
-	// Test for getParent
-//	static  String testGetParent() throws IOException {
-//		population = genPopulation(10);
-//		List<Solution> parent = getParent(10,20);
-//		for (Solution solution : parent)
-//			System.out.println(solution.getStudentName() + " " + solution.getProjectTitle());
-//		return "testGetParent working";
-//	}
-
-	static String testGetSolutionScore(){
-		List<String> empty = new ArrayList<>();
-		empty.add("testProject");
-		Solution sol = new Solution(new Student("test", "CS", 1, empty, true, 1, 4.2), new Project("testProject", "CS","x", true), 0);
-		if(Math.abs(getSolutionScore(sol) - 0.056313514) < 1e-4){
-			return "getSolutionScore method is working";
-		}else{
-			return "error in method getSolutionScore";
-		}
-	}
+    //method to test the getSolutionScore method
+    static String testGetSolutionScore(){
+        List<String> empty = new ArrayList<>();
+        empty.add("testProject");
+        Solution sol = new Solution(new Student("test", "CS", 1, empty, true, 1, 4.2), new Project("testProject", "CS","x", true), 0);
+        if(Math.abs(getSolutionScore(sol) - 0.056313514) < 1e-4){
+            return "getSolutionScore method is working";
+        }else{
+            return "error in method getSolutionScore";
+        }
+    }
 }

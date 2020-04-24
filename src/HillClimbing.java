@@ -68,7 +68,7 @@ public class HillClimbing {
                     break;
                 }
             }
-         }
+        }
         tempSols.clear();
         return solutions;
     }
@@ -90,7 +90,7 @@ public class HillClimbing {
         }
         return 0;
     }
-    
+
     private static Project findProjectByTitle(List<Solution> solutions, String project){
         for (Solution solution : solutions) {
             if (project.equals(solution.getProjectTitle())) {

@@ -36,7 +36,7 @@ public class ScoringFunctions {
 
                 }
                 if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle()) &&
-                !solutions.get(i).getProjectTitle().equals("Self Specified")) {
+                        !solutions.get(i).getProjectTitle().equals("Self Specified")) {
                     solutions.get(i).addToScore(penalty);
 //                    System.out.println("Dupe Project : "+solutions.get(i).getProjectTitle());
                 }
@@ -45,7 +45,7 @@ public class ScoringFunctions {
     }
 
     private static void checkStream(List<Solution> solutions){
-    	int penalty = 100;
+        int penalty = 100;
 
         for (Solution solution : solutions) {
             String studentStream = solution.getStudent().getStream();
@@ -88,8 +88,7 @@ public class ScoringFunctions {
     }
 
 
-    private static void change(List<Solution> solutions){
-        System.out.println("\n\nCHANGING SOLUTION\n\n");
+    static void change(List<Solution> solutions){
         //making list for solutions which did not get a preference
         List<Solution> notGotPref = new ArrayList<>();
         List<Solution> temp = new ArrayList<>();
@@ -198,6 +197,7 @@ public class ScoringFunctions {
                 score = Math.pow(score_mult, 11 - value.getStudent().getPrefGotten());
             value.setScore(score);
         }
+
         addPenalties(solutions);
 
         for(Solution solution : solutions){
