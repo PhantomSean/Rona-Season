@@ -12,9 +12,15 @@ HOW TO RUN:
 -There is a solve class which can run the Simulated Annealing class and which will be used to run the Genetic Algorithm in future sprints
 
 APPROACH:
+We wanted to create a Genetic Algorithm that was both effective and also efficient. To do this we had to go through several design
+processes and methods. We started off by creating a method that generates the population and also methods for sorting and culling
+it. We decided to focus our energy on creating a mating function which would generate a child taking in genes from two parents.
+The genes would be roughly 50% from each parent and the parents would most likely be optimal solutions, with a small chance of a
+parent not being optimal to increase diversity. We then created a mutation method which would occur rarely during mating. The mutation
+would randomly assign a gene to the solution and increase diversity in the population. Lastly we decided to create a method which would
+store the information from the most optimal solution in the population following the algorithm in an excel file.
 
 METHODS ADDED:
-
 geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations)
 -This method takes in the population number, percentage to be mated, percentage to cull and the number of generations
 -and makes use of the below method to create a Genetic Algorithm. For each generation, mating and culling occur and the
