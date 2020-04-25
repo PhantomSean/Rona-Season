@@ -5,7 +5,7 @@ SPRINT 6:
 
 HOW TO RUN:
 -Select which data set is to be used when creating the students and staff Lists and projects Hashmap( Staff&Projects(60/120/240/500).xlsx and Students&Preferences(60/120/240/500).xlsx ) in whichever class you wish to run
--If you wish to find a solution using a Genetic Algorithm then run the GeneticAlgorithm class, also ensure to customize the parameters (population size, pecentage to cull, percentage to mate, number of generations) if you want to
+-If you wish to find a solution using a Genetic Algorithm then run the GeneticAlgorithm class, also ensure to customize the parameters (population size, percentage to cull, percentage to mate, number of generations) if you want to
 -If you wish to find a solution using Hill Climbing, run the HillClimbing class. If you wish to adjust how many times the Hill Climbing is performed, decrease/increase the number in the loop in main.
 -If you wish to find a solution using Simulated Annealing, run the Simulated Annealing class
 -If you wish to test the methods, run the TestSuite class
