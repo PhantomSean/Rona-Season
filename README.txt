@@ -1,14 +1,80 @@
 TEAM NAME: Rona Season
 CONTRIBUTORS: Sean Stewart, Oscar Byrne Carty, Caolán Power
 
-SPRINT 5:
+SPRINT 6:
 
 HOW TO RUN:
--Select which data set is to be used when creating the students and staff Lists and projects Hashmap( Staff&Projects(60/120/240/500).xlsx and Students&Preferences(60/120/240/500).xlsx ) in the GenerateSolution class
+-Select which data set is to be used when creating the students and staff Lists and projects Hashmap( Staff&Projects(60/120/240/500).xlsx and Students&Preferences(60/120/240/500).xlsx ) in whichever class you wish to run
+-If you wish to find a solution using a Genetic Algorithm then run the GeneticAlgorithm class, also ensure to customize the parameters (population size, percentage to cull, percentage to mate, number of generations) if you want to
 -If you wish to find a solution using Hill Climbing, run the HillClimbing class. If you wish to adjust how many times the Hill Climbing is performed, decrease/increase the number in the loop in main.
 -If you wish to find a solution using Simulated Annealing, run the Simulated Annealing class
 -If you wish to test the methods, run the TestSuite class
 -There is a solve class which can run the Simulated Annealing class and which will be used to run the Genetic Algorithm in future sprints
+
+NB: There are sample solutions stored under the name "Sample Solutions(<Number of students>).xlsx" stored with the other xlsx files.
+
+APPROACH:
+We wanted to create a Genetic Algorithm that was both effective and also efficient. To do this we had to go through several design
+processes and methods. We started off by creating a method that generates the population and also methods for sorting and culling
+it. We decided to focus our energy on creating a mating function which would generate a child taking in genes from two parents.
+The genes would be roughly 50% from each parent and the parents would most likely be optimal solutions, with a small chance of a
+parent not being optimal to increase diversity. We then created a mutation method which would occur rarely during mating. The mutation
+would randomly assign a gene to the solution and increase diversity in the population. Lastly we decided to create a method which would
+store the information from the most optimal solution in the population following the algorithm in an excel file.
+
+METHODS ADDED:
+geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations)
+-This method takes in the population number, percentage to be mated, percentage to cull and the number of generations
+-and makes use of the below method to create a Genetic Algorithm. For each generation, mating and culling occur and the
+-most optimal solutions score is printed along with the generation number and the number of solutions that have been
+-culled and created through mating/mutation. At the end, the most optimal solution set generated is analyzed and an excel
+-file is generated containing the details of each solution.
+
+genPopulation(int popNumber)
+-This method generates the population. It takes in the number that need to be generated and uses the genSolution method
+-from the GenerateSolution class to generate a List of solutions. This list is then added to the population. This process
+-is repeated until there are no more solution sets needed to be generated
+
+sortPopulation()
+-This method is used to sort the population so that the most optimal solution is first on the list and also makes
+-calculating which solutions need to be culled a lot easier
+
+insertToPopulation(ArrayList<Solution> child)
+-This method takes in a child that has occurred from mating and inserts it into the population
+
+cullPopulation(double percentage)
+-This method is used to cull the population. It takes in the percentage to be culled and calculates the number that need
+-to be removed from the population relative to the population size. The method then removed the bottom percentage of the
+-sorted population
+
+getParent(int popNumber, double matingPercentage)
+-This method is used to choose a parent to mate
+
+mate(int popNumber, double matingPercentage)
+-This method takes in the population number and the percentage to be mated. There is a 90% chance of an optimal solution
+-to be chosen to mate and a 10% chance for a less optimal solution to be chosen. There is also a 2.5% chance of mutation
+-occurring during mating. The mating occurs by randomly selecting a students solution from Parent A or Parent B with a chance
+-of mutation occurring. A random double between 0 and 1 is generated. If the double is less than 0.4875 then the solution
+-from Parent A is chosen, if the score is between 0.4875 and 0.975 then the solution from Parent B is chosen, and if the
+-double is greater than 0.975 then a mutation occurs
+
+getSolutionScore(Solution solution)
+-This method takes in a solution, returns its score while also changing its preference gotten. This is to ensure that the
+-score was updated when mutations occurred
+
+mutate(List<Solution> parent1, List<Solution> parent2)
+-This method is used to mutate the solution
+-It takes in both parents of the solution to be mutated and compares the projects used in both solutions against the overall projects list
+-It then randomly selects and returns a project from the list of unassigned projects to be assigned in the mating class
+
+createSolutionFile(List<Solution> solutions, String writeFile)
+-We decided to add a method which would create an excel file of the solution so that generating a sample solution for
+-the TA would be quick and efficient. The file displays information about each solution in the List inputted including
+-the students name and id along with the project title
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SPRINT 5:
 
 APPROACH:
 We created a Solver interface to allow plug-in compatibility in the future.

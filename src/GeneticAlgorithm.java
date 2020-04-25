@@ -34,9 +34,12 @@ public class GeneticAlgorithm implements Solver{
 //        System.out.println("\n");
         createSolutionFile(population.get(0), "Sample Solutions("+population.get(0).size()+").xlsx");
     }
-    public void solve() {
 
+    public void solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException{
+        geneticAlgorithm(popNumber, matePercentage, cullPercentage, numGenerations);
     }
+
+    public void solve(){}
 
     //method for performing the genetic algorithm
     private static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) {
@@ -178,6 +181,7 @@ public class GeneticAlgorithm implements Solver{
 		return unassignedProjects.get(rand.nextInt(unassignedProjects.size()));
 	}
 
+	//method that creates an excel file that stores the solution generated
 	private static void createSolutionFile(List<Solution> solutions, String writeFile) throws IOException {
         Workbook writeBook = new XSSFWorkbook();
         Sheet writeSheet = writeBook.createSheet("Classes.Solution("+solutions.size()+")");
@@ -187,7 +191,7 @@ public class GeneticAlgorithm implements Solver{
         font.setBold(true);
         style.setFont(font);
 
-        Row row = writeSheet.createRow(0);
+        Row row = writeSheet.createRow(0);                      //adding headers to the file
         row.createCell(0).setCellValue("Student Number");
         row.getCell(0).setCellStyle(style);
         row.createCell(1).setCellValue("Student Name");
@@ -203,7 +207,7 @@ public class GeneticAlgorithm implements Solver{
         font.setBold(false);
         style.setFont(font);
         for(int i = 0; i < solutions.size(); i++){
-            row = writeSheet.createRow(i+1);
+            row = writeSheet.createRow(i+1);            //adding student and project data to the file
 
             row.createCell(0).setCellValue(solutions.get(i).getStudentNumber());
             row.getCell(0).setCellStyle(style);
