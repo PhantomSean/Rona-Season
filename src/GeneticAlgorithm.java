@@ -1,7 +1,16 @@
 import Classes.Project;
 import Classes.Solution;
 import Classes.Student;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
@@ -14,10 +23,10 @@ public class GeneticAlgorithm implements Solver{
 
     public static void main(String[] args) throws IOException {
         long startTime = System.currentTimeMillis();            //starting the timer
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(120).xlsx");             //populating projects HashMap and students List
-        students = PopulateClasses.populateStudentClass("Students&Preferences(120).xlsx");
+        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");             //populating projects HashMap and students List
+        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
-        geneticAlgorithm(200, 15, 10, 5000);
+        geneticAlgorithm(100, 15, 10, 500);
         sortPopulation();             //sorting the finalized list of solutions
 		ScoringFunctions.main(population.get(0));           //Analysing the most optimal solution found
 
@@ -25,13 +34,14 @@ public class GeneticAlgorithm implements Solver{
         //Stating the time took to complete
         System.out.println("Execution time : " + (endTime-startTime)/60000 + " minutes");
 //        System.out.println("\n");
+        createSolutionFile(population.get(0), "Sample Solutions("+population.get(0).size()+").xlsx");
     }
     public void solve() {
 
     }
 
     //method for performing the genetic algorithm
-    public static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) {
+    private static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) {
         int check = 0;
         genPopulation(popNumber);           //generating and sorting the population
         sortPopulation();
@@ -45,7 +55,7 @@ public class GeneticAlgorithm implements Solver{
                 insertToPopulation((ArrayList<Solution>) mate(popNumber, matePercentage));      //matching the amount that was culled
             }
             System.out.println("\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0))+"\nSize of population: "+population.size() +"\n---------------------------------------------------------------");         //printing the best score of the generation
-            if((ScoringFunctions.scoreSolution(population.get(0)) < 30) && (ScoringFunctions.scoreSolution(population.get(0)) == ScoringFunctions.scoreSolution(temp))){        //if the score is underneath 25 and the best score
+            if((ScoringFunctions.scoreSolution(population.get(0)) < (30/60 * population.get(0).size())) && (ScoringFunctions.scoreSolution(population.get(0)) == ScoringFunctions.scoreSolution(temp))){        //if the score is underneath 25 and the best score
                 check++;                                                                                                                                                        //is the same as the last generation, then check is incremented
             }else{                                                                                                                                                              //otherwise check is reset
                 check = 0;
@@ -114,7 +124,7 @@ public class GeneticAlgorithm implements Solver{
     }
 
 	//method for mating two parents
-	public static List<Solution> mate(int popNumber, double matingPercentage) {
+	private static List<Solution> mate(int popNumber, double matingPercentage) {
 		List<Solution> parentOne = getParent(popNumber, matingPercentage);
 		List<Solution> parentTwo = getParent(popNumber, matingPercentage);
 
@@ -169,6 +179,56 @@ public class GeneticAlgorithm implements Solver{
 		Random rand = new Random();
 		return unassignedProjects.get(rand.nextInt(unassignedProjects.size()));
 	}
+
+	private static void createSolutionFile(List<Solution> solutions, String writeFile) throws IOException {
+        Workbook writeBook = new XSSFWorkbook();
+        Sheet writeSheet = writeBook.createSheet("Classes.Solution("+solutions.size()+")");
+
+        XSSFCellStyle style = (XSSFCellStyle) writeBook.createCellStyle();
+        XSSFFont font = (XSSFFont) writeBook.createFont();
+        font.setBold(true);
+        style.setFont(font);
+
+        Row row = writeSheet.createRow(0);
+        row.createCell(0).setCellValue("Student Number");
+        row.getCell(0).setCellStyle(style);
+        row.createCell(1).setCellValue("Student Name");
+        row.getCell(1).setCellStyle(style);
+        row.createCell(2).setCellValue("GPA");
+        row.getCell(2).setCellStyle(style);
+        row.createCell(3).setCellValue("Stream");
+        row.getCell(3).setCellStyle(style);
+        row.createCell(4).setCellValue("Project");
+        row.getCell(4).setCellStyle(style);
+        row.createCell(5).setCellValue("Preference Gotten");
+        row.getCell(5).setCellStyle(style);
+        font.setBold(false);
+        style.setFont(font);
+        for(int i = 0; i < solutions.size(); i++){
+            row = writeSheet.createRow(i+1);
+
+            row.createCell(0).setCellValue(solutions.get(i).getStudentNumber());
+            row.getCell(0).setCellStyle(style);
+            row.createCell(1).setCellValue(solutions.get(i).getStudentName());
+            row.getCell(1).setCellStyle(style);
+            row.createCell(2).setCellValue(solutions.get(i).getStudent().getGPA());
+            row.getCell(2).setCellStyle(style);
+            row.createCell(3).setCellValue(solutions.get(i).getStudent().getStream());
+            row.getCell(3).setCellStyle(style);
+            row.createCell(4).setCellValue(solutions.get(i).getProjectTitle());
+            row.getCell(4).setCellStyle(style);
+            if(solutions.get(i).getStudent().getPrefGotten() != 0){
+                row.createCell(5).setCellValue(solutions.get(i).getStudent().getPrefGotten());
+            }else{
+                row.createCell(5).setCellValue("None");
+            }
+            row.getCell(5).setCellStyle(style);
+        }
+
+        writeBook.write(new FileOutputStream(writeFile));
+        writeBook.close();
+
+    }
 
 //----------------------------------------------------------------------------------------------------------------------------------//
     //TEST METHODS
