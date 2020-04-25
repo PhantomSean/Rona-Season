@@ -58,7 +58,7 @@ public class GeneticAlgorithm implements Solver{
                 insertToPopulation((ArrayList<Solution>) mate(popNumber, matePercentage));      //matching the amount that was culled
             }
             System.out.println("\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0))+"\nSize of population: "+population.size() +"\n---------------------------------------------------------------");         //printing the best score of the generation
-            if((ScoringFunctions.scoreSolution(population.get(0)) < (30/60 * population.get(0).size())) && (ScoringFunctions.scoreSolution(population.get(0)) == ScoringFunctions.scoreSolution(temp))){        //if the score is underneath 25 and the best score
+            if((ScoringFunctions.scoreSolution(population.get(0)) < (0.25 * students.size())) && (ScoringFunctions.scoreSolution(population.get(0)) == ScoringFunctions.scoreSolution(temp))){        //if the score is underneath 25 and the best score
                 check++;                                                                                                                                                        //is the same as the last generation, then check is incremented
             }else{                                                                                                                                                              //otherwise check is reset
                 check = 0;
