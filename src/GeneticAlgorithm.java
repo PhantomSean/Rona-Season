@@ -14,35 +14,38 @@ public class GeneticAlgorithm implements Solver{
 
     public static void main(String[] args) throws IOException {
         long startTime = System.currentTimeMillis();            //starting the timer
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");             //populating projects HashMap and students List
-        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+        projects = PopulateClasses.populateProjectClass("Staff&Projects(120).xlsx");             //populating projects HashMap and students List
+        students = PopulateClasses.populateStudentClass("Students&Preferences(120).xlsx");
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
-        population = geneticAlgorithm(1000, 15, 10, 1000);
+        population = geneticAlgorithm(1000, 10, 10, 1000);
         sortPopulation();             //sorting the finalized list of solutions
 		ScoringFunctions.main(population.get(0));           //Analysing the most optimal solution found
 
         long endTime = System.currentTimeMillis();
         //Stating the time took to complete
-        System.out.println("Execution time : " + (endTime-startTime)/1000 + " seconds");
-        System.out.println("\n");
+        System.out.println("Execution time : " + (endTime-startTime)/60000 + " minutes");
+//        System.out.println("\n");
     }
     public void solve() {
 
     }
 
     //method for performing the genetic algorithm
-    public static List<ArrayList<Solution>> geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException {
+    public static List<ArrayList<Solution>> geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) {
         int check = 0;
         genPopulation(popNumber);           //generating and sorting the population
         sortPopulation();
-        System.out.println("\n---------------------------------------------------------------\n");
+        System.out.println("---------------------------------------------------------------");
         for(int i = 0; i < numGenerations; i++){        //Each generation is sorted and then culled
-            cullPopulation(cullPercentage, population);
+            System.out.println("Population size before culling: " + population.size());
+            cullPopulation(cullPercentage);
+            System.out.println("Population size after culling: " + population.size());
+            System.out.println("Number to add back to the population: " + (int) (popNumber*cullPercentage*0.01));
             for (int j = 0; j < (int) (popNumber*cullPercentage*0.01); j++) {               //mating is performed with the amount of new solutions produced during mating
                 insertToPopulation((ArrayList<Solution>) mate(popNumber, matePercentage));      //matching the amount that was culled
             }
-            System.out.println("\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0))+"\n");         //printing the best score of the generation
-            if((ScoringFunctions.scoreSolution(population.get(0)) < 14) && (ScoringFunctions.scoreSolution(population.get(0)) == ScoringFunctions.scoreSolution(temp))){        //if the score is underneath 25 and the best score
+            System.out.println("\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0))+"\nSize of population: "+population.size() +"\n---------------------------------------------------------------");         //printing the best score of the generation
+            if((ScoringFunctions.scoreSolution(population.get(0)) < 30) && (ScoringFunctions.scoreSolution(population.get(0)) == ScoringFunctions.scoreSolution(temp))){        //if the score is underneath 25 and the best score
                 check++;                                                                                                                                                        //is the same as the last generation, then check is incremented
             }else{                                                                                                                                                              //otherwise check is reset
                 check = 0;
@@ -56,13 +59,12 @@ public class GeneticAlgorithm implements Solver{
     }
 
     //method for generating the population
-    private static List<ArrayList<Solution>> genPopulation(int popNumber) throws IOException {
+    private static void genPopulation(int popNumber) {
         for(int i = 0; i < popNumber; i++){
             List<Solution> solutions;
             solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
             population.add((ArrayList<Solution>) solutions);
         }
-        return population;
     }
 
     //method for sorting the population
@@ -81,15 +83,18 @@ public class GeneticAlgorithm implements Solver{
         for (int i = 0; i < population.size(); i++) {
             if (ScoringFunctions.scoreSolution(population.get(i)) > ScoringFunctions.scoreSolution(child)) {
                 population.add(i, child);
-                break;
+                return;
             }
         }
+        population.add(child);
     }
 
     //method for culling the population
-    private static void cullPopulation(double percentage, List<ArrayList<Solution>> population){
-        int number = (int) Math.round((0.01 * percentage) * population.size());         //takes in the percentage to be culled and the sorted population
-        for(int i = population.size() - number; i < population.size(); i++){             //removes the bottom x% of the population
+    private static void cullPopulation(double percentage){
+        int number = (int) (0.01*percentage*population.size());         //takes in the percentage to be culled and the sorted population
+        int popSize = population.size();
+        System.out.println("Cull number: " + number);
+        for(int i = (popSize-1); i >= (popSize-number); i--){             //removes the bottom x% of the population
             population.remove(i);
         }
     }
