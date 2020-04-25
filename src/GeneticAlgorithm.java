@@ -17,7 +17,7 @@ public class GeneticAlgorithm implements Solver{
         projects = PopulateClasses.populateProjectClass("Staff&Projects(120).xlsx");             //populating projects HashMap and students List
         students = PopulateClasses.populateStudentClass("Students&Preferences(120).xlsx");
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
-        geneticAlgorithm(100, 10, 10, 1000);
+        geneticAlgorithm(200, 15, 10, 5000);
         sortPopulation();             //sorting the finalized list of solutions
 		ScoringFunctions.main(population.get(0));           //Analysing the most optimal solution found
 
