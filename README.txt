@@ -55,7 +55,9 @@ getSolutionScore(Solution solution)
 -score was updated when mutations occurred
 
 mutate(List<Solution> parent1, List<Solution> parent2)
--This method is used to mutate the
+-This method is used to mutate the solution
+-It takes in both parents of the solution to be mutated and compares the projects used in both solutions against the overall projects list
+-It then randomly selects and returns a project from the list of unassigned projects to be assigned in the mating class
 
 createSolutionFile(List<Solution> solutions, String writeFile)
 -We decided to add a method which would create an excel file of the solution so that generating a sample solution for
