@@ -11,6 +11,8 @@ HOW TO RUN:
 -If you wish to test the methods, run the TestSuite class
 -There is a solve class which can run the Simulated Annealing class and which will be used to run the Genetic Algorithm in future sprints
 
+NB: There are sample solutions stored under the name "Sample Solutions(<Number of students>).xlsx" in the folder.
+
 APPROACH:
 We wanted to create a Genetic Algorithm that was both effective and also efficient. To do this we had to go through several design
 processes and methods. We started off by creating a method that generates the population and also methods for sorting and culling
