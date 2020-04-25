@@ -26,7 +26,7 @@ public class GeneticAlgorithm implements Solver{
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");             //populating projects HashMap and students List
         students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
-        geneticAlgorithm(100, 15, 10, 500);
+        geneticAlgorithm(500, 15, 10, 500);
         sortPopulation();             //sorting the finalized list of solutions
 		ScoringFunctions.main(population.get(0));           //Analysing the most optimal solution found
 
@@ -36,9 +36,12 @@ public class GeneticAlgorithm implements Solver{
 //        System.out.println("\n");
         createSolutionFile(population.get(0), "Sample Solutions("+population.get(0).size()+").xlsx");
     }
-    public void solve() {
 
+    public void solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException{
+	    geneticAlgorithm(popNumber, matePercentage, cullPercentage, numGenerations);
     }
+
+    public void solve(){}
 
     //method for performing the genetic algorithm
     private static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) {

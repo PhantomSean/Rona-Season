@@ -22,6 +22,7 @@ public class SimulatedAnnealing implements Solver{
         students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
         simulatedAnnealing();
     }
+    public void solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations){}
 
     //method for performing Simulated Annealing
 
