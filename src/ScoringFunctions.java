@@ -13,8 +13,8 @@ public class ScoringFunctions {
         analyse(solutions);
         double energy = scoreSolution(solutions);
         double fitness = -energy;
-        System.out.println("The overall energy score of the solutions after penalties is = "+energy);
-        System.out.println("The overall fitness score of the solutions after penalties is = "+fitness +"\n\n");
+//        System.out.println("The overall energy score of the solutions after penalties is = "+energy);
+//        System.out.println("The overall fitness score of the solutions after penalties is = "+fitness +"\n\n");
     }
 
     private static void addPenalties(List<Solution> solutions){
@@ -36,7 +36,7 @@ public class ScoringFunctions {
 
                 }
                 if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle()) &&
-                        !solutions.get(i).getProjectTitle().equals("Self Specified")) {
+                !solutions.get(i).getProjectTitle().equals("Self Specified")) {
                     solutions.get(i).addToScore(penalty);
 //                    System.out.println("Dupe Project : "+solutions.get(i).getProjectTitle());
                 }
@@ -45,7 +45,7 @@ public class ScoringFunctions {
     }
 
     private static void checkStream(List<Solution> solutions){
-        int penalty = 100;
+    	int penalty = 100;
 
         for (Solution solution : solutions) {
             String studentStream = solution.getStudent().getStream();
@@ -88,7 +88,8 @@ public class ScoringFunctions {
     }
 
 
-    static void change(List<Solution> solutions){
+    private static void change(List<Solution> solutions){
+        System.out.println("\n\nCHANGING SOLUTION\n\n");
         //making list for solutions which did not get a preference
         List<Solution> notGotPref = new ArrayList<>();
         List<Solution> temp = new ArrayList<>();
@@ -197,18 +198,21 @@ public class ScoringFunctions {
                 score = Math.pow(score_mult, 11 - value.getStudent().getPrefGotten());
             value.setScore(score);
         }
-
+        for(Solution solution : solutions){
+            total += solution.getScore();
+        }
+        total = 0;
         addPenalties(solutions);
+
+        for(Solution solution : solutions){
+            total += solution.getScore();
+        }
 
         for(Solution solution : solutions){
             if(solution.getStudent().getGPA() > 3.3 && solution.getStudent().getPrefGotten() != 0) {
                 double tmp = solution.getStudent().getPrefGotten();
-                solution.addToScore(-((solution.getStudent().getGPA() * 0.1) * (1 / tmp)));
+                total -= ((solution.getStudent().getGPA() * 0.1) * (1 / tmp));
             }
-        }
-
-        for(Solution solution : solutions){
-            total += solution.getScore();
         }
 
         return total;

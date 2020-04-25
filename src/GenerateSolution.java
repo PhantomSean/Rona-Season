@@ -12,6 +12,13 @@ public class GenerateSolution {
 
     private static double score_mult = 0.75;
 
+    public static void main(String[] args) throws IOException {
+        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");             //populating projects HashMap and students List
+        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+        ScoringFunctions.scoreSolution(genSolution(projects, students, new ArrayList<>()));
+    }
+
+
     static List<Solution> genSolution(HashMap<String, Project> projectsList, List<Student> studentsList, List<Student> changes) {
         // NB! change value within rounded brackets to test the other data sets
         solutions = new ArrayList<>();
@@ -137,7 +144,7 @@ public class GenerateSolution {
         Random generator = new Random();
         Object[] values = projects.values().toArray();
         Project project = (Project) values[generator.nextInt(values.length)];
-        while (!project.getStream().equals(studentStream) && !project.getStream().equals("CS + DS")) {
+        while (!project.getStream().contains(studentStream) || project.getTitle().contains("Self Specified")) {
             values = projects.values().toArray();
             project = (Project) values[generator.nextInt(values.length)];
         }
