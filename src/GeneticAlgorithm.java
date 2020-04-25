@@ -26,7 +26,7 @@ public class GeneticAlgorithm implements Solver{
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");             //populating projects HashMap and students List
         students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
-        geneticAlgorithm(100, 15, 10, 500);
+        geneticAlgorithm(1000, 15, 10, 50);
         sortPopulation();             //sorting the finalized list of solutions
 		ScoringFunctions.main(population.get(0));           //Analysing the most optimal solution found
 
@@ -180,6 +180,7 @@ public class GeneticAlgorithm implements Solver{
 		return unassignedProjects.get(rand.nextInt(unassignedProjects.size()));
 	}
 
+	//method that creates an excel file that stores the solution generated
 	private static void createSolutionFile(List<Solution> solutions, String writeFile) throws IOException {
         Workbook writeBook = new XSSFWorkbook();
         Sheet writeSheet = writeBook.createSheet("Classes.Solution("+solutions.size()+")");
@@ -189,7 +190,7 @@ public class GeneticAlgorithm implements Solver{
         font.setBold(true);
         style.setFont(font);
 
-        Row row = writeSheet.createRow(0);
+        Row row = writeSheet.createRow(0);                      //adding headers to the file
         row.createCell(0).setCellValue("Student Number");
         row.getCell(0).setCellStyle(style);
         row.createCell(1).setCellValue("Student Name");
@@ -205,7 +206,7 @@ public class GeneticAlgorithm implements Solver{
         font.setBold(false);
         style.setFont(font);
         for(int i = 0; i < solutions.size(); i++){
-            row = writeSheet.createRow(i+1);
+            row = writeSheet.createRow(i+1);            //adding student and project data to the file
 
             row.createCell(0).setCellValue(solutions.get(i).getStudentNumber());
             row.getCell(0).setCellStyle(style);
