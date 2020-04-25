@@ -1,7 +1,7 @@
 import Classes.Project;
 import Classes.Solution;
 import Classes.Student;
-import org.apache.poi.ss.usermodel.Cell;
+
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -9,7 +9,6 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
@@ -23,10 +22,10 @@ public class GeneticAlgorithm implements Solver{
 
     public static void main(String[] args) throws IOException {
         long startTime = System.currentTimeMillis();            //starting the timer
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");             //populating projects HashMap and students List
-        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+        projects = PopulateClasses.populateProjectClass("Staff&Projects(500).xlsx");             //populating projects HashMap and students List
+        students = PopulateClasses.populateStudentClass("Students&Preferences(500).xlsx");
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
-        geneticAlgorithm(1000, 15, 10, 50);
+        geneticAlgorithm(100, 15, 10, 50);
         sortPopulation();             //sorting the finalized list of solutions
 		ScoringFunctions.main(population.get(0));           //Analysing the most optimal solution found
 
