@@ -17,7 +17,7 @@ public class GeneticAlgorithm implements Solver{
         projects = PopulateClasses.populateProjectClass("Staff&Projects(120).xlsx");             //populating projects HashMap and students List
         students = PopulateClasses.populateStudentClass("Students&Preferences(120).xlsx");
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
-        population = geneticAlgorithm(1000, 10, 10, 1000);
+        geneticAlgorithm(100, 10, 10, 1000);
         sortPopulation();             //sorting the finalized list of solutions
 		ScoringFunctions.main(population.get(0));           //Analysing the most optimal solution found
 
@@ -31,7 +31,7 @@ public class GeneticAlgorithm implements Solver{
     }
 
     //method for performing the genetic algorithm
-    public static List<ArrayList<Solution>> geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) {
+    public static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) {
         int check = 0;
         genPopulation(popNumber);           //generating and sorting the population
         sortPopulation();
@@ -51,11 +51,10 @@ public class GeneticAlgorithm implements Solver{
                 check = 0;
             }
             if(check == 5){                         //if check reaches 5 then the current population is judged as the best and is returned
-                return population;                  //to ensure that the runtime is not longer than it needs to be
+                return;                             //to ensure that the runtime is not longer than it needs to be
             }
             temp = population.get(0);
         }
-        return population;
     }
 
     //method for generating the population
