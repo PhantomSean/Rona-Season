@@ -1,12 +1,13 @@
 import GUI.UI;
 
+import javax.swing.*;
+
 public class Solve {
-	public static final UI ui = new UI();
+	public static final UI ui = new UI(new JFrame());
 
 	public static void main(String[] args){
 		Solve s = new Solve();
 		s.solver();
-
 	}
 	public void solver(){
 		boolean validCommand = false;
@@ -25,6 +26,7 @@ public class Solve {
 					e.printStackTrace();
 				}
 				ui.displayInfoString("Process finished\n");
+				ui.displayInfoString("If you would like to generate another solution please enter 'restart'");
 			}
 			if (command.equals("GA")) {
 				validCommand = true;
@@ -44,11 +46,22 @@ public class Solve {
 					e.printStackTrace();
 				}
 				ui.displayInfoString("Process finished\n");
+				ui.displayInfoString("If you would like to generate another solution please enter 'restart'");
+			}
+			if (command.equals("quit")) {
+				ui.quit();
 			}
 			if(!validCommand){
 				ui.displayInfoString("\n\nINVALID INPUT:\nPlease enter either 'GA' or 'SA'");
 			}
 		}while(!validCommand);
+		String command = ui.getCommand();
+		if (command.equals("quit")) {
+			ui.quit();
+		}
+		if(command.equals("restart")){
+			solver();
+		}
 	}
 
 

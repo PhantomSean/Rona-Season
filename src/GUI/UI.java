@@ -11,25 +11,29 @@ public class UI {
     private final InfoPanel infoPanel;
     private final InfoPanel studentPanel;
     private final CommandPanel commandPanel;
+    private final JFrame frame;
 
-    public UI() {
+    public UI(JFrame frame) {
+        this.frame = frame;
         infoPanel = new InfoPanel();
         studentPanel = new InfoPanel();
         commandPanel = new CommandPanel();
-        JFrame frame = new JFrame();
-        frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-        frame.setTitle("Solver");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-        frame.add(studentPanel, BorderLayout.LINE_END);
-        frame.add(infoPanel, BorderLayout.LINE_START);
-        frame.add(commandPanel,BorderLayout.PAGE_END);
-        frame.setResizable(false);
-        frame.setVisible(true);
+        this.frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
+        this.frame.setTitle("Solver");
+        this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.frame.setLayout(new BorderLayout());
+        this.frame.add(studentPanel, BorderLayout.LINE_END);
+        this.frame.add(infoPanel, BorderLayout.LINE_START);
+        this.frame.add(commandPanel,BorderLayout.PAGE_END);
+        this.frame.setResizable(false);
+        this.frame.setVisible(true);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
+        this.frame.setLocation(dim.width/2- this.frame.getSize().width/2, dim.height/2- this.frame.getSize().height/2);
     }
-
+    public void quit(){
+        frame.setVisible(false);
+        System.exit(0);
+    }
     public String getCommand() {
         return commandPanel.getCommand();
     }
@@ -54,6 +58,7 @@ public class UI {
         displayInfoString("This panel will be used to display information while a solution set is generated\n");
         displayInfoString("There is a text box below which can be used for inputting commands\n");
         displayInfoString("Please state below if you would like to use Simulated Annealing or Genetic Algorithms to generate a solution set");
+        displayInfoString("\nIf you would like to quit, please enter 'quit'\n");
         displayInfoString("Input either 'SA' or 'GA':");
         displayStudentString("Welcome to Solver\n");
         displayStudentString("This panel will be used to display the students names and also the projects allocated to them\n");
