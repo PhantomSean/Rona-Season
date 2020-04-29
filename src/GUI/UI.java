@@ -1,6 +1,6 @@
 package GUI;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import javax.swing.*;
 
 public class UI {
@@ -29,6 +29,8 @@ public class UI {
         frame.add(commandPanel,BorderLayout.PAGE_END);
         frame.setResizable(false);
         frame.setVisible(true);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
     }
 
     public String getCommand() {

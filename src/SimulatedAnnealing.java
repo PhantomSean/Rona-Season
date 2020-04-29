@@ -1,6 +1,7 @@
 import Classes.Project;
 import Classes.Solution;
 import Classes.Student;
+import GUI.UI;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Random;
 public class SimulatedAnnealing implements Solver{
     private  static HashMap<String, Project> projects;
     private static List<Student> students;
+    private static List<Solution> solutions;
 
     public static void main(String[] args) throws IOException {
         simulatedAnnealing();
@@ -28,7 +30,7 @@ public class SimulatedAnnealing implements Solver{
 
     private static void simulatedAnnealing() throws IOException {
         int check = 0;
-        List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
+        solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
         //analysing the solution before the Simulated Annealing has been performed
         ScoringFunctions.main(solutions);
         //temperature starts at the size of the list of solutions multiplied by 1.7

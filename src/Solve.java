@@ -1,4 +1,8 @@
+import GUI.UI;
+
 public class Solve {
+
+
 	public static void main(String[] args){
 		SimulatedAnnealing SA = new SimulatedAnnealing();
 		GeneticAlgorithm GA = new GeneticAlgorithm();
