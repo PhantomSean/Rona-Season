@@ -31,6 +31,11 @@ public class InfoPanel extends JPanel {
         textArea.setText(textArea.getText()+"\n"+text);
     }
 
+    public void overwriteText(String text) {
+        textArea.setText(text);
+        textArea.repaint();
+    }
+
     public void clear() {
         textArea.setText("");
     }

@@ -100,6 +100,15 @@ public class HillClimbing {
         return solutions.get(0).getProject();
     }
 
+    public static Project findProjectByStudent(List<Solution> solutions, String student){
+        for(Solution solution : solutions){
+            if(solution.getStudentName().equals(student)){
+                return solution.getProject();
+            }
+        }
+        return solutions.get(0).getProject();
+    }
+
 //-----------------------------------------------------------------------------------------------------------------------------------------//
     //TEST METHODS
 

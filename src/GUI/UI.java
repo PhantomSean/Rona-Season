@@ -42,6 +42,11 @@ public class UI {
         studentPanel.addText(string);
     }
 
+    public void overwriteStudentString(String string){
+        studentPanel.overwriteText(string);
+    }
+
+
     public void displayStart() {
         infoPanel.clear();
         studentPanel.clear();

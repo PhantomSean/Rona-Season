@@ -1,7 +1,7 @@
 import GUI.UI;
 
 public class Solve {
-	private final UI ui = new UI();
+	public static final UI ui = new UI();
 
 	public static void main(String[] args){
 		Solve s = new Solve();

@@ -1,6 +1,7 @@
 import Classes.Project;
 import Classes.Solution;
 import Classes.Student;
+import GUI.UI;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -42,7 +43,9 @@ public class GeneticAlgorithm implements Solver{
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
         geneticAlgorithm(popNumber, matePercentage, cullPercentage, numGenerations);
         sortPopulation();             //sorting the finalized list of solutions
-        ScoringFunctions.main(population.get(0));           //Analysing the most optimal solution found
+        ScoringFunctions.main(population.get(0));//Analysing the most optimal solution found
+
+
 
         long endTime = System.currentTimeMillis();
         //Stating the time took to complete
@@ -57,7 +60,14 @@ public class GeneticAlgorithm implements Solver{
         genPopulation(popNumber);           //generating and sorting the population
         sortPopulation();
         System.out.println("---------------------------------------------------------------");
-        for(int i = 0; i < numGenerations; i++){        //Each generation is sorted and then culled
+        for(int i = 0; i < numGenerations; i++){//Each generation is sorted and then culled
+        	String output = "";
+        	for(Student student : students){
+        		Project proj = HillClimbing.findProjectByStudent(population.get(0) , student.getName());
+        		output += (student.getName() + "  :  " +proj.getTitle()) + "  :  "+ student.getPrefGotten()+ "\n";
+	        }
+        	Solve.ui.overwriteStudentString(output);
+
             System.out.println("Population size before culling: " + population.size());
             cullPopulation(cullPercentage);
             System.out.println("Population size after culling: " + population.size());
