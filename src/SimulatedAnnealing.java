@@ -13,12 +13,7 @@ import java.util.Random;
 public class SimulatedAnnealing implements Solver{
     private  static HashMap<String, Project> projects;
     private static List<Student> students;
-    private static List<Solution> solutions;
 
-    public static void main(String[] args) throws IOException {
-        simulatedAnnealing();
-
-    }
     public void solve() throws IOException {
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
         students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
@@ -30,7 +25,7 @@ public class SimulatedAnnealing implements Solver{
 
     private static void simulatedAnnealing() throws IOException {
         int check = 0;
-        solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
+        List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
         //analysing the solution before the Simulated Annealing has been performed
         ScoringFunctions.main(solutions);
         //temperature starts at the size of the list of solutions multiplied by 1.7

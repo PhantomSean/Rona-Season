@@ -31,5 +31,8 @@ public class InfoPanel extends JPanel {
         textArea.setText(textArea.getText()+"\n"+text);
     }
 
+    public void clear() {
+        textArea.setText("");
+    }
 }
 
