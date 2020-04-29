@@ -37,8 +37,12 @@ public class UI {
         return commandPanel.getCommand();
     }
 
-    public void displayString(String string) {
+    public void displayInfoString(String string) {
         infoPanel.addText(string);
+    }
+
+    public void displayStudentString(String string) {
+        studentPanel.addText(string);
     }
 }
 

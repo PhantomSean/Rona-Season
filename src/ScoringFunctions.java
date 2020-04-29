@@ -1,6 +1,7 @@
 import Classes.Project;
 import Classes.Solution;
 import Classes.Student;
+import GUI.UI;
 
 import java.util.ArrayList;
 import java.util.List;
