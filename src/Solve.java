@@ -47,6 +47,7 @@ public class Solve {
 				}
 				ui.displayInfoString("Process finished\n");
 				ui.displayInfoString("If you would like to generate another solution please enter 'restart'");
+				ui.displayInfoString("If you would like to end the program please enter 'quit'");
 			}
 			if (command.equals("quit")) {
 				ui.quit();

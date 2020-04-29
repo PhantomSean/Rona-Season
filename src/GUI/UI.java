@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class UI {
 
-    private static final int FRAME_WIDTH = 885;
+    private static final int FRAME_WIDTH = 1195;
     private static final int FRAME_HEIGHT = 600;
 
     private final InfoPanel infoPanel;

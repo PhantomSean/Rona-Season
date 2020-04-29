@@ -8,7 +8,7 @@ public class InfoPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private static final int TEXT_AREA_HEIGHT = 40;
-    private static final int CHARACTER_WIDTH = 60;
+    private static final int CHARACTER_WIDTH = 82;
     private static final int FONT_SIZE = 12;
 
     private final JTextArea textArea;
