@@ -1,9 +1,12 @@
+import Classes.Solution;
 import GUI.UI;
 
 import javax.swing.*;
+import java.util.List;
 
 public class Solve {
-	public static final UI ui = new UI(new JFrame());
+	static final UI ui = new UI(new JFrame());
+	private static int solutionsGenerated = 0;
 
 	public static void main(String[] args){
 		Solve s = new Solve();
@@ -82,7 +85,9 @@ public class Solve {
 				}
 			}while(!isIntOne || !isIntTwo || !isDoubleOne || !isDoubleTwo);
 			ui.displayInfoString("Please wait as this will take a few moments\n");
-			GA.solve(popNumber, matePercentage, cullPercentage, numGenerations);
+			List<Solution> sol = GA.solve(popNumber, matePercentage, cullPercentage, numGenerations);
+			solutionsGenerated++;
+			GeneticAlgorithm.createSolutionFile(sol, "Solutions("+solutionsGenerated+").xlsx");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -92,7 +97,9 @@ public class Solve {
 		ui.displaySAInfo();
 		try {
 			SimulatedAnnealing SA = new SimulatedAnnealing();
-			SA.solve();
+			List<Solution> sol = SA.solve();
+			solutionsGenerated++;
+			GeneticAlgorithm.createSolutionFile(sol, "Solutions("+solutionsGenerated+").xlsx");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

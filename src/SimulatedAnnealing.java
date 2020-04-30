@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class SimulatedAnnealing implements Solver{
     private  static HashMap<String, Project> projects;
+    private static List<Student> students;
 
     static {
         try {
@@ -34,11 +35,13 @@ public class SimulatedAnnealing implements Solver{
     public void solve() throws IOException {
         simulatedAnnealing();
     }
-    public void solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations){}
+    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations){
+        return null;
+    }
 
     //method for performing Simulated Annealing
 
-    private static void simulatedAnnealing() throws IOException {
+    private static List<Solution> simulatedAnnealing() throws IOException {
         int check = 0;
         List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
         //temperature starts at the size of the list of solutions multiplied by 1.7
@@ -72,6 +75,8 @@ public class SimulatedAnnealing implements Solver{
         Solve.ui.overwriteStudentString(output);
         //analysing the solution after the Simulated Annealing has been performed
         ScoringFunctions.main(solutions);
+
+        return solutions;
     }
 
     //method for checking if the changed solution is to be accepted or not, takes Boltzmann probability into account
