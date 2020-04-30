@@ -64,7 +64,7 @@ public class GeneticAlgorithm implements Solver{
         	String output = "";
         	for(Student student : students){
         		Project proj = HillClimbing.findProjectByStudent(population.get(0) , student.getName());
-        		output += (student.getName() + "  :  " +proj.getTitle()) + "  :  "+ student.getPrefGotten()+ "\n";
+                output += ("---------------------------------------------------------------------------------\nName: " + student.getName() + "\nProject: " +proj.getTitle()) + "\nPreference: "+ student.getPrefGotten()+ "\n";
 	        }
         	Solve.ui.overwriteStudentString(output);
 
