@@ -80,6 +80,9 @@ public class GeneticAlgorithm implements Solver{
             for (int j = 0; j < (int) (popNumber*cullPercentage*0.01); j++) {               //mating is performed with the amount of new solutions produced during mating
                 insertToPopulation((ArrayList<Solution>) mate(popNumber, matePercentage));      //matching the amount that was culled
             }
+            output = "";
+            output += ("-------------------------------------------------------------------------------\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0)));
+            Solve.ui.displayInfoString(output);
             System.out.println("\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0))+"\nSize of population: "+population.size() +"\n---------------------------------------------------------------");         //printing the best score of the generation
             if((ScoringFunctions.scoreSolution(population.get(0)) < (0.2 * students.size())) && (ScoringFunctions.scoreSolution(population.get(0)) == ScoringFunctions.scoreSolution(temp))){        //if the score is underneath 25 and the best score
                 check++;                                                                                                                                                        //is the same as the last generation, then check is incremented

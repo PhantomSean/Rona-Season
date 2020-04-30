@@ -166,6 +166,7 @@ public class ScoringFunctions {
         for (Solution value : solutions) {
             prefs[value.getPrefGotten()]++;
         }
+        Solve.ui.displayInfoString("-------------------------------------------------------------------------------\n");
         System.out.println("SOLUTION ANALYSIS:");
         System.out.println(prefs[1] + " students got their first preference");
         System.out.println(prefs[2] + " students got their second preference");
@@ -174,14 +175,24 @@ public class ScoringFunctions {
         System.out.println(prefs[5] + " students got their fifth preference");
         System.out.println(prefs[0] + " students got no preference" + "\n");
 
+        Solve.ui.displayInfoString("SOLUTION ANALYSIS:");
+        Solve.ui.displayInfoString(prefs[1] + " students got their first preference");
+        Solve.ui.displayInfoString(prefs[2] + " students got their second preference");
+        Solve.ui.displayInfoString(prefs[3] + " students got their third preference");
+        Solve.ui.displayInfoString(prefs[4] + " students got their fourth preference");
+        Solve.ui.displayInfoString(prefs[5] + " students got their fifth preference");
+        Solve.ui.displayInfoString(prefs[0] + " students got no preference" + "\n");
 
         double size = solutions.size();
         for (int i = 1; i < 6; i++) {
             gotPrefs += prefs[i];
         }
-
+        double topFive = Math.round((gotPrefs / size) * 100.0);
         System.out.println((Math.round((prefs[1] / size) * 100.0)) + "% of students got their first preference");
-        System.out.println((Math.round((gotPrefs / size) * 100.0)) + "% of students got one of their top five preferences" + "\n");
+        System.out.println(topFive + "% of students got one of their top five preferences" + "\n");
+
+        Solve.ui.displayInfoString((Math.round((prefs[1] / size) * 100.0)) + "% of students got their first preference");
+        Solve.ui.displayInfoString(topFive + "% of students got one of their top five preferences" + "\n");
 
         System.out.println("\n\n");
     }

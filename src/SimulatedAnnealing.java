@@ -26,8 +26,6 @@ public class SimulatedAnnealing implements Solver{
     private static void simulatedAnnealing() throws IOException {
         int check = 0;
         List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
-        //analysing the solution before the Simulated Annealing has been performed
-        ScoringFunctions.main(solutions);
         //temperature starts at the size of the list of solutions multiplied by 1.7
         double temperature = solutions.size() * 1.7;
         while(temperature > 0){
