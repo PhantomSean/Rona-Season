@@ -57,9 +57,8 @@ public class UI {
         displayInfoString("Welcome to Solver\n");
         displayInfoString("This panel will be used to display information while a solution set is generated\n");
         displayInfoString("There is a text box below which can be used for inputting commands\n");
-        displayInfoString("Please state below if you would like to use Simulated Annealing or Genetic Algorithms to generate a solution set");
+        displayInfoString("Please state below if you would like to use Simulated Annealing by entering 'SA' or Genetic Algorithms by entering 'GA' to generate a solution set");
         displayInfoString("\nIf you would like to quit, please enter 'quit'\n");
-        displayInfoString("Input either 'SA' or 'GA':");
         displayStudentString("Welcome to Solver\n");
         displayStudentString("This panel will be used to display the students names and also the projects allocated to them\n");
     }

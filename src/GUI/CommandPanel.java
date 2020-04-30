@@ -17,6 +17,8 @@ public class CommandPanel extends JPanel  {
     CommandPanel() {
         commandField = new JTextField();
         commandBuffer = new LinkedList<>();
+        JButton button = new JButton("Submit");
+
         class AddActionListener implements ActionListener {
             public void actionPerformed(ActionEvent event)	{
                 synchronized (commandBuffer) {
@@ -26,11 +28,21 @@ public class CommandPanel extends JPanel  {
                 }
             }
         }
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                synchronized (commandBuffer) {
+                    commandBuffer.add(commandField.getText());
+                    commandField.setText("");
+                    commandBuffer.notify();
+            }
+        }});
         ActionListener listener = new AddActionListener();
         commandField.addActionListener(listener);
         commandField.setFont(new Font("Times New Roman", Font.PLAIN, FONT_SIZE));
         setLayout(new BorderLayout());
         add(commandField, BorderLayout.CENTER);
+        add(button, BorderLayout.LINE_END);
     }
 
     public String getCommand() {
