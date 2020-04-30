@@ -163,7 +163,7 @@ public class GeneticAlgorithm implements Solver{
 				}
 			}
 			else if(inherit >= 0.975) {
-				Solution sol = new Solution(solution.getStudent(), mutate(parentOne, parentTwo), 0);
+				Solution sol = new Solution(solution.getStudent(), mutate(parentOne, parentTwo, projects), 0);
 				sol.setScore(getSolutionScore(sol));
 				child.add(sol);
 			}
@@ -173,7 +173,7 @@ public class GeneticAlgorithm implements Solver{
 	}
 
     //method that calculates a solutions score in case of mutation
-    private static double getSolutionScore(Solution solution){
+    static double getSolutionScore(Solution solution){
         int j = 10;
         for(int i = 0; i < solution.getStudent().getPreferences().size(); i++){                        //Goes through the students preferences and if one of them equals the project given
             if(solution.getProject().getTitle().equals(solution.getStudent().getPreference(i))){       //then sets the students prefGotten accordingly
@@ -186,8 +186,8 @@ public class GeneticAlgorithm implements Solver{
     }
 
 	//method for assigning a project to mutation
-	private static Project mutate(List<Solution> parent1, List<Solution> parent2){
-		Collection<Project> projectsCollection = projects.values();
+	static Project mutate(List<Solution> parent1, List<Solution> parent2, HashMap<String, Project> p){
+		Collection<Project> projectsCollection = p.values();
 		ArrayList<Project> projects = new ArrayList<>(projectsCollection);
 		List<Project> unassignedProjects = new ArrayList<>(projects);
 
@@ -250,51 +250,5 @@ public class GeneticAlgorithm implements Solver{
         writeBook.write(new FileOutputStream(writeFile));
         writeBook.close();
 
-    }
-
-//----------------------------------------------------------------------------------------------------------------------------------//
-    //TEST METHODS
-
-    //method to test the mutate method
-    static String testMutate(){
-        List<Solution> parent1 = new ArrayList<>();
-        List<Solution> parent2 = new ArrayList<>();
-
-        Project one = new Project("One", "CS", "ME", false);
-        Project two = new Project("Two", "CS", "ME", false);
-        Project three = new Project("Three", "CS", "ME", false);
-        Project four = new Project("Four", "CS", "ME", false);
-        List<String> empty = new ArrayList<>();
-
-        Student me = new Student("ME", "CS", 0, empty, true, 0, 4.0);
-
-        parent1.add(new Solution(me, one, 0));
-        parent2.add(new Solution(me, two, 0));
-
-        List<Project> projects = new ArrayList<>();
-
-        projects.add(one);
-        projects.add(two);
-        projects.add(three);
-        projects.add(four);
-
-		Project test = mutate(parent1, parent2);
-
-        if (test.getTitle().equals("Three") || test.getTitle().equals("Four"))
-            return "Mutate method working";
-        else
-            return "Mutate method not working";
-    }
-
-    //method to test the getSolutionScore method
-    static String testGetSolutionScore(){
-        List<String> empty = new ArrayList<>();
-        empty.add("testProject");
-        Solution sol = new Solution(new Student("test", "CS", 1, empty, true, 1, 4.2), new Project("testProject", "CS","x", true), 0);
-        if(Math.abs(getSolutionScore(sol) - 0.056313514) < 1e-4){
-            return "getSolutionScore method is working";
-        }else{
-            return "error in method getSolutionScore";
-        }
     }
 }

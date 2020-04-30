@@ -192,36 +192,4 @@ public class GenerateSolution {
         return projects;
     }
 
-    //----------------------------------------------------------------------------------------------------------------------------------//
-    //TEST METHODS
-
-    //method that tests the genGPA method
-    static String testGenGPA(){
-        List<String> preferences = new ArrayList<>();
-        Student student = new Student("check", "CS", 0, preferences, false, 0, PopulateClasses.genGPA());
-        if(student.getGPA() > 4.2 && student.getGPA() < 1){
-            return "error in method genGPA";
-        }else{
-            return "genGPA method is working";
-        }
-    }
-
-    //method that tests the checkForOthers method
-//    static String testCheckForOthers(){
-//        List<String> testPreferences = new ArrayList<>();
-//        List<Student> testStudents = new ArrayList<>();
-//        testPreferences.add("test");
-//        testPreferences.add("z");
-//        testPreferences.add("x");
-//        testPreferences.add("y");
-//
-//        testStudents.add(new Student("check", "CS", 0, testPreferences, false, 0, 4.0));
-//        testStudents.add(new Student("chuck", "DS", 1, testPreferences, false, 0, 1.0));
-//
-//        if(checkForOthers(testStudents, 0, 0, "test")){
-//            return "checkForOthers method is working";
-//        }else{
-//            return "error in method checkForOthers";
-//        }
-//    }
 }

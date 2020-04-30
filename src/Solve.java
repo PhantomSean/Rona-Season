@@ -13,8 +13,8 @@ public class Solve {
 		boolean validCommand = false;
 		ui.displayStart();
 		do {
-			String command = ui.getCommand();
-			if (command.equals("SA")) {
+			String command = ui.getCommand().toLowerCase();
+			if (command.equals("sa")) {
 				validCommand = true;
 				ui.clearInfoPanel();
 				ui.displayInfoString("You have chosen Simulated Annealing");
@@ -28,7 +28,7 @@ public class Solve {
 				ui.displayInfoString("Process finished\n");
 				ui.displayInfoString("If you would like to generate another solution please enter 'restart'");
 			}
-			if (command.equals("GA")) {
+			if (command.equals("ga")) {
 				validCommand = true;
 				ui.clearInfoPanel();
 				ui.displayInfoString("You have chosen Genetic Algorithms\n");
@@ -56,7 +56,7 @@ public class Solve {
 				ui.displayInfoString("\n\nINVALID INPUT:\nPlease enter either 'GA' or 'SA'");
 			}
 		}while(!validCommand);
-		String command = ui.getCommand();
+		String command = ui.getCommand().toLowerCase();
 		if (command.equals("quit")) {
 			ui.quit();
 		}

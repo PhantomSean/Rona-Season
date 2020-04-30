@@ -24,7 +24,7 @@ public class ScoringFunctions {
     }
 
     //adds a penalty for each duplicate student or project
-    private static void checkForDuplicates(List<Solution> solutions){
+    static void checkForDuplicates(List<Solution> solutions){
         int penalty = 100;
 
         for(int i=0; i<solutions.size(); i++){
@@ -45,7 +45,7 @@ public class ScoringFunctions {
         }
     }
 
-    private static void checkStream(List<Solution> solutions){
+    static void checkStream(List<Solution> solutions){
     	int penalty = 100;
 
         for (Solution solution : solutions) {
@@ -128,7 +128,7 @@ public class ScoringFunctions {
     }
 
     //method for checking if a student had a project in their preferences
-    private static boolean checkForPref(String project, Student student){
+    static boolean checkForPref(String project, Student student){
         for(int i = 0; i < 10; i++){
             if(student.getPreference(i).equals(project)){
                 return true;
@@ -138,7 +138,7 @@ public class ScoringFunctions {
     }
 
     //method for checking what number the student had the preference at
-    private static int getPrefNumber(String project, Student student){
+    static int getPrefNumber(String project, Student student){
         for(int i = 0; i < 10; i++){
             if(student.getPreference(i).equals(project)){
                 return i;
@@ -148,7 +148,7 @@ public class ScoringFunctions {
     }
 
     //method which returns which number of the list a solution is on
-    private static int returnNumber(List<Solution> solutions, Solution s){
+    static int returnNumber(List<Solution> solutions, Solution s){
         for(int i = 0; i < solutions.size(); i++){
             if(solutions.get(i).getProjectTitle().equals(s.getProjectTitle())){
                 return i;
@@ -219,98 +219,4 @@ public class ScoringFunctions {
         return total;
     }
 
-
-//----------------------------------------------------------------------------------------------------------------------------------//
-    //TEST METHODS
-
-    //method which tests the checkForPref method
-    static String testCheckForPref(){
-        List<String> preferences = new ArrayList<>();
-        preferences.add("test");
-        preferences.add("z");
-        preferences.add("x");
-        preferences.add("y");
-
-        Student student = new Student("check", "CS", 0, preferences, false, 0, 4.0);
-
-        if(checkForPref("test", student)){
-            return "checkForPref method is working";
-        }else{
-            return "error in method checkForPref";
-        }
-    }
-
-    //method which tests the getPrefNumber method
-    static String testGetPrefNumber(){
-        List<String> preferences = new ArrayList<>();
-        preferences.add("z");
-        preferences.add("test");
-        preferences.add("x");
-        preferences.add("y");
-
-        Student student = new Student("check", "CS", 0, preferences, false, 0, 4.0);
-
-        if(getPrefNumber("test", student) == 1){
-            return "getPrefNumber method is working";
-        }else{
-            return "error in method getPrefNumber";
-        }
-    }
-
-    //method which tests the returnNumber method
-    static String testReturnNumber(){
-        List<Solution> testSolutions = new ArrayList<>();
-        List<String> preferences = new ArrayList<>();
-
-        Student studentOne = new Student("check", "CS", 0, preferences, false, 0, 4.0);
-        Student studentTwo = new Student("chuck", "DS", 1, preferences, false, 0, 1.0);
-        Student studentThree = new Student("cheek", "CS", 2, preferences, false, 0, 2.0);
-        Student studentFour = new Student("cheese", "DS", 3, preferences, false, 0, 3.0);
-
-        Project project = new Project("x", "y", "z", false);
-
-        Solution two = new Solution(studentTwo, project, 0);
-        testSolutions.add(two);
-        testSolutions.add(new Solution(studentOne, project, 1));
-        testSolutions.add(new Solution(studentThree, project, 1));
-        testSolutions.add(new Solution(studentFour, project, 1));
-
-        if(returnNumber(testSolutions, two) == 0){
-            return "returnNumber method is working";
-        }else{
-            return "error in method returnNumber";
-        }
-    }
-
-    //method which tests the checkStream method
-    static String testCheckStream(){
-        List<Solution> testSolutions = new ArrayList<>();
-        List<String> preferences = new ArrayList<>();
-        testSolutions.add(new Solution(new Student("check", "CS", 0, preferences, false, 0, 4.0), new Project("x", "y", "z", false), 0));
-
-        checkStream(testSolutions);
-
-        if(testSolutions.get(0).getScore() == 100){
-            return "checkStream method is working";
-        }else{
-            return "error in method checkStream";
-        }
-    }
-
-    //method which tests the checkForDuplicates method
-    static String testCheckForDuplicates(){
-        List<Solution> testSolutions = new ArrayList<>();
-        List<String> preferences = new ArrayList<>();
-
-        testSolutions.add(new Solution(new Student("check", "CS", 0, preferences, false, 0, 4.0), new Project("x", "y", "z", false), 0));
-        testSolutions.add(new Solution(new Student("check", "CS", 0, preferences, false, 0, 4.0), new Project("x", "y", "z", false), 0));
-
-        checkForDuplicates(testSolutions);
-
-        if(testSolutions.get(0).getScore() == 200){
-            return "checkForDuplicates method is working";
-        }else{
-            return "error in method checkForDuplicates";
-        }
-    }
 }

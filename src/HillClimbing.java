@@ -27,7 +27,7 @@ public class HillClimbing {
     }
 
     // Decide whether or not to accept the new solution
-    private static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions){
+    static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions){
 
         if(ScoringFunctions.scoreSolution(solutions) > ScoringFunctions.scoreSolution(changedSolutions)){
             return changedSolutions;
@@ -73,7 +73,7 @@ public class HillClimbing {
         return solutions;
     }
 
-    private static Student findStudentByProject(List<Solution> solutions, String project){
+    static Student findStudentByProject(List<Solution> solutions, String project){
         for (Solution solution : solutions) {
             if (project.equals(solution.getProjectTitle())) {
                 return solution.getStudent();
@@ -82,7 +82,7 @@ public class HillClimbing {
         return solutions.get(0).getStudent();
     }
 
-    private static int findSolNumberByStudent(List<Solution> solutions, Student student){
+    static int findSolNumberByStudent(List<Solution> solutions, Student student){
         for(int i = 0; i < solutions.size(); i++){
             if(student.getName().equals(solutions.get(i).getStudent().getName())){
                 return i;
@@ -91,7 +91,7 @@ public class HillClimbing {
         return 0;
     }
 
-    private static Project findProjectByTitle(List<Solution> solutions, String project){
+    static Project findProjectByTitle(List<Solution> solutions, String project){
         for (Solution solution : solutions) {
             if (project.equals(solution.getProjectTitle())) {
                 return solution.getProject();
@@ -107,74 +107,5 @@ public class HillClimbing {
             }
         }
         return solutions.get(0).getProject();
-    }
-
-//-----------------------------------------------------------------------------------------------------------------------------------------//
-    //TEST METHODS
-
-    //method for checking if acceptance is working
-    static String testAcceptance(){
-        List<Solution> testSolutionsOne = new ArrayList<>();
-        List<Solution> testSolutionsTwo = new ArrayList<>();
-        List<String> prefs = new ArrayList<>();
-        Project testProject = new Project("test", "t", "t", true);
-        testSolutionsOne.add(new Solution( new Student("Sam", "t", 1, prefs, true, 1, 4.2), testProject, 0));
-        testSolutionsTwo.add(new Solution( new Student("Sean", "t", 1, prefs, true, 1, 1.2), testProject, 20));
-
-        List<Solution> test = acceptance(testSolutionsOne, testSolutionsTwo);
-
-        if(test.get(0).getStudent().getName().equals("Sam")){
-            return "method acceptance is working";
-        }else{
-            return "error in method acceptance";
-        }
-    }
-
-    //method for checking if findStudentByProject is working
-    static String testFindStudentByProject(){
-        List<Solution> testSolutions = new ArrayList<>();
-        List<String> prefs = new ArrayList<>();
-        Project testProject = new Project("test", "t", "t", true);
-        testSolutions.add(new Solution( new Student("Sean", "t", 1, prefs, true, 1, 4.2), testProject, 0));
-
-        Student testStudent = findStudentByProject(testSolutions, "test");
-
-        if(testStudent.getName().equals("Sean")){
-            return "method findStudentByProject is working";
-        }else{
-            return "error in method findStudentByProject";
-        }
-    }
-
-    //method for checking if findSolNumberByStudent is working
-    static String testFindSolNumberByStudent(){
-        List<Solution> testSolutions = new ArrayList<>();
-        List<String> prefs = new ArrayList<>();
-        Student testStudent = new Student("t", "t", 1, prefs, true, 1, 4.2);
-        testSolutions.add(new Solution( testStudent, new Project("test", "t", "t", true), 0));
-
-        int test = findSolNumberByStudent(testSolutions, testStudent);
-
-        if(test == 0){
-            return "method findSolNumberByStudent is working";
-        }else{
-            return "error in method findSolNumberByStudent";
-        }
-    }
-
-    //method for checking if findProjectByTitle is working
-    static String testFindProjectByTitle(){
-        String project = "test";
-        List<Solution> testSolutions = new ArrayList<>();
-        List<String> prefs = new ArrayList<>();
-        testSolutions.add(new Solution(new Student("t", "t", 1, prefs, true, 1, 4.2), new Project("test", "t", "t", true), 0));
-
-        Project test = findProjectByTitle(testSolutions, project);
-
-        if(test.getTitle().equals(project)){
-            return "method findProjectbyTitle is working";
-        }else{
-            return "error in method findProjectbyTitle";
-        }
     }
 }
