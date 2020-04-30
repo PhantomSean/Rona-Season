@@ -16,8 +16,26 @@ import java.util.*;
 public class GeneticAlgorithm implements Solver{
 
     private static List<ArrayList<Solution>> population = new ArrayList<>();
-    private  static HashMap<String, Project> projects;
+    private  static HashMap<String, Project> projects;             //populating projects HashMap and students List
+
+    static {
+        try {
+            projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static List<Student> students;
+
+    static {
+        try {
+            students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static List<Solution> temp;
 
     public static void main(String[] args) throws IOException {
@@ -38,8 +56,6 @@ public class GeneticAlgorithm implements Solver{
 
     public void solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException{
         long startTime = System.currentTimeMillis();            //starting the timer
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");             //populating projects HashMap and students List
-        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
         geneticAlgorithm(popNumber, matePercentage, cullPercentage, numGenerations);
         sortPopulation();             //sorting the finalized list of solutions
@@ -198,7 +214,6 @@ public class GeneticAlgorithm implements Solver{
 		Collection<Project> projectsCollection = p.values();
 		ArrayList<Project> projects = new ArrayList<>(projectsCollection);
 		List<Project> unassignedProjects = new ArrayList<>(projects);
-
 		for(int i=0; i<parent1.size(); i++){
 			if (projects.contains(parent1.get(i).getProject()))
 				unassignedProjects.remove(parent1.get(i).getProject());
