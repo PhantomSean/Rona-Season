@@ -50,6 +50,13 @@ public class SimulatedAnnealing implements Solver{
                 check = 0;
             }
         }
+
+        String output = "";
+        for(Student student : students){
+            Project proj = HillClimbing.findProjectByStudent(solutions, student.getName());
+            output += ("---------------------------------------------------------------------------------\nName: " + student.getName() + "\nProject: " +proj.getTitle()) + "\nPreference: "+ student.getPrefGotten()+ "\n";
+        }
+        Solve.ui.overwriteStudentString(output);
         //analysing the solution after the Simulated Annealing has been performed
         ScoringFunctions.main(solutions);
     }
