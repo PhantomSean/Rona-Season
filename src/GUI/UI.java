@@ -73,12 +73,25 @@ public class UI {
     }
 
     public void displayGAInfo(){
+        clearInfoPanel();
+        displayInfoString("You have chosen Genetic Algorithms\n");
         displayInfoString("Please enter the following parameters in the text box:");
         displayInfoString("-Population size");
         displayInfoString("-Percentage to mate");
         displayInfoString("-Percentage to cull");
         displayInfoString("-Number of Generations\n");
         displayInfoString("Please enter the parameters one at a time in correct order\n");
+    }
+    public void displaySAInfo() {
+        clearInfoPanel();
+        displayInfoString("You have chosen Simulated Annealing");
+        displayInfoString("Please wait as this will take a few moments\n");
+    }
+
+    public void displayFinish(){
+        displayInfoString("Process finished\n");
+        displayInfoString("If you would like to generate another solution please enter 'restart'");
+        displayInfoString("If you would like to end the program please enter 'quit'");
     }
 
 }

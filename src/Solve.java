@@ -9,45 +9,20 @@ public class Solve {
 		Solve s = new Solve();
 		s.solver();
 	}
-	public void solver(){
+	private void solver(){
 		boolean validCommand = false;
 		ui.displayStart();
 		do {
 			String command = ui.getCommand().toLowerCase();
 			if (command.equals("sa")) {
 				validCommand = true;
-				ui.clearInfoPanel();
-				ui.displayInfoString("You have chosen Simulated Annealing");
-				ui.displayInfoString("Please wait as this will take a few moments\n");
-				try {
-					SimulatedAnnealing SA = new SimulatedAnnealing();
-					SA.solve();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				ui.displayInfoString("Process finished\n");
-				ui.displayInfoString("If you would like to generate another solution please enter 'restart'");
+				simulatedAnnealing();
+				ui.displayFinish();
 			}
 			if (command.equals("ga")) {
 				validCommand = true;
-				ui.clearInfoPanel();
-				ui.displayInfoString("You have chosen Genetic Algorithms\n");
-				ui.displayGAInfo();
-				try {
-					GeneticAlgorithm GA = new GeneticAlgorithm();
-					int popNumber = Integer.parseInt(ui.getCommand());
-					double matePercentage = Double.parseDouble(ui.getCommand());
-					double cullPercentage = Double.parseDouble(ui.getCommand());
-					int numGenerations = Integer.parseInt(ui.getCommand());
-					ui.displayInfoString("Please wait as this will take a few moments\n");
-					GA.solve(popNumber, matePercentage, cullPercentage, numGenerations);
-					validCommand = true;
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				ui.displayInfoString("Process finished\n");
-				ui.displayInfoString("If you would like to generate another solution please enter 'restart'");
-				ui.displayInfoString("If you would like to end the program please enter 'quit'");
+				geneticAlgorithm();
+				ui.displayFinish();
 			}
 			if (command.equals("quit")) {
 				ui.quit();
@@ -64,6 +39,83 @@ public class Solve {
 			solver();
 		}
 	}
+
+	private void geneticAlgorithm(){
+		ui.displayGAInfo();
+		try {
+			GeneticAlgorithm GA = new GeneticAlgorithm();
+			int popNumber=0;
+			double matePercentage=0;
+			double cullPercentage=0;
+			int numGenerations=0;
+			boolean isIntOne;
+			boolean isIntTwo;
+			boolean isDoubleOne;
+			boolean isDoubleTwo;
+			ui.displayInfoString("\nPlease Enter Population Size");
+			do{
+				String command = ui.getCommand();
+				isIntOne = checkInt(command);
+				if(isIntOne)
+					popNumber = Integer.parseInt(command);
+				ui.displayInfoString("Population Size: "+command);
+				ui.displayInfoString("\nPlease Enter Mate Percentage");
+				command = ui.getCommand();
+				isDoubleOne = checkDouble(command);
+				if(isDoubleOne)
+					matePercentage = Double.parseDouble(command);
+				ui.displayInfoString("Mate Percentage: "+command+"%");
+				ui.displayInfoString("\nPlease Enter Cull Percentage");
+				command = ui.getCommand();
+				isDoubleTwo = checkDouble(command);
+				if(isDoubleTwo)
+					cullPercentage = Double.parseDouble(command);
+				ui.displayInfoString("Cull Percentage: "+command+"%");
+				ui.displayInfoString("\nPlease Number of Generations");
+				command = ui.getCommand();
+				isIntTwo = checkInt(command);
+				if(isIntTwo)
+					numGenerations = Integer.parseInt(command);
+				ui.displayInfoString("Number of Generations: "+command);
+				if(!isIntOne || !isIntTwo || !isDoubleOne || !isDoubleTwo){
+					ui.displayInfoString("\n\nWARNING: INVALID INPUT\nPlease re-enter your values\n\n");
+				}
+			}while(!isIntOne || !isIntTwo || !isDoubleOne || !isDoubleTwo);
+			ui.displayInfoString("Please wait as this will take a few moments\n");
+			GA.solve(popNumber, matePercentage, cullPercentage, numGenerations);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void simulatedAnnealing(){
+		ui.displaySAInfo();
+		try {
+			SimulatedAnnealing SA = new SimulatedAnnealing();
+			SA.solve();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private boolean checkInt(String string){
+		try {
+			Integer.parseInt(string);
+			return true;
+		} catch(NumberFormatException e){
+			return false;
+		}
+	}
+
+	private boolean checkDouble(String string){
+		try {
+			Double.parseDouble(string);
+			return true;
+		} catch(NumberFormatException e){
+			return false;
+		}
+	}
+
 
 
 }
