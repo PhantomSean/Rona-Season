@@ -12,11 +12,26 @@ import java.util.Random;
 
 public class SimulatedAnnealing implements Solver{
     private  static HashMap<String, Project> projects;
+
+    static {
+        try {
+            projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static List<Student> students;
 
+    static {
+        try {
+            students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void solve() throws IOException {
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
-        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
         simulatedAnnealing();
     }
     public void solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations){}
