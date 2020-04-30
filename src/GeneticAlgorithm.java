@@ -1,7 +1,6 @@
 import Classes.Project;
 import Classes.Solution;
 import Classes.Student;
-import GUI.UI;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -54,7 +53,7 @@ public class GeneticAlgorithm implements Solver{
         createSolutionFile(population.get(0), "Sample Solutions("+population.get(0).size()+").xlsx");
     }
 
-    public void solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException{
+    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations) throws IOException{
         long startTime = System.currentTimeMillis();            //starting the timer
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
         geneticAlgorithm(popNumber, matePercentage, cullPercentage, numGenerations);
@@ -66,9 +65,14 @@ public class GeneticAlgorithm implements Solver{
         long endTime = System.currentTimeMillis();
         //Stating the time took to complete
         System.out.println("Execution time : " + (endTime-startTime)/60000 + " minutes");
+        Solve.ui.displayInfoString("Execution time : " + (endTime-startTime)/60000 + " minutes");
+
+        return population.get(0);
     }
 
-    public void solve(){}
+    public List<Solution> solve(){
+        return null;
+    }
 
     //method for performing the genetic algorithm
     private static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) {
@@ -225,7 +229,7 @@ public class GeneticAlgorithm implements Solver{
 	}
 
 	//method that creates an excel file that stores the solution generated
-	private static void createSolutionFile(List<Solution> solutions, String writeFile) throws IOException {
+	static void createSolutionFile(List<Solution> solutions, String writeFile) throws IOException {
         Workbook writeBook = new XSSFWorkbook();
         Sheet writeSheet = writeBook.createSheet("Classes.Solution("+solutions.size()+")");
 
