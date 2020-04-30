@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
 
-public class CommandPanel extends JPanel  {
+class CommandPanel extends JPanel  {
 
     private static final long serialVersionUID = 1L;
     private static final int FONT_SIZE = 14;
@@ -45,7 +45,7 @@ public class CommandPanel extends JPanel  {
         add(button, BorderLayout.LINE_END);
     }
 
-    public String getCommand() {
+    String getCommand() {
         String command;
         synchronized(commandBuffer) {
             while (commandBuffer.isEmpty()) {

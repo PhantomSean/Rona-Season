@@ -42,7 +42,7 @@ public class UI {
         infoPanel.addText(string);
     }
 
-    public void displayStudentString(String string) {
+    private void displayStudentString(String string) {
         studentPanel.addText(string);
     }
 
@@ -63,16 +63,8 @@ public class UI {
         displayStudentString("This panel will be used to display the students names and also the projects allocated to them\n");
     }
 
-    public void clearInfoPanel(){
-        infoPanel.clear();
-    }
-
-    public void clearStudentPanel(){
-        studentPanel.clear();
-    }
-
     public void displayGAInfo(){
-        clearInfoPanel();
+        infoPanel.clear();
         displayInfoString("You have chosen Genetic Algorithms\n");
         displayInfoString("Please enter the following parameters in the text box:");
         displayInfoString("-Population size");
@@ -82,7 +74,7 @@ public class UI {
         displayInfoString("Please enter the parameters one at a time in correct order\n");
     }
     public void displaySAInfo() {
-        clearInfoPanel();
+        infoPanel.clear();
         displayInfoString("You have chosen Simulated Annealing");
         displayInfoString("Please wait as this will take a few moments\n");
     }
