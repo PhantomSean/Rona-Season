@@ -57,6 +57,7 @@ public class GeneticAlgorithm implements Solver{
     //method for performing the genetic algorithm
     private static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) {
         int check = 0;
+        population = new ArrayList<>();
         genPopulation(popNumber);           //generating and sorting the population
         sortPopulation();
         System.out.println("---------------------------------------------------------------");
