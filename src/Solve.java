@@ -93,7 +93,7 @@ public class Solve {
 		}
 	}
 
-	private void simulatedAnnealing(){
+	public void simulatedAnnealing(){
 		ui.displaySAInfo();
 		try {
 			SimulatedAnnealing SA = new SimulatedAnnealing();

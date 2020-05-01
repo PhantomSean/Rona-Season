@@ -17,7 +17,9 @@ class CommandPanel extends JPanel  {
     CommandPanel() {
         commandField = new JTextField();
         commandBuffer = new LinkedList<>();
-        JButton button = new JButton("Submit");
+        JButton submitButton = new JButton("Submit");
+        JButton quitButton = new JButton("Quit");
+
 
         class AddActionListener implements ActionListener {
             public void actionPerformed(ActionEvent event)	{
@@ -28,7 +30,7 @@ class CommandPanel extends JPanel  {
                 }
             }
         }
-        button.addActionListener(new ActionListener() {
+        submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 synchronized (commandBuffer) {
@@ -37,12 +39,22 @@ class CommandPanel extends JPanel  {
                     commandBuffer.notify();
             }
         }});
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                synchronized (commandBuffer) {
+                    System.exit(0);
+                }
+            }});
         ActionListener listener = new AddActionListener();
         commandField.addActionListener(listener);
         commandField.setFont(new Font("Times New Roman", Font.PLAIN, FONT_SIZE));
         setLayout(new BorderLayout());
+        JPanel panel = new JPanel();
+        panel.add(submitButton);
+        panel.add(quitButton);
         add(commandField, BorderLayout.CENTER);
-        add(button, BorderLayout.LINE_END);
+        add(panel, BorderLayout.LINE_END);
     }
 
     String getCommand() {

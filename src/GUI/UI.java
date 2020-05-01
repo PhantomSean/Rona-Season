@@ -3,6 +3,7 @@ package GUI;
 import java.awt.*;
 import javax.swing.*;
 
+
 public class UI {
 
     private static final int FRAME_WIDTH = 1195;
