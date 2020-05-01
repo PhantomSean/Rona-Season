@@ -87,5 +87,8 @@ public class UI {
         displayInfoString("If you would like to end the program please enter 'quit'");
     }
 
+    public void displayFileInput(){
+        displayInfoString("Enter the file size to use 60,120 or 500");
+    }
 }
 
