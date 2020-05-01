@@ -20,7 +20,6 @@ class CommandPanel extends JPanel  {
         JButton submitButton = new JButton("Submit");
         JButton quitButton = new JButton("Quit");
 
-
         class AddActionListener implements ActionListener {
             public void actionPerformed(ActionEvent event)	{
                 synchronized (commandBuffer) {

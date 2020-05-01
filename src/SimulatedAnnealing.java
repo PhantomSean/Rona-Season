@@ -42,6 +42,7 @@ public class SimulatedAnnealing implements Solver{
     private static List<Solution> simulatedAnnealing() throws IOException {
         int check = 0;
         List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
+        ScoringFunctions.main(solutions);
         //temperature starts at the size of the list of solutions multiplied by 1.7
         double temperature = solutions.size() * 1.7;
         while(temperature > 0){
@@ -63,12 +64,18 @@ public class SimulatedAnnealing implements Solver{
                 //resetting check if there is a change made
                 check = 0;
             }
+            Solve.ui.displayInfoString("-------------------------------------------------------------------------------\nEnergy: " + ScoringFunctions.scoreSolution(solutions) + "\nFitness: -" + ScoringFunctions.scoreSolution(solutions) + "\nTemperature: "+temperature);
+
         }
 
         String output = "";
         for(Student student : students){
             Project proj = HillClimbing.findProjectByStudent(solutions, student.getName());
-            output += ("---------------------------------------------------------------------------------\nName: " + student.getName() + "\nProject: " +proj.getTitle()) + "\nPreference: "+ student.getPrefGotten()+ "\n";
+            if(student.getPrefGotten() == 0){
+                output += ("-------------------------------------------------------------------------------\nName: " + student.getName() + "\nProject: " +proj.getTitle()) + "\nPreference: "+ "None"+ "\n";
+            }else{
+                output += ("-------------------------------------------------------------------------------\nName: " + student.getName() + "\nProject: " +proj.getTitle()) + "\nPreference: "+ student.getPrefGotten()+ "\n";
+            }
         }
         Solve.ui.overwriteStudentString(output);
         //analysing the solution after the Simulated Annealing has been performed

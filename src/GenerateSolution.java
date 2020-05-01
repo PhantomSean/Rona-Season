@@ -15,7 +15,6 @@ public class GenerateSolution {
     public static void main(String[] args) throws IOException {
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");             //populating projects HashMap and students List
         students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
-        ScoringFunctions.scoreSolution(genSolution(projects, students, new ArrayList<>()));
     }
 
 

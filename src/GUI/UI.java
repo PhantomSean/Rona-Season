@@ -35,6 +35,7 @@ public class UI {
         frame.setVisible(false);
         System.exit(0);
     }
+
     public String getCommand() {
         return commandPanel.getCommand();
     }
