@@ -15,7 +15,7 @@ public class HillClimbing {
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
         students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
 
-        List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
+        List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), false);
         ScoringFunctions.main(solutions);
 
         for(int i = 0; i < 100; i++) {

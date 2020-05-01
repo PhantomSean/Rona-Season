@@ -18,7 +18,7 @@ public class GenerateSolution {
     }
 
 
-    static List<Solution> genSolution(HashMap<String, Project> projectsList, List<Student> studentsList, List<Student> changes) {
+    static List<Solution> genSolution(HashMap<String, Project> projectsList, List<Student> studentsList, List<Student> changes, boolean gAlgo) {
         // NB! change value within rounded brackets to test the other data sets
         solutions = new ArrayList<>();
         projects = projectsList;
@@ -52,7 +52,7 @@ public class GenerateSolution {
             if(i == 0)
                 assignSelfSpecified();
             assignUnique(i);
-            assignByGPA(i);
+            assignByGPA(i, gAlgo);
         }
 
         for (Student student : studentsList) {
@@ -70,7 +70,7 @@ public class GenerateSolution {
     }
 
     //method which assigns preferences based on students GPA
-    private static void assignByGPA(int preference) {
+    private static void assignByGPA(int preference, boolean gAlgo) {
         int tmp;
         List<Student> temp = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
@@ -88,7 +88,7 @@ public class GenerateSolution {
                     while(temp.size() != 1){
                         double r = new Random().nextDouble();
                         if(temp.get(0).getGPA() > temp.get(1).getGPA()){
-                            if(r <= 0.5) {
+                            if(r <= 0.5 && gAlgo) {
                                 temp.get(1).setHasProject(true);
                                 temp.get(1).setPrefGotten(0);
                                 Solution s = new Solution(temp.get(1), genProject(temp.get(1).getStream()), 1);
@@ -96,7 +96,7 @@ public class GenerateSolution {
                             }
                             temp.remove(1);
                         }else{
-                            if(r <= 0.5) {
+                            if(r <= 0.5 && gAlgo) {
                                 temp.get(0).setHasProject(true);
                                 temp.get(0).setPrefGotten(0);
                                 Solution s = new Solution(temp.get(0), genProject(temp.get(0).getStream()), 1);

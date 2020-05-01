@@ -143,7 +143,7 @@ public class GeneticAlgorithm implements Solver{
     private static void genPopulation(int popNumber) {
         for(int i = 0; i < popNumber; i++){
             List<Solution> solutions;
-            solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
+            solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), true);
             population.add((ArrayList<Solution>) solutions);
         }
     }
