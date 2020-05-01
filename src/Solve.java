@@ -14,17 +14,31 @@ public class Solve {
 	}
 	private void solver(){
 		boolean validCommand = false;
+		int fileSize=0;
+
+		ui.displayFileInput();
+		do{
+			String command = ui.getCommand();
+			if(command.equals("60") || command.equals("120") || command.equals("500")){
+				fileSize = Integer.parseInt(command);
+				validCommand = true;
+			}else
+				ui.displayInfoString("Please enter a valid file size");
+		}while(!validCommand);
+
+		validCommand = false;
+
 		ui.displayStart();
 		do {
 			String command = ui.getCommand().toLowerCase();
 			if (command.equals("sa")) {
 				validCommand = true;
-				simulatedAnnealing();
+				simulatedAnnealing(fileSize);
 				ui.displayFinish();
 			}
 			if (command.equals("ga")) {
 				validCommand = true;
-				geneticAlgorithm();
+				geneticAlgorithm(fileSize);
 				ui.displayFinish();
 			}
 			if (command.equals("quit")) {
@@ -43,7 +57,7 @@ public class Solve {
 		}
 	}
 
-	private void geneticAlgorithm(){
+	private void geneticAlgorithm(int fileSize){
 		ui.displayGAInfo();
 		try {
 			GeneticAlgorithm GA = new GeneticAlgorithm();
@@ -85,7 +99,7 @@ public class Solve {
 				}
 			}while(!isIntOne || !isIntTwo || !isDoubleOne || !isDoubleTwo);
 			ui.displayInfoString("Please wait as this will take a few moments\n");
-			List<Solution> sol = GA.solve(popNumber, matePercentage, cullPercentage, numGenerations);
+			List<Solution> sol = GA.solve(popNumber, matePercentage, cullPercentage, numGenerations, fileSize);
 			solutionsGenerated++;
 			GeneticAlgorithm.createSolutionFile(sol, "Solutions("+solutionsGenerated+").xlsx");
 		} catch (Exception e) {
@@ -93,11 +107,11 @@ public class Solve {
 		}
 	}
 
-	public void simulatedAnnealing(){
+	public void simulatedAnnealing(int fileSize){
 		ui.displaySAInfo();
 		try {
 			SimulatedAnnealing SA = new SimulatedAnnealing();
-			List<Solution> sol = SA.solve();
+			List<Solution> sol = SA.solve(fileSize);
 			solutionsGenerated++;
 			GeneticAlgorithm.createSolutionFile(sol, "Solutions("+solutionsGenerated+").xlsx");
 		} catch (Exception e) {

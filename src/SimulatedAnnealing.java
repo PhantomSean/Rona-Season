@@ -10,36 +10,28 @@ import java.util.Random;
 
 
 public class SimulatedAnnealing implements Solver{
+
     private  static HashMap<String, Project> projects;
-
-    static {
-        try {
-            projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private static List<Student> students;
 
-    static {
-        try {
-            students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public List<Solution> solve() throws IOException {
-        return simulatedAnnealing();
+    public List<Solution> solve(int fileSize) throws IOException {
+        fillData(fileSize);
+
+        List<Solution> answer = simulatedAnnealing(fileSize);
+
+        projects.clear();
+        students.clear();
+
+        return answer;
     }
-    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations){
+    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize){
         return null;
     }
 
     //method for performing Simulated Annealing
 
-    private static List<Solution> simulatedAnnealing() throws IOException {
+    private static List<Solution> simulatedAnnealing(int fileSize) throws IOException {
         int check = 0;
         List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>());
         ScoringFunctions.main(solutions);
@@ -83,6 +75,26 @@ public class SimulatedAnnealing implements Solver{
 
         return solutions;
     }
+
+
+    public void fillData(int fileSize){
+        try {
+            students = PopulateClasses.populateStudentClass("Students&Preferences("+fileSize+").xlsx");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            projects = PopulateClasses.populateProjectClass("Staff&Projects("+fileSize+").xlsx");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
 
     //method for checking if the changed solution is to be accepted or not, takes Boltzmann probability into account
     private static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions, double temperature, double score){
