@@ -12,6 +12,8 @@ students names along with their project receive and where if at all it was on th
 We then started to break each of these down and get the correct information displaying for each as input is given and algorithms are executed.
 We then implement a method for saving the solutions to .xlsx files which are saved in the project folder under the name "Solutions(i)" where i is a number corresponding to the
 order in which the solutions are saved i.e first solution saved is "Solutions(1)", second is "Solutions(2)" and so on.
+From our reading and understanding of the rubric given for this weeks sprint we built the GUI to follow these steps:
+1.
 
 METHODS ADDED:
 We add the UI class which is used to set up a frame centered in the screen and is of a set width. Inside the frame the three panels are added.
