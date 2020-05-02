@@ -16,7 +16,7 @@ We then implement a method for saving the solutions to .xlsx files which are sav
 order in which the solutions are saved i.e first solution saved is "Solutions(1)", second is "Solutions(2)" and so on.
 From our reading and understanding of the rubric given for this weeks sprint we built the GUI to follow these steps:
 1.  Get the user to input what student data set they want to operate on 60, 120, 240 or 500
-2.  Get the user to choose whether they want to use the SA or GA algorithm on the
+2.  Get the user to choose whether they want to use the SA or GA algorithm on the data set
 
 METHODS ADDED:
 We add the UI class which is used to set up a frame centered in the screen and is of a set width. Inside the frame the three panels are added.
