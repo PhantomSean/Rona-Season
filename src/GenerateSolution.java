@@ -12,11 +12,6 @@ public class GenerateSolution {
 
     private static double score_mult = 0.75;
 
-    public static void main(String[] args) throws IOException {
-        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");             //populating projects HashMap and students List
-        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
-    }
-
 
     static List<Solution> genSolution(HashMap<String, Project> projectsList, List<Student> studentsList, List<Student> changes, boolean gAlgo) {
         // NB! change value within rounded brackets to test the other data sets

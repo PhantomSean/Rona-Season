@@ -40,14 +40,17 @@ public class UI {
         return commandPanel.getCommand();
     }
 
+    //appends text to info panel
     public void displayInfoString(String string) {
         infoPanel.addText(string);
     }
 
+    //appends text to student panel
     private void displayStudentString(String string) {
         studentPanel.addText(string);
     }
 
+    //Overwrites text in student panel
     public void overwriteStudentString(String string){
         studentPanel.overwriteText(string);
     }

@@ -26,7 +26,7 @@ class InfoPanel extends JPanel {
         setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
     }
-
+    //append text
     public void addText(String text) {
         textArea.setText(textArea.getText()+"\n"+text);
     }
