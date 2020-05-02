@@ -21,31 +21,8 @@ public class GeneticAlgorithm implements Solver{
 	private String projectFile;
 	private String studentFile;
 
-//	public GeneticAlgorithm(int fileSize){
-//		this.projectFile = "Staff&Projects("+fileSize+").xlsx";
-//		this.studentFile = "Students&Preferences("+fileSize+").xlsx";
-//
-//	}
-
 
     private static List<Solution> temp;
-
-//    public static void main(String[] args) throws IOException {
-//        long startTime = System.currentTimeMillis();            //starting the timer
-//        projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");             //populating projects HashMap and students List
-//        students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
-//        //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
-//        geneticAlgorithm(1000, 15, 10, 1000);
-//        sortPopulation();             //sorting the finalized list of solutions
-//		ScoringFunctions.main(population.get(0));           //Analysing the most optimal solution found
-//
-//        long endTime = System.currentTimeMillis();
-//        //Stating the time took to complete
-//        System.out.println("Execution time : " + (endTime-startTime)/60000 + " minutes");
-////        System.out.println("\n");
-//        createSolutionFile(population.get(0), "Sample Solutions("+population.get(0).size()+").xlsx");
-//    }
-
 
 
 

@@ -18,6 +18,7 @@ public class Solve {
 
 		ui.displayFileInput();
 		do{
+			//Keep asking for input until user selects a valid file size
 			String command = ui.getCommand();
 			if(command.equals("60") || command.equals("120") || command.equals("240") || command.equals("500")){
 				fileSize = Integer.parseInt(command);
@@ -28,8 +29,10 @@ public class Solve {
 
 		validCommand = false;
 
+		//Keep asking for input until user inputs valid mode, SA, GA or quit
 		ui.displayStart();
 		do {
+			//convert to lower to allow for upper and lower inputs
 			String command = ui.getCommand().toLowerCase();
 			if (command.equals("sa")) {
 				validCommand = true;
@@ -69,6 +72,8 @@ public class Solve {
 			boolean isIntTwo;
 			boolean isDoubleOne;
 			boolean isDoubleTwo;
+
+			//keep asking for input until all 4 parameters are correct for GA
 			ui.displayInfoString("\nPlease Enter Population Size");
 			do{
 				String command = ui.getCommand();
