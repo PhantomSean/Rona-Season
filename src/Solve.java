@@ -19,7 +19,7 @@ public class Solve {
 		ui.displayFileInput();
 		do{
 			String command = ui.getCommand();
-			if(command.equals("60") || command.equals("120") || command.equals("500")){
+			if(command.equals("60") || command.equals("120") || command.equals("240") || command.equals("500")){
 				fileSize = Integer.parseInt(command);
 				validCommand = true;
 			}else

@@ -1,9 +1,27 @@
 TEAM NAME: Rona Season
 CONTRIBUTORS: Sean Stewart, Oscar Byrne Carty, Caolán Power
 
-SPRINT 6:
+SPRINT 7:
 
 HOW TO RUN:
+
+APPROACH:
+When building the GUI we decided upon using swing as we were all familiar with it and it is supported by all version of java.
+We first decided upon a rough layout for the GUI and decided that it should include three panels; an info panel for all input and output, a student info panel to display
+students names along with their project receive and where if at all it was on their preference list, and a command panel to allow for user input.
+We then started to break each of these down and get the correct information displaying for each as input is given and algorithms are executed.
+We then implement a method for saving the solutions to .xlsx files which are saved in the project folder under the name "Solutions(i)" where i is a number corresponding to the
+order in which the solutions are saved i.e first solution saved is "Solutions(1)", second is "Solutions(2)" and so on.
+
+METHODS ADDED:
+We add the UI class which is used to set up a frame centered in the screen and is of a set width. Inside the frame the three panels are added.
+UI also contains methods which allow the frame to be closed, for a command to be gotten from the user, to display and overwrite strings in the panels.
+There are also multiple methods containing specific strings to be displayed at multiple points dependent upon what algorithm is chosen.
+The solve class has also been added to and is now where the UI is called from. The solver method in this class now also handles user input and makes calls to relevant
+methods.
+
+SPRINT 6:
+
 -Select which data set is to be used when creating the students and staff Lists and projects Hashmap( Staff&Projects(60/120/240/500).xlsx and Students&Preferences(60/120/240/500).xlsx ) in whichever class you wish to run
 -If you wish to find a solution using a Genetic Algorithm then run the GeneticAlgorithm class, also ensure to customize the parameters (population size, percentage to cull, percentage to mate, number of generations) if you want to
 -If you wish to find a solution using Hill Climbing, run the HillClimbing class. If you wish to adjust how many times the Hill Climbing is performed, decrease/increase the number in the loop in main.

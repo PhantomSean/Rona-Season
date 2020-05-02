@@ -88,7 +88,7 @@ public class UI {
     }
 
     public void displayFileInput(){
-        displayInfoString("Enter the file size to use 60,120 or 500");
+        displayInfoString("Enter the file size to use 60, 120, 240 or 500");
     }
 }
 
