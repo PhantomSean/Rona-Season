@@ -22,6 +22,18 @@ There are also multiple methods containing specific strings to be displayed at m
 The solve class has also been added to and is now where the UI is called from. The solver method in this class now also handles user input and makes calls to relevant
 methods.
 
+Solver()
+This method creates the UI and displays text on the panels to get commands from the user
+It first asks for input on which file size to use 60,120 or 500. It doesn't accept anything else and keeps asking until valid
+Then it asks for which algorithm to use Simulated Annealing (SA) or Genetic Algorithm (GA). It can be upper or lowercase and is safe for invalid inputs
+It then calls each method depending on input
+
+GeneticAlgorithm()
+This sets up and carries out the genetic algorithm based on file size and gets further input from the user on population size, mate and cull percentage and number of generations
+
+SimulatedAnnealing()
+Carries out Simulated Annealing based on the file size given
+
 SPRINT 6:
 
 -Select which data set is to be used when creating the students and staff Lists and projects Hashmap( Staff&Projects(60/120/240/500).xlsx and Students&Preferences(60/120/240/500).xlsx ) in whichever class you wish to run
