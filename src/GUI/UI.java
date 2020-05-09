@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.*;
+import java.io.IOException;
 import javax.swing.*;
 
 
@@ -12,9 +13,10 @@ public class UI {
     private final InfoPanel infoPanel;
     private final InfoPanel studentPanel;
     private final CommandPanel commandPanel;
+    private ImportFilePanel importFilePanel;
     private final JFrame frame;
 
-    public UI(JFrame frame) {
+    public UI(JFrame frame) throws IOException {
         this.frame = frame;
         infoPanel = new InfoPanel();
         studentPanel = new InfoPanel();
@@ -36,6 +38,12 @@ public class UI {
         System.exit(0);
     }
 
+    public void importFile(JFrame frame) throws IOException {
+        importFilePanel = new ImportFilePanel();
+        studentPanel.setVisible(false);
+        frame.add(importFilePanel, BorderLayout.LINE_END);
+    }
+
     public String getCommand() {
         return commandPanel.getCommand();
     }
@@ -55,8 +63,11 @@ public class UI {
         studentPanel.overwriteText(string);
     }
 
-
+    public void removeImportPanel(){
+        importFilePanel.setVisible(false);
+    }
     public void displayStart() {
+        studentPanel.setVisible(true);
         infoPanel.clear();
         studentPanel.clear();
         displayInfoString("Welcome to Solver\n");
@@ -91,7 +102,10 @@ public class UI {
     }
 
     public void displayFileInput(){
-        displayInfoString("Enter the file size to use 60, 120, 240 or 500");
+        displayInfoString("Enter the file size to use 60, 120, 240 or 500\n");
+        displayInfoString("If you would like to upload your own file please enter 'CUSTOM'\n");
     }
+
+    public String getFileName(){ return importFilePanel.getFileName(); }
 }
 

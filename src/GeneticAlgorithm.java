@@ -28,13 +28,21 @@ public class GeneticAlgorithm implements Solver{
 
     public void fillData(int fileSize){
 	    try {
-		    students = PopulateClasses.populateStudentClass("Students&Preferences("+fileSize+").xlsx");
+	        if(fileSize == 1){
+                students = PopulateClasses.populateCustomStudentClass(Solve.ui.getFileName());
+            }else {
+                students = PopulateClasses.populateStudentClass("Students&Preferences(" + fileSize + ").xlsx");
+            }
 	    } catch (IOException e) {
 		    e.printStackTrace();
 	    }
 
 	    try {
-		    projects = PopulateClasses.populateProjectClass("Staff&Projects("+fileSize+").xlsx");
+            if(fileSize == 1){
+                projects = PopulateClasses.populateCustomProjectClass(Solve.ui.getFileName());
+            }else {
+                projects = PopulateClasses.populateProjectClass("Staff&Projects(" + fileSize + ").xlsx");
+            }
 		   } catch (IOException e) {
 		    e.printStackTrace();
 		   }
