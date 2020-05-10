@@ -68,12 +68,11 @@ public class PopulateClasses {
     }
 
     static HashMap<String, Project> populateCustomProjectClass(String readFile) throws IOException {
-        System.out.println("started projects");
         for(int i = 1; i < getNumRows(readFile); i++){
             if(readCellData(readFile, i, 1).equals(""))
                 break;
             for(int j = 4; j < 21; j++){
-                if(readCellData(readFile, i, j) == null)
+                if(readCellData(readFile, i, j).equals(""))
                     break;
                 if(checkProject(projects, (readCellData(readFile, i, j)))){
                     Project project = new Project(readCellData(readFile, i, j), "CS + DS", (readCellData(readFile, i, 3)),false);
@@ -81,7 +80,6 @@ public class PopulateClasses {
                 }
             }
         }
-        System.out.println("projects done");
         return projects;
     }
 
@@ -103,7 +101,7 @@ public class PopulateClasses {
             for (int j = 0; j < 10; j++){
                 int pos = j+4;
                 if(readCellData(readFile, i, pos).equals(""))
-                    break;
+                    preferences.add("none");
                 preferences.add(readCellData(readFile,i,pos));
             }
             Student student = new Student(readCellData(readFile, i, 0), "CS", Integer.parseInt(readCellData(readFile, i, 1)), preferences, false, 0, Double.parseDouble(readCellData(readFile, i, 2)));

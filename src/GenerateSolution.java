@@ -12,6 +12,21 @@ public class GenerateSolution {
 
     private static double score_mult = 0.75;
 
+    public static void main(String[] args) throws IOException {
+        projects = PopulateClasses.populateCustomProjectClass("sample preference matrix (1).xlsx");
+        students = PopulateClasses.populateCustomStudentClass("sample preference matrix (1).xlsx");
+        for (Map.Entry<String, Project> project : projects.entrySet()){
+            System.out.println(project.getKey());
+        }
+        System.out.println(projects.size());
+        System.out.println(students.size());
+        System.out.println("started generating");
+        List<Solution> sol = genSolution(projects, students, new ArrayList<>(), false);
+        System.out.println(sol.size());
+        System.out.println("started analyzing");
+        ScoringFunctions.analyse(sol);
+    }
+
 
     static List<Solution> genSolution(HashMap<String, Project> projectsList, List<Student> studentsList, List<Student> changes, boolean gAlgo) {
         // NB! change value within rounded brackets to test the other data sets
@@ -39,16 +54,26 @@ public class GenerateSolution {
                 }
             }
         }
+
         for (Solution solution : solutions)
             System.out.println("This change has been added to solutions " + solution.getStudent().getName() + "\t" + solution.getProject().getTitle());
 
-
         for(int i = 0; i < 10; i++){
+            System.out.println(i);
+            System.out.println(solutions.size());
             if(i == 0)
                 assignSelfSpecified();
+            System.out.println("A");
+            System.out.println(solutions.size());
             assignUnique(i);
+
+            System.out.println("B");
+            System.out.println(solutions.size());
             assignByGPA(i, gAlgo);
+
+
         }
+
 
         for (Student student : studentsList) {
             if (!student.hasProject()) {
@@ -70,7 +95,7 @@ public class GenerateSolution {
         List<Student> temp = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
             //goes through all students and if multiple students have the same project at the same preference adds them to the List temp
-            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(preference, i, students.get(i).getPreference(preference))) {
+            if (!students.get(i).hasProject() && !students.get(i).getPreference(preference).equals("none") && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(preference, i, students.get(i).getPreference(preference))) {
                 temp.add(students.get(i));
                 tmp = i + 1;
 
