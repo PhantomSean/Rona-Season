@@ -12,9 +12,12 @@ public class Solve {
 		Solve s = new Solve();
 		s.solver();
 	}
+
 	private void solver(){
 		boolean validCommand = false;
 		int fileSize=0;
+
+		ui.displaySliderText();
 
 		ui.displayFileInput();
 		do{

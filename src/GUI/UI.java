@@ -9,14 +9,14 @@ public class UI {
     private static final int FRAME_WIDTH = 1195;
     private static final int FRAME_HEIGHT = 600;
 
-    private final InfoPanel infoPanel;
+    private final InputPanel infoPanel;
     private final InfoPanel studentPanel;
     private final CommandPanel commandPanel;
     private final JFrame frame;
 
     public UI(JFrame frame) {
         this.frame = frame;
-        infoPanel = new InfoPanel();
+        infoPanel = new InputPanel();
         studentPanel = new InfoPanel();
         commandPanel = new CommandPanel();
         this.frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -39,6 +39,8 @@ public class UI {
     public String getCommand() {
         return commandPanel.getCommand();
     }
+
+    public int getSliderInput(){ return infoPanel.getSliderInput(); }
 
     //appends text to info panel
     public void displayInfoString(String string) {
@@ -93,5 +95,7 @@ public class UI {
     public void displayFileInput(){
         displayInfoString("Enter the file size to use 60, 120, 240 or 500");
     }
+
+    public void displaySliderText(){displayInfoString("Use the slider below to enter the GPA importance for the solving");}
 }
 
