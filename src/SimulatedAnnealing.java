@@ -18,7 +18,7 @@ public class SimulatedAnnealing implements Solver{
     public List<Solution> solve(int fileSize, boolean custom) throws IOException {
         fillData(fileSize, custom);
 
-        List<Solution> answer = simulatedAnnealing(fileSize, custom);
+        List<Solution> answer = simulatedAnnealing(custom);
 
         projects.clear();
         students.clear();
@@ -27,7 +27,7 @@ public class SimulatedAnnealing implements Solver{
     }
 
     @Override
-    public List<Solution> solve(int fileSize) throws IOException {
+    public List<Solution> solve(int fileSize) {
         return null;
     }
 
@@ -37,7 +37,7 @@ public class SimulatedAnnealing implements Solver{
 
     //method for performing Simulated Annealing
 
-    private static List<Solution> simulatedAnnealing(int fileSize, boolean custom) throws IOException {
+    private static List<Solution> simulatedAnnealing(boolean custom) {
         int check = 0;
         List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), false, custom);
         ScoringFunctions.main(solutions);
@@ -66,16 +66,16 @@ public class SimulatedAnnealing implements Solver{
 
         }
 
-        String output = "";
+        StringBuilder output = new StringBuilder();
         for(Student student : students){
             Project proj = HillClimbing.findProjectByStudent(solutions, student.getName());
             if(student.getPrefGotten() == 0){
-                output += ("-------------------------------------------------------------------------------\nName: " + student.getName() + "\nProject: " +proj.getTitle()) + "\nPreference: "+ "None"+ "\n";
+                output.append("-------------------------------------------------------------------------------\nName: ").append(student.getName()).append("\tStudent No.: ").append(student.getStudentId()).append("\tGPA: ").append(student.getGPA()).append("\nProject: ").append(proj.getTitle()).append("\nPreference: ").append("None").append("\n");
             }else{
-                output += ("-------------------------------------------------------------------------------\nName: " + student.getName() + "\nProject: " +proj.getTitle()) + "\nPreference: "+ student.getPrefGotten()+ "\n";
+                output.append("-------------------------------------------------------------------------------\nName: ").append(student.getName()).append("\tStudent No.: ").append(student.getStudentId()).append("\tGPA: ").append(student.getGPA()).append("\nProject: ").append(proj.getTitle()).append("\nPreference: ").append(student.getPrefGotten()).append("\n");
             }
         }
-        Solve.ui.overwriteStudentString(output);
+        Solve.ui.overwriteStudentString(output.toString());
         //analysing the solution after the Simulated Annealing has been performed
         ScoringFunctions.main(solutions);
 
