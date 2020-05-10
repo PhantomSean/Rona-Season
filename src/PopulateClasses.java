@@ -100,9 +100,11 @@ public class PopulateClasses {
             List<String> preferences = new ArrayList<String>();
             for (int j = 0; j < 10; j++){
                 int pos = j+4;
-                if(readCellData(readFile, i, pos).equals(""))
+                if(readCellData(readFile, i, pos).equals("")) {
                     preferences.add("none");
-                preferences.add(readCellData(readFile,i,pos));
+                }else {
+                    preferences.add(readCellData(readFile, i, pos));
+                }
             }
             Student student = new Student(readCellData(readFile, i, 0), "CS", Integer.parseInt(readCellData(readFile, i, 1)), preferences, false, 0, Double.parseDouble(readCellData(readFile, i, 2)));
             students.add(student);

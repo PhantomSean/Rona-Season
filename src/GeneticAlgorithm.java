@@ -26,9 +26,9 @@ public class GeneticAlgorithm implements Solver{
 
 
 
-    public void fillData(int fileSize){
+    private void fillData(int fileSize, boolean custom){
 	    try {
-	        if(fileSize == 1){
+	        if(custom){
                 students = PopulateClasses.populateCustomStudentClass(Solve.ui.getFileName());
             }else {
                 students = PopulateClasses.populateStudentClass("Students&Preferences(" + fileSize + ").xlsx");
@@ -38,7 +38,7 @@ public class GeneticAlgorithm implements Solver{
 	    }
 
 	    try {
-            if(fileSize == 1){
+            if(custom){
                 projects = PopulateClasses.populateCustomProjectClass(Solve.ui.getFileName());
             }else {
                 projects = PopulateClasses.populateProjectClass("Staff&Projects(" + fileSize + ").xlsx");
@@ -53,12 +53,12 @@ public class GeneticAlgorithm implements Solver{
 
 
 
-    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize) throws IOException{
+    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize, boolean custom) throws IOException{
 	    List<Solution> fittestSolution;
-        fillData(fileSize);
+        fillData(fileSize, custom);
     	long startTime = System.currentTimeMillis();            //starting the timer
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
-        geneticAlgorithm(popNumber, matePercentage, cullPercentage, numGenerations);
+        geneticAlgorithm(popNumber, matePercentage, cullPercentage, numGenerations, custom);
         sortPopulation();             //sorting the finalized list of solutions
         ScoringFunctions.main(population.get(0));//Analysing the most optimal solution found
 
@@ -82,11 +82,16 @@ public class GeneticAlgorithm implements Solver{
         return null;
     }
 
+    @Override
+    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize) throws IOException {
+        return null;
+    }
+
     //method for performing the genetic algorithm
-    private static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) {
+    private static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations, boolean custom) {
         int check = 0;
         population = new ArrayList<>();
-        genPopulation(popNumber);           //generating and sorting the population
+        genPopulation(popNumber, custom);           //generating and sorting the population
         sortPopulation();
         System.out.println("---------------------------------------------------------------");
         for(int i = 0; i < numGenerations; i++){//Each generation is sorted and then culled
@@ -125,10 +130,10 @@ public class GeneticAlgorithm implements Solver{
     }
 
     //method for generating the population
-    private static void genPopulation(int popNumber) {
+    private static void genPopulation(int popNumber, boolean custom) {
         for(int i = 0; i < popNumber; i++){
             List<Solution> solutions;
-            solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), true);
+            solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), true, custom);
             population.add((ArrayList<Solution>) solutions);
         }
     }
