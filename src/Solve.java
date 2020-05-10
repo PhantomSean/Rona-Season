@@ -7,6 +7,7 @@ import java.util.List;
 public class Solve {
 	static final UI ui = new UI(new JFrame());
 	private static int solutionsGenerated = 0;
+	private int GPAImportance;
 
 	public static void main(String[] args){
 		Solve s = new Solve();
@@ -29,6 +30,8 @@ public class Solve {
 			}else
 				ui.displayInfoString("Please enter a valid file size");
 		}while(!validCommand);
+
+		GPAImportance = ui.getSliderInput();
 
 		validCommand = false;
 
