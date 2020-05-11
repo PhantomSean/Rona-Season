@@ -39,7 +39,7 @@ public class PopulateClasses {
         return staff;
     }
 
-    public static HashMap<String, Project> populateProjectClass(String readFile) throws IOException {
+    static HashMap<String, Project> populateProjectClass(String readFile) throws IOException {
         int numProjects = getNumRows(readFile);
         for(int i = 1; i < numProjects; i++){
             Project project = new Project(readCellData(readFile, i, 1), readCellData(readFile, i, 2), readCellData(readFile, i, 0), false);
@@ -50,7 +50,7 @@ public class PopulateClasses {
         return projects;
     }
 
-    public static List<Student> populateStudentClass(String readFile) throws IOException{
+    static List<Student> populateStudentClass(String readFile) throws IOException{
         int numStudents = getNumRows(readFile);
         for(int i = 1; i < numStudents; i++){
             List<String> preferences = new ArrayList<String>();
@@ -67,7 +67,52 @@ public class PopulateClasses {
         return students;
     }
 
-    public static String readCellData(String file, int vRow, int vColumn) throws IOException {
+    static HashMap<String, Project> populateCustomProjectClass(String readFile) throws IOException {
+        System.out.println("started projects");
+        for(int i = 1; i < getNumRows(readFile); i++){
+            if(readCellData(readFile, i, 1).equals(""))
+                break;
+            for(int j = 4; j < 21; j++){
+                if(readCellData(readFile, i, j) == null)
+                    break;
+                if(checkProject(projects, (readCellData(readFile, i, j)))){
+                    Project project = new Project(readCellData(readFile, i, j), "CS + DS", (readCellData(readFile, i, 3)),false);
+                    projects.put(project.getTitle(), project);
+                }
+            }
+        }
+        System.out.println("projects done");
+        return projects;
+    }
+
+    private static boolean checkProject(HashMap<String, Project> projects, String project){
+        for (Map.Entry<String, Project> entry : projects.entrySet()) {
+            if(entry.getKey().equals(project)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static List<Student> populateCustomStudentClass(String readFile) throws IOException{
+        int numStudents = getNumRows(readFile);
+        for(int i = 1; i < numStudents; i++){
+            if(readCellData(readFile, i, 1).equals(""))
+                break;
+            List<String> preferences = new ArrayList<String>();
+            for (int j = 0; j < 10; j++){
+                int pos = j+4;
+                if(readCellData(readFile, i, pos).equals(""))
+                    break;
+                preferences.add(readCellData(readFile,i,pos));
+            }
+            Student student = new Student(readCellData(readFile, i, 0), "CS", Integer.parseInt(readCellData(readFile, i, 1)), preferences, false, 0, Double.parseDouble(readCellData(readFile, i, 2)));
+            students.add(student);
+        }
+        return students;
+    }
+
+    private static String readCellData(String file, int vRow, int vColumn) throws IOException {
         String value;
         Workbook readBook = null;
         try {
@@ -94,7 +139,7 @@ public class PopulateClasses {
 
     }
 
-    public static int getNumRows(String file) {
+    private static int getNumRows(String file) {
         Workbook readBook = null;
         try {
             readBook = new XSSFWorkbook(new FileInputStream(file));
@@ -108,7 +153,7 @@ public class PopulateClasses {
     }
 
     //method for generating students GPA
-    public static double genGPA(){
+    static double genGPA(){
         double GPA = 0;
         Random r = new Random();
         //selects a random number from 1 to 10

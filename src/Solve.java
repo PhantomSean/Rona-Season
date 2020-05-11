@@ -2,19 +2,30 @@ import Classes.Solution;
 import GUI.UI;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.List;
 
 public class Solve {
-	static final UI ui = new UI(new JFrame());
+	private static JFrame frame = new JFrame();
+	static UI ui = null;
+
+	static {
+		try {
+			ui = new UI(frame);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private static int solutionsGenerated = 0;
 	private int GPAImportance;
 
-	public static void main(String[] args){
+	public static void main(String[] args) throws IOException {
 		Solve s = new Solve();
 		s.solver();
 	}
 
-	private void solver(){
+	private void solver() throws IOException {
 		boolean validCommand = false;
 		int fileSize=0;
 
@@ -27,6 +38,10 @@ public class Solve {
 			if(command.equals("60") || command.equals("120") || command.equals("240") || command.equals("500")){
 				fileSize = Integer.parseInt(command);
 				validCommand = true;
+			}else if(command.toLowerCase().equals("custom")){
+				ui.importFile(frame);
+				fileSize = 1;
+				validCommand = true;
 			}else
 				ui.displayInfoString("Please enter a valid file size");
 		}while(!validCommand);
@@ -36,6 +51,8 @@ public class Solve {
 		validCommand = false;
 
 		//Keep asking for input until user inputs valid mode, SA, GA or quit
+		if(fileSize == 1)
+			ui.removeImportPanel();
 		ui.displayStart();
 		do {
 			//convert to lower to allow for upper and lower inputs
