@@ -56,7 +56,9 @@ public class Solve {
 		if(fileSize == 1)
 			ui.removeImportPanel();
 		ui.displayStart();
+		ui.displayInfoString("GPA Importance for this is " +GPAImportance);
 		do {
+
 			//convert to lower to allow for upper and lower inputs
 			String command = ui.getCommand().toLowerCase();
 			if (command.equals("sa")) {
