@@ -13,7 +13,7 @@ public class GenerateSolution {
     private static double score_mult = 0.75;
 
 
-    static List<Solution> genSolution(HashMap<String, Project> projectsList, List<Student> studentsList, List<Student> changes, boolean gAlgo) {
+    static List<Solution> genSolution(HashMap<String, Project> projectsList, List<Student> studentsList, List<Student> changes, boolean gAlgo, boolean custom) {
         // NB! change value within rounded brackets to test the other data sets
         solutions = new ArrayList<>();
         projects = projectsList;
@@ -39,9 +39,9 @@ public class GenerateSolution {
                 }
             }
         }
+
         for (Solution solution : solutions)
             System.out.println("This change has been added to solutions " + solution.getStudent().getName() + "\t" + solution.getProject().getTitle());
-
 
         for(int i = 0; i < 10; i++){
             if(i == 0)
@@ -49,6 +49,7 @@ public class GenerateSolution {
             assignUnique(i);
             assignByGPA(i, gAlgo);
         }
+
 
         for (Student student : studentsList) {
             if (!student.hasProject()) {
@@ -70,43 +71,46 @@ public class GenerateSolution {
         List<Student> temp = new ArrayList<>();
         for (int i = 0; i < students.size(); i++) {
             //goes through all students and if multiple students have the same project at the same preference adds them to the List temp
-            if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(preference, i, students.get(i).getPreference(preference))) {
-                temp.add(students.get(i));
-                tmp = i + 1;
+            if(!students.get(i).getPreference(preference).equals("none")) {
+                if (!students.get(i).hasProject() && !projects.get(students.get(i).getPreference(preference)).isTaken() && checkForOthers(preference, i, students.get(i).getPreference(preference))) {
+                    temp.add(students.get(i));
+                    tmp = i + 1;
 
-                for (int j = tmp; j < students.size(); j++) {
-                    if (temp.get(0).getPreference(preference).equals(students.get(j).getPreference(preference)) && !students.get(j).hasProject()) {
-                        temp.add(students.get(j));
-                    }
-                }
-                if(temp.size() > 1) {
-                    while(temp.size() != 1){
-                        double r = new Random().nextDouble();
-                        if(temp.get(0).getGPA() > temp.get(1).getGPA()){
-                            if(r <= 0.5 && gAlgo) {
-                                temp.get(1).setHasProject(true);
-                                temp.get(1).setPrefGotten(0);
-                                Solution s = new Solution(temp.get(1), genProject(temp.get(1).getStream()), 1);
-                                solutions.add(s);
-                            }
-                            temp.remove(1);
-                        }else{
-                            if(r <= 0.5 && gAlgo) {
-                                temp.get(0).setHasProject(true);
-                                temp.get(0).setPrefGotten(0);
-                                Solution s = new Solution(temp.get(0), genProject(temp.get(0).getStream()), 1);
-                                solutions.add(s);
-                            }
-                            temp.remove(0);
+                    for (int j = tmp; j < students.size(); j++) {
+                        if (temp.get(0).getPreference(preference).equals(students.get(j).getPreference(preference)) && !students.get(j).hasProject()) {
+                            temp.add(students.get(j));
                         }
                     }
-                    //creates a new solution, calculates the score and stores the solution
-                    Solution s = new Solution(temp.get(0), projects.get(temp.get(0).getPreference(preference)), Math.pow(score_mult, 10-preference));
-                    temp.get(0).setHasProject(true);
-                    temp.get(0).setPrefGotten(preference + 1);
-                    projects.get(temp.get(0).getPreference(preference)).setTaken(true);
-                    solutions.add(s);
-                    temp.clear();
+                    if (temp.size() > 1) {
+                        while (temp.size() != 1) {
+                            double r = new Random().nextDouble();
+                            if (temp.get(0).getGPA() > temp.get(1).getGPA()) {
+                                if (r <= 0.5 && gAlgo) {
+                                    temp.get(1).setHasProject(true);
+                                    temp.get(1).setPrefGotten(0);
+                                    Solution s = new Solution(temp.get(1), genProject(temp.get(1).getStream()), 1);
+                                    solutions.add(s);
+                                }
+                                temp.remove(1);
+                            } else {
+                                if (r <= 0.5 && gAlgo) {
+                                    temp.get(0).setHasProject(true);
+                                    temp.get(0).setPrefGotten(0);
+                                    Solution s = new Solution(temp.get(0), genProject(temp.get(0).getStream()), 1);
+                                    solutions.add(s);
+                                }
+                                temp.remove(0);
+                            }
+                        }
+
+                        //creates a new solution, calculates the score and stores the solution
+                        Solution s = new Solution(temp.get(0), projects.get(temp.get(0).getPreference(preference)), Math.pow(score_mult, 10 - preference));
+                        temp.get(0).setHasProject(true);
+                        temp.get(0).setPrefGotten(preference + 1);
+                        projects.get(temp.get(0).getPreference(preference)).setTaken(true);
+                        solutions.add(s);
+                        temp.clear();
+                    }
                 }
             }
         }

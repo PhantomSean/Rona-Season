@@ -26,9 +26,9 @@ public class GeneticAlgorithm implements Solver{
 
 
 
-    public void fillData(int fileSize){
+    private void fillData(int fileSize, boolean custom){
 	    try {
-	        if(fileSize == 1){
+	        if(custom){
                 students = PopulateClasses.populateCustomStudentClass(Solve.ui.getFileName());
             }else {
                 students = PopulateClasses.populateStudentClass("Students&Preferences(" + fileSize + ").xlsx");
@@ -38,7 +38,7 @@ public class GeneticAlgorithm implements Solver{
 	    }
 
 	    try {
-            if(fileSize == 1){
+            if(custom){
                 projects = PopulateClasses.populateCustomProjectClass(Solve.ui.getFileName());
             }else {
                 projects = PopulateClasses.populateProjectClass("Staff&Projects(" + fileSize + ").xlsx");
@@ -53,12 +53,12 @@ public class GeneticAlgorithm implements Solver{
 
 
 
-    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize) throws IOException{
+    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize, boolean custom) throws IOException{
 	    List<Solution> fittestSolution;
-        fillData(fileSize);
+        fillData(fileSize, custom);
     	long startTime = System.currentTimeMillis();            //starting the timer
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
-        geneticAlgorithm(popNumber, matePercentage, cullPercentage, numGenerations);
+        geneticAlgorithm(popNumber, matePercentage, cullPercentage, numGenerations, custom);
         sortPopulation();             //sorting the finalized list of solutions
         ScoringFunctions.main(population.get(0));//Analysing the most optimal solution found
 
@@ -82,24 +82,29 @@ public class GeneticAlgorithm implements Solver{
         return null;
     }
 
+    @Override
+    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize) {
+        return null;
+    }
+
     //method for performing the genetic algorithm
-    private static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations) {
+    private static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations, boolean custom) {
         int check = 0;
         population = new ArrayList<>();
-        genPopulation(popNumber);           //generating and sorting the population
+        genPopulation(popNumber, custom);           //generating and sorting the population
         sortPopulation();
         System.out.println("---------------------------------------------------------------");
         for(int i = 0; i < numGenerations; i++){//Each generation is sorted and then culled
-        	String output = "";
+        	StringBuilder output = new StringBuilder();
         	for(Student student : students){
         		Project proj = HillClimbing.findProjectByStudent(population.get(0) , student.getName());
         		if(student.getPrefGotten() == 0){
-                    output += ("-------------------------------------------------------------------------------\nName: " + student.getName() + "\nProject: " +proj.getTitle()) + "\nPreference: "+ "None"+ "\n";
+                    output.append("-------------------------------------------------------------------------------\nName: ").append(student.getName()).append("\tStudent No.: ").append(student.getStudentId()).append("\tGPA: ").append(student.getGPA()).append("\nProject: ").append(proj.getTitle()).append("\nPreference: ").append("None").append("\n");
                 }else{
-                    output += ("-------------------------------------------------------------------------------\nName: " + student.getName() + "\nProject: " +proj.getTitle()) + "\nPreference: "+ student.getPrefGotten()+ "\n";
+                    output.append("-------------------------------------------------------------------------------\nName: ").append(student.getName()).append("\tStudent No.: ").append(student.getStudentId()).append("\tGPA: ").append(student.getGPA()).append("\nProject: ").append(proj.getTitle()).append("\nPreference: ").append(student.getPrefGotten()).append("\n");
                 }
 	        }
-        	Solve.ui.overwriteStudentString(output);
+        	Solve.ui.overwriteStudentString(output.toString());
 
             System.out.println("Population size before culling: " + population.size());
             cullPopulation(cullPercentage);
@@ -108,9 +113,9 @@ public class GeneticAlgorithm implements Solver{
             for (int j = 0; j < (int) (popNumber*cullPercentage*0.01); j++) {               //mating is performed with the amount of new solutions produced during mating
                 insertToPopulation((ArrayList<Solution>) mate(popNumber, matePercentage));      //matching the amount that was culled
             }
-            output = "";
-            output += ("-------------------------------------------------------------------------------\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0)));
-            Solve.ui.displayInfoString(output);
+            output = new StringBuilder();
+            output.append("-------------------------------------------------------------------------------\nBEST SCORE OF GENERATION ").append(i + 1).append(": ").append(ScoringFunctions.scoreSolution(population.get(0)));
+            Solve.ui.displayInfoString(output.toString());
             System.out.println("\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0))+"\nSize of population: "+population.size() +"\n---------------------------------------------------------------");         //printing the best score of the generation
             if((ScoringFunctions.scoreSolution(population.get(0)) < (0.2 * students.size())) && (ScoringFunctions.scoreSolution(population.get(0)) == ScoringFunctions.scoreSolution(temp))){        //if the score is underneath 25 and the best score
                 check++;                                                                                                                                                        //is the same as the last generation, then check is incremented
@@ -125,10 +130,10 @@ public class GeneticAlgorithm implements Solver{
     }
 
     //method for generating the population
-    private static void genPopulation(int popNumber) {
+    private static void genPopulation(int popNumber, boolean custom) {
         for(int i = 0; i < popNumber; i++){
             List<Solution> solutions;
-            solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), true);
+            solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), true, custom);
             population.add((ArrayList<Solution>) solutions);
         }
     }
@@ -160,8 +165,9 @@ public class GeneticAlgorithm implements Solver{
         int number = (int) (0.01*percentage*population.size());         //takes in the percentage to be culled and the sorted population
         int popSize = population.size();
         System.out.println("Cull number: " + number);
-        for(int i = (popSize-1); i >= (popSize-number); i--){             //removes the bottom x% of the population
-            population.remove(i);
+        //removes the bottom x% of the population
+        if (popSize > (popSize - number)) {
+            population.subList((popSize - number), popSize).clear();
         }
     }
 

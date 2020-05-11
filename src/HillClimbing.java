@@ -10,7 +10,7 @@ import java.util.List;
 public class HillClimbing {
     private  static HashMap<String, Project> projects;
     private static List<Student> students;
-
+/*
     public static void main(String[] args) throws IOException {
         projects = PopulateClasses.populateProjectClass("Staff&Projects(60).xlsx");
         students = PopulateClasses.populateStudentClass("Students&Preferences(60).xlsx");
@@ -25,7 +25,7 @@ public class HillClimbing {
 
 
     }
-
+*/
     // Decide whether or not to accept the new solution
     static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions){
 

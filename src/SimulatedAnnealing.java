@@ -15,25 +15,31 @@ public class SimulatedAnnealing implements Solver{
     private static List<Student> students;
 
 
-    public List<Solution> solve(int fileSize) throws IOException {
-        fillData(fileSize);
+    public List<Solution> solve(int fileSize, boolean custom) throws IOException {
+        fillData(fileSize, custom);
 
-        List<Solution> answer = simulatedAnnealing(fileSize);
+        List<Solution> answer = simulatedAnnealing(custom);
 
         projects.clear();
         students.clear();
 
         return answer;
     }
+
+    @Override
+    public List<Solution> solve(int fileSize) {
+        return null;
+    }
+
     public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize){
         return null;
     }
 
     //method for performing Simulated Annealing
 
-    private static List<Solution> simulatedAnnealing(int fileSize) throws IOException {
+    private static List<Solution> simulatedAnnealing(boolean custom) {
         int check = 0;
-        List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), false);
+        List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), false, custom);
         ScoringFunctions.main(solutions);
         //temperature starts at the size of the list of solutions multiplied by 1.7
         double temperature = solutions.size() * 1.7;
@@ -60,16 +66,16 @@ public class SimulatedAnnealing implements Solver{
 
         }
 
-        String output = "";
+        StringBuilder output = new StringBuilder();
         for(Student student : students){
             Project proj = HillClimbing.findProjectByStudent(solutions, student.getName());
             if(student.getPrefGotten() == 0){
-                output += ("-------------------------------------------------------------------------------\nName: " + student.getName() + "\nProject: " +proj.getTitle()) + "\nPreference: "+ "None"+ "\n";
+                output.append("-------------------------------------------------------------------------------\nName: ").append(student.getName()).append("\tStudent No.: ").append(student.getStudentId()).append("\tGPA: ").append(student.getGPA()).append("\nProject: ").append(proj.getTitle()).append("\nPreference: ").append("None").append("\n");
             }else{
-                output += ("-------------------------------------------------------------------------------\nName: " + student.getName() + "\nProject: " +proj.getTitle()) + "\nPreference: "+ student.getPrefGotten()+ "\n";
+                output.append("-------------------------------------------------------------------------------\nName: ").append(student.getName()).append("\tStudent No.: ").append(student.getStudentId()).append("\tGPA: ").append(student.getGPA()).append("\nProject: ").append(proj.getTitle()).append("\nPreference: ").append(student.getPrefGotten()).append("\n");
             }
         }
-        Solve.ui.overwriteStudentString(output);
+        Solve.ui.overwriteStudentString(output.toString());
         //analysing the solution after the Simulated Annealing has been performed
         ScoringFunctions.main(solutions);
 
@@ -77,20 +83,26 @@ public class SimulatedAnnealing implements Solver{
     }
 
 
-    public void fillData(int fileSize){
+    private void fillData(int fileSize, boolean custom){
         try {
-            students = PopulateClasses.populateStudentClass("Students&Preferences("+fileSize+").xlsx");
+            if(custom){
+                students = PopulateClasses.populateCustomStudentClass(Solve.ui.getFileName());
+            }else {
+                students = PopulateClasses.populateStudentClass("Students&Preferences(" + fileSize + ").xlsx");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            projects = PopulateClasses.populateProjectClass("Staff&Projects("+fileSize+").xlsx");
+            if(custom){
+                projects = PopulateClasses.populateCustomProjectClass(Solve.ui.getFileName());
+            }else {
+                projects = PopulateClasses.populateProjectClass("Staff&Projects(" + fileSize + ").xlsx");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
 

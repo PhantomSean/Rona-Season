@@ -158,7 +158,7 @@ public class ScoringFunctions {
     }
 
     //method for analyzing a solution
-    private static void analyse(List<Solution> solutions) {
+    static void analyse(List<Solution> solutions) {
         double gotPrefs = 0;
         for (int i = 0; i < 11; i++) {
             prefs[i] = 0;

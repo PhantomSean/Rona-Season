@@ -21,9 +21,9 @@ public class PopulateClasses {
         while (i < numStaff) {
             String name = readCellData(readFile1, i, 0);
             String stream = readCellData(readFile1, i, 2);
-            List<String> projects = new ArrayList<String>();
+            List<String> projects = new ArrayList<>();
             for(j=i; j <= numStaff; j++){
-                if (readCellData(readFile1, i, 0) == name) {
+                if (readCellData(readFile1, i, 0).equals(name)) {
                     projects.add(readCellData(readFile1, i, 1));
                     i =j;
                 } else
@@ -53,13 +53,13 @@ public class PopulateClasses {
     static List<Student> populateStudentClass(String readFile) throws IOException{
         int numStudents = getNumRows(readFile);
         for(int i = 1; i < numStudents; i++){
-            List<String> preferences = new ArrayList<String>();
+            List<String> preferences = new ArrayList<>();
             for (int j = 0; j <= 9; j++){
                 int pos = j+3;
                 preferences.add(readCellData(readFile,i,pos));
             }
 
-            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 2), Integer.valueOf(readCellData(readFile, i, 1)), preferences, false, 0, genGPA());
+            Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 2), Integer.parseInt(readCellData(readFile, i, 1)), preferences, false, 0, genGPA());
 
             students.add(student);
             //System.out.println("Added Student " + i);
@@ -68,12 +68,11 @@ public class PopulateClasses {
     }
 
     static HashMap<String, Project> populateCustomProjectClass(String readFile) throws IOException {
-        System.out.println("started projects");
         for(int i = 1; i < getNumRows(readFile); i++){
             if(readCellData(readFile, i, 1).equals(""))
                 break;
             for(int j = 4; j < 21; j++){
-                if(readCellData(readFile, i, j) == null)
+                if(readCellData(readFile, i, j).equals(""))
                     break;
                 if(checkProject(projects, (readCellData(readFile, i, j)))){
                     Project project = new Project(readCellData(readFile, i, j), "CS + DS", (readCellData(readFile, i, 3)),false);
@@ -81,7 +80,6 @@ public class PopulateClasses {
                 }
             }
         }
-        System.out.println("projects done");
         return projects;
     }
 
@@ -99,12 +97,14 @@ public class PopulateClasses {
         for(int i = 1; i < numStudents; i++){
             if(readCellData(readFile, i, 1).equals(""))
                 break;
-            List<String> preferences = new ArrayList<String>();
+            List<String> preferences = new ArrayList<>();
             for (int j = 0; j < 10; j++){
                 int pos = j+4;
-                if(readCellData(readFile, i, pos).equals(""))
-                    break;
-                preferences.add(readCellData(readFile,i,pos));
+                if(readCellData(readFile, i, pos).equals("")) {
+                    preferences.add("none");
+                }else {
+                    preferences.add(readCellData(readFile, i, pos));
+                }
             }
             Student student = new Student(readCellData(readFile, i, 0), "CS", Integer.parseInt(readCellData(readFile, i, 1)), preferences, false, 0, Double.parseDouble(readCellData(readFile, i, 2)));
             students.add(student);
@@ -127,8 +127,12 @@ public class PopulateClasses {
         Cell cell = row.getCell(vColumn);
 
         if(cell.getCellType() == CellType.NUMERIC ) {
-            int num = (int) cell.getNumericCellValue();
-            value = String.valueOf(num  );
+            double num = cell.getNumericCellValue();
+            if (Math.floor(num) == num) {
+                value = String.valueOf((int) num);
+            }
+            else
+                value = String.valueOf(num);
             readBook.close();
             return value;
         }

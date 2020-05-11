@@ -19,6 +19,7 @@ public class Solve {
 
 	private static int solutionsGenerated = 0;
 	private int GPAImportance;
+	private static boolean custom = false;
 
 	public static void main(String[] args) throws IOException {
 		Solve s = new Solve();
@@ -40,6 +41,7 @@ public class Solve {
 				validCommand = true;
 			}else if(command.toLowerCase().equals("custom")){
 				ui.importFile(frame);
+				custom=true;
 				fileSize = 1;
 				validCommand = true;
 			}else
@@ -127,7 +129,7 @@ public class Solve {
 				}
 			}while(!isIntOne || !isIntTwo || !isDoubleOne || !isDoubleTwo);
 			ui.displayInfoString("Please wait as this will take a few moments\n");
-			List<Solution> sol = GA.solve(popNumber, matePercentage, cullPercentage, numGenerations, fileSize);
+			List<Solution> sol = GA.solve(popNumber, matePercentage, cullPercentage, numGenerations, fileSize,custom);
 			solutionsGenerated++;
 			GeneticAlgorithm.createSolutionFile(sol, "Solutions("+solutionsGenerated+").xlsx");
 		} catch (Exception e) {
@@ -135,11 +137,11 @@ public class Solve {
 		}
 	}
 
-	public void simulatedAnnealing(int fileSize){
+	private void simulatedAnnealing(int fileSize){
 		ui.displaySAInfo();
 		try {
 			SimulatedAnnealing SA = new SimulatedAnnealing();
-			List<Solution> sol = SA.solve(fileSize);
+			List<Solution> sol = SA.solve(fileSize, custom);
 			solutionsGenerated++;
 			GeneticAlgorithm.createSolutionFile(sol, "Solutions("+solutionsGenerated+").xlsx");
 		} catch (Exception e) {
