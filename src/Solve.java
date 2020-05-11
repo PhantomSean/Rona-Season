@@ -29,6 +29,7 @@ public class Solve {
 		int fileSize=0;
 
 		ui.displayFileInput();
+
 		do{
 			//Keep asking for input until user selects a valid file size
 			String command = ui.getCommand();
@@ -46,8 +47,12 @@ public class Solve {
 
 		validCommand = false;
 
+
+
+		if(fileSize==1)
+			custom=true;
 		//Keep asking for input until user inputs valid mode, SA, GA or quit
-		if(fileSize == 1)
+		if(custom)
 			ui.removeImportPanel();
 		ui.displayStart();
 		do {

@@ -6,20 +6,15 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.awt.*;
 
-class CommandPanel extends JPanel  {
+class ButtonPanel extends JPanel  {
 
     private static final long serialVersionUID = 1L;
-    private static final int FONT_SIZE = 14;
     private static int fileSize = 0;
 
-    private final JTextField commandField;
     private final LinkedList<String> commandBuffer;
 
-    CommandPanel() {
-        commandField = new JTextField();
+    ButtonPanel() {
         commandBuffer = new LinkedList<>();
-
-        JButton submitButton = new JButton("Submit");
         JButton quitButton = new JButton("Quit");
         JButton sixtyButton = new JButton("       60 Person File       ");
         JButton oneTwentyButton = new JButton("      120 Person File      ");
@@ -27,24 +22,6 @@ class CommandPanel extends JPanel  {
         JButton fiveHButton = new JButton("      500 Person File      ");
         JButton customButton = new JButton("       Custom File       ");
 
-        class AddActionListener implements ActionListener {
-            public void actionPerformed(ActionEvent event)	{
-                synchronized (commandBuffer) {
-                    commandBuffer.add(commandField.getText());
-                    commandField.setText("");
-                    commandBuffer.notify();
-                }
-            }
-        }
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                synchronized (commandBuffer) {
-                    commandBuffer.add(commandField.getText());
-                    commandField.setText("");
-                    commandBuffer.notify();
-            }
-        }});
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,6 +33,7 @@ class CommandPanel extends JPanel  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 synchronized (commandBuffer) {
+                    setVisible(false);
                     fileSize=60;
                 }
             }});
@@ -63,6 +41,7 @@ class CommandPanel extends JPanel  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 synchronized (commandBuffer) {
+                    setVisible(false);
                     fileSize=120;
                 }
             }});
@@ -70,6 +49,7 @@ class CommandPanel extends JPanel  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 synchronized (commandBuffer) {
+                    setVisible(false);
                     fileSize=240;
                 }
             }});
@@ -77,6 +57,7 @@ class CommandPanel extends JPanel  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 synchronized (commandBuffer) {
+                    setVisible(false);
                     fileSize=500;
                 }
             }});
@@ -84,33 +65,25 @@ class CommandPanel extends JPanel  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 synchronized (commandBuffer) {
+                    setVisible(false);
                     fileSize=1;
                 }
             }});
-        ActionListener listener = new AddActionListener();
-        commandField.addActionListener(listener);
-        commandField.setFont(new Font("Times New Roman", Font.PLAIN, FONT_SIZE));
+
         setLayout(new BorderLayout());
-        JPanel panel = new JPanel();
-        panel.add(submitButton);
-        panel.add(quitButton);
-        add(commandField, BorderLayout.CENTER);
-        add(panel, BorderLayout.LINE_END);
+        JPanel panelOne = new JPanel();
+        JPanel panelTwo = new JPanel();
+        panelOne.add(quitButton);
+        panelTwo.add(sixtyButton);
+        panelTwo.add(oneTwentyButton);
+        panelTwo.add(twoFortyButton);
+        panelTwo.add(fiveHButton);
+        panelTwo.add(customButton);
+        add(panelOne, BorderLayout.LINE_END);
+        add(panelTwo, BorderLayout.CENTER);
     }
 
-    String getCommand() {
-        String command;
-        synchronized(commandBuffer) {
-            while (commandBuffer.isEmpty()) {
-                try {
-                    commandBuffer.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            command = commandBuffer.pop();
-        }
-        return command;
+    static int getFileSize(){
+        return fileSize;
     }
-
 }

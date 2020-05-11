@@ -12,7 +12,7 @@ public class UI {
 
     private final InfoPanel infoPanel;
     private final InfoPanel studentPanel;
-    private final CommandPanel commandPanel;
+    private CommandPanel commandPanel;
     private ImportFilePanel importFilePanel;
     private final JFrame frame;
 
@@ -66,6 +66,7 @@ public class UI {
     public void removeImportPanel(){
         importFilePanel.setVisible(false);
     }
+
     public void displayStart() {
         studentPanel.setVisible(true);
         infoPanel.clear();
@@ -107,5 +108,6 @@ public class UI {
     }
 
     public String getFileName(){ return importFilePanel.getFileName(); }
+
 }
 
