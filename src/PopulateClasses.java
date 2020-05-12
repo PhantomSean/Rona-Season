@@ -98,7 +98,7 @@ public class PopulateClasses {
             if(readCellData(readFile, i, 1).equals(""))
                 break;
             List<String> preferences = new ArrayList<>();
-            for (int j = 0; j < 10; j++){
+            for (int j = 0; j < 20; j++){
                 int pos = j+4;
                 if(readCellData(readFile, i, pos).equals("")) {
                     preferences.add("none");
@@ -110,6 +110,72 @@ public class PopulateClasses {
             students.add(student);
         }
         return students;
+    }
+
+    static String analyzeFile(String readFile, boolean custom) throws IOException {
+        boolean checkForEmpty = true;
+        boolean checkStudentNumber = true;
+        boolean checkStudentGPA = true;
+        boolean emptyGPA=true;
+        boolean emptyStudentNumber=true;
+        boolean emptyStudentName=true;
+        String result = "\n";
+        if(custom) {
+            for (int i = 1; i < getNumRows(readFile); i++) {
+                if (readCellData(readFile, i, 1).equals("") && readCellData(readFile, i, 2).equals("") && readCellData(readFile, i, 3).equals(""))
+                    break;
+                try {
+                    Double.parseDouble(readCellData(readFile, i, 1));
+                } catch (NumberFormatException e) {
+                    checkStudentNumber = false;
+                }
+                try {
+                    Double.parseDouble(readCellData(readFile, i, 2));
+                } catch (NumberFormatException e) {
+                    checkStudentGPA = false;
+                }
+                if (readCellData(readFile, i, 0).equals("") || readCellData(readFile, i, 1).equals("") || readCellData(readFile, i, 2).equals(""))
+                    checkForEmpty = false;
+                if (!readCellData(readFile, i, 0).equals(""))
+                    emptyStudentName = false;
+                if (!readCellData(readFile, i, 1).equals(""))
+                    emptyStudentNumber = false;
+                if (!readCellData(readFile, i, 2).equals(""))
+                    emptyGPA = false;
+            }
+        }else{
+            for (int i = 1; i < getNumRows(readFile); i++) {
+                if (readCellData(readFile, i, 1).equals("") && readCellData(readFile, i, 2).equals("") && readCellData(readFile, i, 3).equals(""))
+                    break;
+                try {
+                    Double.parseDouble(readCellData(readFile, i, 1));
+                } catch (NumberFormatException e) {
+                    checkStudentNumber = false;
+                }
+                if (readCellData(readFile, i, 0).equals("") || readCellData(readFile, i, 1).equals("") || readCellData(readFile, i, 2).equals(""))
+                    checkForEmpty = false;
+                if (!readCellData(readFile, i, 0).equals(""))
+                    emptyStudentName = false;
+                if (!readCellData(readFile, i, 1).equals(""))
+                    emptyStudentNumber = false;
+            }
+            emptyGPA=true;
+        }
+        if(!checkForEmpty)
+            result+=("Warning: The file loaded may not have all rows loaded correctly as empty values were found\n");
+        if(!checkStudentNumber)
+            result+=("Warning: The file loaded may contain non-numerical values for type 'Student Number'\n");
+        if(!checkStudentGPA)
+            result+=("Warning: The file loaded may contain non-numerical values for type 'Student GPA'\n");
+        if(emptyStudentName)
+            result+=("Warning: Unable to locate column for type 'Student Name'\n");
+        if(emptyStudentNumber)
+            result+=("Warning: Unable to locate column for type 'Student Number'\n");
+        if(emptyGPA)
+            result+=("Warning: Unable to locate column for type 'Student GPA'\n");
+        if(checkForEmpty && checkStudentNumber && checkStudentGPA && !emptyStudentName && !emptyStudentNumber && !emptyGPA)
+            result+=("File has passed all tests successfully\n");
+        return result;
     }
 
     private static String readCellData(String file, int vRow, int vColumn) throws IOException {

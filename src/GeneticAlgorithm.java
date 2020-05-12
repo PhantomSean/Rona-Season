@@ -46,12 +46,7 @@ public class GeneticAlgorithm implements Solver{
 		   } catch (IOException e) {
 		    e.printStackTrace();
 		   }
-
-
     }
-
-
-
 
     public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize, boolean custom) throws IOException{
 	    List<Solution> fittestSolution;
@@ -290,6 +285,5 @@ public class GeneticAlgorithm implements Solver{
 
         writeBook.write(new FileOutputStream(writeFile));
         writeBook.close();
-
     }
 }

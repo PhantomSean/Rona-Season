@@ -10,7 +10,7 @@ public class UI {
     private static final int FRAME_WIDTH = 1195;
     private static final int FRAME_HEIGHT = 600;
 
-    private final InfoPanel infoPanel;
+    private final InputPanel infoPanel;
     private final InfoPanel studentPanel;
     private CommandPanel commandPanel;
     private ImportFilePanel importFilePanel;
@@ -18,7 +18,7 @@ public class UI {
 
     public UI(JFrame frame) throws IOException {
         this.frame = frame;
-        infoPanel = new InfoPanel();
+        infoPanel = new InputPanel();
         studentPanel = new InfoPanel();
         commandPanel = new CommandPanel();
         this.frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -48,6 +48,8 @@ public class UI {
         return commandPanel.getCommand();
     }
 
+    public int getSliderInput(){ return infoPanel.getSliderInput(); }
+
     //appends text to info panel
     public void displayInfoString(String string) {
         infoPanel.addText(string);
@@ -65,19 +67,20 @@ public class UI {
 
     public void removeImportPanel(){
         importFilePanel.setVisible(false);
+        infoPanel.clear();
+        displayInfoString("Please allow time for the file to be analyzed\n\n");
+    }
+
+    public void clearInfoPanel(){
+        infoPanel.clear();
     }
 
     public void displayStart() {
         studentPanel.setVisible(true);
-        infoPanel.clear();
         studentPanel.clear();
-        displayInfoString("Welcome to Solver\n");
-        displayInfoString("This panel will be used to display information while a solution set is generated\n");
-        displayInfoString("There is a text box below which can be used for inputting commands\n");
         displayInfoString("Please state below if you would like to use Simulated Annealing by entering 'SA' or Genetic Algorithms by entering 'GA' to generate a solution set");
+        displayInfoString("\nIf you would like to restart, please enter 'RESTART\n");
         displayInfoString("\nIf you would like to quit, please enter 'quit'\n");
-        displayStudentString("Welcome to Solver\n");
-        displayStudentString("This panel will be used to display the students names and also the projects allocated to them\n");
     }
 
     public void displayGAInfo(){
@@ -109,5 +112,13 @@ public class UI {
 
     public String getFileName(){ return importFilePanel.getFileName(); }
 
+    public void displaySliderText(){
+        displayInfoString("Welcome to Solver\n");
+        displayInfoString("This panel will be used to display information while a solution set is generated\n");
+        displayInfoString("There is a text box below which can be used for inputting commands\n\n");
+        displayInfoString("Use the slider below to enter the GPA importance for the solving");
+        displayStudentString("Welcome to Solver\n");
+        displayStudentString("This panel will be used to display the students names and also the projects allocated to them\n");
+    }
 }
 

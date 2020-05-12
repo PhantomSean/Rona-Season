@@ -43,7 +43,10 @@ public class GenerateSolution {
         for (Solution solution : solutions)
             System.out.println("This change has been added to solutions " + solution.getStudent().getName() + "\t" + solution.getProject().getTitle());
 
-        for(int i = 0; i < 10; i++){
+        int numPrefs = 10;
+        if(custom)
+            numPrefs+=10;
+        for(int i = 0; i < numPrefs; i++){
             if(i == 0)
                 assignSelfSpecified();
             assignUnique(i);
