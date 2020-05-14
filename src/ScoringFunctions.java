@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 public class ScoringFunctions {
-    private static int[] prefs = new int[11];
+    private static int[] prefs = new int[21];
 
     static double scoreSolution(List<Solution> solutions, int GPAInput){
         //analyse(solutions);
@@ -191,7 +191,7 @@ public class ScoringFunctions {
     //method for analyzing a solution
     static void analyse(List<Solution> solutions) {
         double gotPrefs = 0;
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 21; i++) {
             prefs[i] = 0;
         }
         for (Solution value : solutions) {

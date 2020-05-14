@@ -33,6 +33,7 @@ public class Solve {
 		ui.displaySliderText();
 
 		ui.displayFileInput();
+
 		do{
 			//Keep asking for input until user selects a valid file size
 			String command = ui.getCommand();
@@ -52,9 +53,20 @@ public class Solve {
 
 		validCommand = false;
 
+
+
+		if(fileSize==1)
+			custom=true;
 		//Keep asking for input until user inputs valid mode, SA, GA or quit
-		if(fileSize == 1)
+		if(custom) {
 			ui.removeImportPanel();
+			ui.displayInfoString("You have chosen the file: "+ui.getFileName());
+			ui.displayInfoString(PopulateClasses.analyzeFile(ui.getFileName(), custom));
+		}else {
+			ui.clearInfoPanel();
+			ui.displayInfoString("You have chosen file size: " + fileSize + "\n");
+			ui.displayInfoString(PopulateClasses.analyzeFile("Students&Preferences(" + fileSize + ").xlsx", custom));
+		}
 		ui.displayStart();
 		ui.displayInfoString("GPA Importance for this is " +GPAImportance);
 		do {
@@ -74,6 +86,10 @@ public class Solve {
 			if (command.equals("quit")) {
 				ui.quit();
 			}
+			if (command.equals("restart")) {
+				ui.clearInfoPanel();
+				solver();
+			}
 			if(!validCommand){
 				ui.displayInfoString("\n\nINVALID INPUT:\nPlease enter either 'GA' or 'SA'");
 			}
@@ -83,6 +99,7 @@ public class Solve {
 			ui.quit();
 		}
 		if(command.equals("restart")){
+			ui.clearInfoPanel();
 			solver();
 		}
 	}
