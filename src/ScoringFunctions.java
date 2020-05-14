@@ -10,13 +10,44 @@ import java.util.Random;
 public class ScoringFunctions {
     private static int[] prefs = new int[11];
 
-    static void main(List<Solution> solutions){
-        analyse(solutions);
-        double energy = scoreSolution(solutions);
-        double fitness = -energy;
-//        System.out.println("The overall energy score of the solutions after penalties is = "+energy);
-//        System.out.println("The overall fitness score of the solutions after penalties is = "+fitness +"\n\n");
+    static double scoreSolution(List<Solution> solutions, int GPAInput){
+        //analyse(solutions);
+        double total=0;
+        double score;
+
+        double importance =  GPAImportance(GPAInput);
+
+        for (Solution value : solutions) {
+            double score_mult = 0.75;
+            if(value.getStudent().getPrefGotten() == 0)
+                score = 1;
+            else
+                score = Math.pow(score_mult, 11 - value.getStudent().getPrefGotten());
+            value.setScore(score);
+        }
+        for(Solution solution : solutions){
+            total += solution.getScore();
+        }
+        total = 0;
+        addPenalties(solutions);
+
+        for(Solution solution : solutions){
+            total += solution.getScore();
+        }
+
+        for(Solution solution : solutions){
+            if(solution.getStudent().getGPA() > importance && solution.getStudent().getPrefGotten() > 0) {
+                double tmp = solution.getStudent().getPrefGotten();
+                total -= ((solution.getStudent().getGPA() * 0.1) * (1 / tmp));
+            }
+            else if(solution.getStudent().getGPA() > importance && solution.getStudent().getPrefGotten() == 0){
+                total += 10;
+            }
+        }
+
+        return total;
     }
+
 
     private static void addPenalties(List<Solution> solutions){
         checkForDuplicates(solutions);
@@ -68,19 +99,19 @@ public class ScoringFunctions {
         double importance;
         switch (userInput) {
             case 1:
-                importance = 2;
+                importance = 4.0;
                 break;
             case 2:
-                importance = 2.5;
+                importance = 3.67;
                 break;
             case 3:
-                importance = 3.0;
+                importance = 3.5;
                 break;
             case 4:
-                importance = 3.2;
+                importance = 3.25;
                 break;
             case 5:
-                importance = 3.67;
+                importance = 3.08;
                 break;
             default:
                 importance = 0;
@@ -197,37 +228,5 @@ public class ScoringFunctions {
         System.out.println("\n\n");
     }
 
-
-    static double scoreSolution(List<Solution> solutions){
-        double total=0;
-        double score;
-
-        for (Solution value : solutions) {
-            double score_mult = 0.75;
-            if(value.getStudent().getPrefGotten() == 0)
-                score = 1;
-            else
-                score = Math.pow(score_mult, 11 - value.getStudent().getPrefGotten());
-            value.setScore(score);
-        }
-        for(Solution solution : solutions){
-            total += solution.getScore();
-        }
-        total = 0;
-        addPenalties(solutions);
-
-        for(Solution solution : solutions){
-            total += solution.getScore();
-        }
-
-        for(Solution solution : solutions){
-            if(solution.getStudent().getGPA() > 3.3 && solution.getStudent().getPrefGotten() != 0) {
-                double tmp = solution.getStudent().getPrefGotten();
-                total -= ((solution.getStudent().getGPA() * 0.1) * (1 / tmp));
-            }
-        }
-
-        return total;
-    }
 
 }

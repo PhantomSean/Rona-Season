@@ -53,14 +53,14 @@ public class GeneticAlgorithm implements Solver{
 
 
 
-    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize, boolean custom) throws IOException{
+    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize, boolean custom, int GPAInput) throws IOException{
 	    List<Solution> fittestSolution;
         fillData(fileSize, custom);
     	long startTime = System.currentTimeMillis();            //starting the timer
         //calling the geneticAlgorithm method with the population number, number of generations and percentages for culling and mating declared
-        geneticAlgorithm(popNumber, matePercentage, cullPercentage, numGenerations, custom);
-        sortPopulation();             //sorting the finalized list of solutions
-        ScoringFunctions.main(population.get(0));//Analysing the most optimal solution found
+        geneticAlgorithm(popNumber, matePercentage, cullPercentage, numGenerations, custom,GPAInput);
+        sortPopulation(GPAInput);             //sorting the finalized list of solutions
+        ScoringFunctions.scoreSolution(population.get(0),GPAInput);//Analysing the most optimal solution found
 
 
 
@@ -78,21 +78,17 @@ public class GeneticAlgorithm implements Solver{
         return fittestSolution;
     }
 
-    public List<Solution> solve(int fileSize){
+    public List<Solution> solve(int fileSize, boolean custom, int GPAInput){
         return null;
     }
 
-    @Override
-    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize) {
-        return null;
-    }
 
     //method for performing the genetic algorithm
-    private static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations, boolean custom) {
+    private static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations, boolean custom, int GPAInput) {
         int check = 0;
         population = new ArrayList<>();
         genPopulation(popNumber, custom);           //generating and sorting the population
-        sortPopulation();
+        sortPopulation(GPAInput);
         System.out.println("---------------------------------------------------------------");
         for(int i = 0; i < numGenerations; i++){//Each generation is sorted and then culled
         	StringBuilder output = new StringBuilder();
@@ -111,13 +107,13 @@ public class GeneticAlgorithm implements Solver{
             System.out.println("Population size after culling: " + population.size());
             System.out.println("Number to add back to the population: " + (int) (popNumber*cullPercentage*0.01));
             for (int j = 0; j < (int) (popNumber*cullPercentage*0.01); j++) {               //mating is performed with the amount of new solutions produced during mating
-                insertToPopulation((ArrayList<Solution>) mate(popNumber, matePercentage));      //matching the amount that was culled
+                insertToPopulation((ArrayList<Solution>) mate(popNumber, matePercentage,GPAInput), GPAInput);      //matching the amount that was culled
             }
             output = new StringBuilder();
-            output.append("-------------------------------------------------------------------------------\nBEST SCORE OF GENERATION ").append(i + 1).append(": ").append(ScoringFunctions.scoreSolution(population.get(0)));
+            output.append("-------------------------------------------------------------------------------\nBEST SCORE OF GENERATION ").append(i + 1).append(": ").append(ScoringFunctions.scoreSolution(population.get(0),GPAInput));
             Solve.ui.displayInfoString(output.toString());
-            System.out.println("\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0))+"\nSize of population: "+population.size() +"\n---------------------------------------------------------------");         //printing the best score of the generation
-            if((ScoringFunctions.scoreSolution(population.get(0)) < (0.2 * students.size())) && (ScoringFunctions.scoreSolution(population.get(0)) == ScoringFunctions.scoreSolution(temp))){        //if the score is underneath 25 and the best score
+            System.out.println("\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0),GPAInput)+"\nSize of population: "+population.size() +"\n---------------------------------------------------------------");         //printing the best score of the generation
+            if((ScoringFunctions.scoreSolution(population.get(0),GPAInput) < (0.2 * students.size())) && (ScoringFunctions.scoreSolution(population.get(0),GPAInput) == ScoringFunctions.scoreSolution(temp,GPAInput))){        //if the score is underneath 25 and the best score
                 check++;                                                                                                                                                        //is the same as the last generation, then check is incremented
             }else{                                                                                                                                                              //otherwise check is reset
                 check = 0;
@@ -125,7 +121,9 @@ public class GeneticAlgorithm implements Solver{
             if(check == 5){                         //if check reaches 5 then the current population is judged as the best and is returned
                 return;                             //to ensure that the runtime is not longer than it needs to be
             }
+
             temp = population.get(0);
+            ScoringFunctions.analyse(temp);
         }
     }
 
@@ -139,20 +137,20 @@ public class GeneticAlgorithm implements Solver{
     }
 
     //method for sorting the population
-    private static void sortPopulation() {
+    private static void sortPopulation(int GPAInput) {
         int n = population.size();                                              //We decided to use bubbleSort
         for(int i = 0; i < n-1; i++){
             for(int j = 0; j < n-i-1; j++){
-                if(ScoringFunctions.scoreSolution(population.get(j)) > ScoringFunctions.scoreSolution(population.get(j+1))){
+                if(ScoringFunctions.scoreSolution(population.get(j),GPAInput) > ScoringFunctions.scoreSolution(population.get(j+1),GPAInput)){
                     Collections.swap(population, j, j+1);                       //swapping the solution sets if the score of solution j is greater than the score of solution j+1
                 }
             }
         }
     }
 
-    private static void insertToPopulation(ArrayList<Solution> child) {
+    private static void insertToPopulation(ArrayList<Solution> child, int GPAInput) {
         for (int i = 0; i < population.size(); i++) {
-            if (ScoringFunctions.scoreSolution(population.get(i)) > ScoringFunctions.scoreSolution(child)) {
+            if (ScoringFunctions.scoreSolution(population.get(i),GPAInput) > ScoringFunctions.scoreSolution(child,GPAInput)) {
                 population.add(i, child);
                 return;
             }
@@ -187,7 +185,7 @@ public class GeneticAlgorithm implements Solver{
     }
 
 	//method for mating two parents
-	private static List<Solution> mate(int popNumber, double matingPercentage) {
+	private static List<Solution> mate(int popNumber, double matingPercentage,int GPAInput) {
 		List<Solution> parentOne = getParent(popNumber, matingPercentage);
 		List<Solution> parentTwo = getParent(popNumber, matingPercentage);
 
@@ -210,7 +208,7 @@ public class GeneticAlgorithm implements Solver{
 				child.add(sol);
 			}
 		}
-		ScoringFunctions.scoreSolution(child);
+		ScoringFunctions.scoreSolution(child,GPAInput);
 		return child;
 	}
 

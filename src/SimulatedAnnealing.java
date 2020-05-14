@@ -15,10 +15,10 @@ public class SimulatedAnnealing implements Solver{
     private static List<Student> students;
 
 
-    public List<Solution> solve(int fileSize, boolean custom) throws IOException {
+    public List<Solution> solve(int fileSize, boolean custom, int GPAInput) throws IOException {
         fillData(fileSize, custom);
 
-        List<Solution> answer = simulatedAnnealing(custom);
+        List<Solution> answer = simulatedAnnealing(custom, GPAInput);
 
         projects.clear();
         students.clear();
@@ -26,31 +26,27 @@ public class SimulatedAnnealing implements Solver{
         return answer;
     }
 
-    @Override
-    public List<Solution> solve(int fileSize) {
-        return null;
-    }
 
-    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize){
+    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize, boolean custom, int GPAInput){
         return null;
     }
 
     //method for performing Simulated Annealing
 
-    private static List<Solution> simulatedAnnealing(boolean custom) {
+    private static List<Solution> simulatedAnnealing(boolean custom, int GPAInput) {
         int check = 0;
         List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), false, custom);
-        ScoringFunctions.main(solutions);
+        ScoringFunctions.scoreSolution(solutions, GPAInput);
         //temperature starts at the size of the list of solutions multiplied by 1.7
         double temperature = solutions.size() * 1.7;
         while(temperature > 0){
-            double score = ScoringFunctions.scoreSolution(solutions);
+            double score = ScoringFunctions.scoreSolution(solutions, GPAInput);
             List<Solution> changedSolutions = HillClimbing.change(solutions);
-            solutions = acceptance(solutions, changedSolutions, temperature, score);
+            solutions = acceptance(solutions, changedSolutions, temperature, score,GPAInput);
             //standard decrease of 3
             temperature -= 3;
 
-            if(boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score) == 1.0){
+            if(boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions, GPAInput), score) == 1.0){
                 //if no change has been made, then the temperature cooling is increased
                 temperature -= solutions.size() * 0.12;
                 check++;
@@ -62,7 +58,7 @@ public class SimulatedAnnealing implements Solver{
                 //resetting check if there is a change made
                 check = 0;
             }
-            Solve.ui.displayInfoString("-------------------------------------------------------------------------------\nEnergy: " + ScoringFunctions.scoreSolution(solutions) + "\nFitness: -" + ScoringFunctions.scoreSolution(solutions) + "\nTemperature: "+temperature);
+            Solve.ui.displayInfoString("-------------------------------------------------------------------------------\nEnergy: " + ScoringFunctions.scoreSolution(solutions, GPAInput) + "\nFitness: -" + ScoringFunctions.scoreSolution(solutions,GPAInput) + "\nTemperature: "+temperature);
 
         }
 
@@ -77,7 +73,7 @@ public class SimulatedAnnealing implements Solver{
         }
         Solve.ui.overwriteStudentString(output.toString());
         //analysing the solution after the Simulated Annealing has been performed
-        ScoringFunctions.main(solutions);
+        ScoringFunctions.scoreSolution(solutions,GPAInput);
 
         return solutions;
     }
@@ -109,11 +105,11 @@ public class SimulatedAnnealing implements Solver{
 
 
     //method for checking if the changed solution is to be accepted or not, takes Boltzmann probability into account
-    private static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions, double temperature, double score){
-        if(score > ScoringFunctions.scoreSolution(changedSolutions)){
+    private static List<Solution> acceptance(List<Solution> solutions, List<Solution> changedSolutions, double temperature, double score, int GPAInput){
+        if(score > ScoringFunctions.scoreSolution(changedSolutions, GPAInput)){
             return changedSolutions;
         }else{
-            double boltzmann = boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions), score);
+            double boltzmann = boltzmann(temperature, ScoringFunctions.scoreSolution(changedSolutions, GPAInput), score);
             // The chance of accepting a worse result is boltzmann score
             // Have to check that boltzmann is less than 1 as because of our scoring system
             if(new Random().nextDouble() <= boltzmann && boltzmann < 1.0){

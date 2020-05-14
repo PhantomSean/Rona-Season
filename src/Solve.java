@@ -63,12 +63,12 @@ public class Solve {
 			String command = ui.getCommand().toLowerCase();
 			if (command.equals("sa")) {
 				validCommand = true;
-				simulatedAnnealing(fileSize);
+				simulatedAnnealing(fileSize, GPAImportance);
 				ui.displayFinish();
 			}
 			if (command.equals("ga")) {
 				validCommand = true;
-				geneticAlgorithm(fileSize);
+				geneticAlgorithm(fileSize, GPAImportance);
 				ui.displayFinish();
 			}
 			if (command.equals("quit")) {
@@ -87,7 +87,7 @@ public class Solve {
 		}
 	}
 
-	private void geneticAlgorithm(int fileSize){
+	private void geneticAlgorithm(int fileSize, int GPAInput){
 		ui.displayGAInfo();
 		try {
 			GeneticAlgorithm GA = new GeneticAlgorithm();
@@ -131,7 +131,7 @@ public class Solve {
 				}
 			}while(!isIntOne || !isIntTwo || !isDoubleOne || !isDoubleTwo);
 			ui.displayInfoString("Please wait as this will take a few moments\n");
-			List<Solution> sol = GA.solve(popNumber, matePercentage, cullPercentage, numGenerations, fileSize,custom);
+			List<Solution> sol = GA.solve(popNumber, matePercentage, cullPercentage, numGenerations, fileSize,custom,GPAInput);
 			solutionsGenerated++;
 			GeneticAlgorithm.createSolutionFile(sol, "Solutions("+solutionsGenerated+").xlsx");
 		} catch (Exception e) {
@@ -139,11 +139,11 @@ public class Solve {
 		}
 	}
 
-	private void simulatedAnnealing(int fileSize){
+	private void simulatedAnnealing(int fileSize, int GPAInput){
 		ui.displaySAInfo();
 		try {
 			SimulatedAnnealing SA = new SimulatedAnnealing();
-			List<Solution> sol = SA.solve(fileSize, custom);
+			List<Solution> sol = SA.solve(fileSize, custom,GPAInput);
 			solutionsGenerated++;
 			GeneticAlgorithm.createSolutionFile(sol, "Solutions("+solutionsGenerated+").xlsx");
 		} catch (Exception e) {
