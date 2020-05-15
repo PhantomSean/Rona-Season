@@ -53,6 +53,7 @@ public class UI {
     }
 
     public void progress(JFrame frame) {
+        frame.setTitle("Progress Bar");
         progressPanel = new JPanel();
         progressBar = new JProgressBar(0, 100);
         progressBar.setValue(0);
