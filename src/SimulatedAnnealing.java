@@ -60,9 +60,8 @@ public class SimulatedAnnealing implements Solver{
                 check = 0;
             }
             Solve.ui.displayInfoString("-------------------------------------------------------------------------------\nEnergy: " + ScoringFunctions.scoreSolution(solutions, GPAInput) + "\nFitness: -" + ScoringFunctions.scoreSolution(solutions,GPAInput) + "\nTemperature: "+temperature);
-
         }
-
+        Solve.ui.removeProgress();
         StringBuilder output = new StringBuilder();
         for(Student student : students){
             Project proj = HillClimbing.findProjectByStudent(solutions, student.getName());
