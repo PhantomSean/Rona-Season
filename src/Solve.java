@@ -65,7 +65,7 @@ public class Solve {
 			ui.displayInfoString(PopulateClasses.analyzeFile(ui.getFileName(), custom));
 		}else {
 			ui.clearInfoPanel();
-			ui.displayInfoString("You have chosen file size: " + fileSize + "\n");
+			ui.displayInfoString("You have chosen file size: " + fileSize + "\n" + "Please wait a moment as the file is being assessed\n");
 			ui.displayInfoString(PopulateClasses.analyzeFile("Students&Preferences(" + fileSize + ").xlsx", custom));
 		}
 		ui.displayStart();
@@ -91,7 +91,8 @@ public class Solve {
 			}
 			if (command.equals("restart")) {
 				ui.clearInfoPanel();
-				solver();
+                Solve s = new Solve();
+                s.solver();
 			}
 			if(!validCommand){
 				ui.displayInfoString("\n\nINVALID INPUT:\nPlease enter either 'GA' or 'SA'");
@@ -103,7 +104,8 @@ public class Solve {
 		}
 		if(command.equals("restart")){
 			ui.clearInfoPanel();
-			solver();
+            Solve s = new Solve();
+            s.solver();
 		}
 	}
 
