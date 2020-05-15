@@ -17,6 +17,9 @@ public class UI {
     private JPanel progressPanel;
     private JProgressBar progressBar;
     private final JFrame frame;
+    private boolean duplicateStudentCheck;
+    private boolean duplicateProjectCheck;
+    private boolean streamCheck;
 
     public UI(JFrame frame) throws IOException {
         this.frame = frame;
@@ -75,6 +78,25 @@ public class UI {
     }
 
     public int getSliderInput(){ return infoPanel.getSliderInput(); }
+
+    public void setStreamCheck(boolean bool){
+        this.streamCheck = bool;
+    }
+    public boolean getStreamCheck(){
+        return this.streamCheck;
+    }
+    public void setDuplicateStudentCheck(boolean bool){
+        this.duplicateStudentCheck = bool;
+    }
+    public boolean getDuplicateStudentCheck(){
+        return this.duplicateStudentCheck;
+    }
+    public void setDuplicateProjectCheck(boolean bool){
+        this.duplicateProjectCheck = bool;
+    }
+    public boolean getDuplicateProjectCheck(){
+        return this.duplicateProjectCheck;
+    }
 
     //appends text to info panel
     public void displayInfoString(String string) {
@@ -151,5 +173,17 @@ public class UI {
         displayStudentString("This panel will be used to display the students names and also the projects allocated to them\n");
     }
 
+    public void displayStreamViolation(){
+        displayInfoString("\nVIOLATION : There was a Stream conflict violation, someone was given an incompatible project");
+        streamCheck = false;
+    }
+    public void displayDuplicateStudentViolation(){
+        displayInfoString("\nVIOLATION : There is a duplicate student in the solution");
+        duplicateStudentCheck = false;
+    }
+    public void displayDuplicateProjectViolation(){
+        displayInfoString("\nVIOLATION : There is a duplicate project in the solution");
+        duplicateProjectCheck = false;
+    }
 }
 
