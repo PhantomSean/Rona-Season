@@ -17,7 +17,8 @@ HashMap from it.
 The analyzeFile method was also added. This takes a file as input and checks through it for empty columns/cells and incorrect values. A loading
 bar was also added for the user to visually grasp how much more time the checking would take.
 
-
+EXTRAS:
+Added a loading bar which tells the user how much of the file has been checked
 
 
 SPRINT 7:

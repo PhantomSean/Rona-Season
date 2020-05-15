@@ -136,6 +136,8 @@ public class PopulateClasses {
                     checkStudentNumber = false;
                 }
                 for(int j = i+1; j < getNumRows(readFile);j++){
+                    if(readCellData(readFile, j, 1).equals(""))
+                        break;
                     if(Double.parseDouble(readCellData(readFile, i, 1))==Double.parseDouble(readCellData(readFile, j, 1))){
                         checkDupeStudentNumber=true;
                     }
@@ -174,9 +176,11 @@ public class PopulateClasses {
                     checkStudentNumber = false;
                 }
                 for(int j = i+1; j < getNumRows(readFile);j++){
-                    if(Double.parseDouble(readCellData(readFile, i, 1))==Double.parseDouble(readCellData(readFile, j, 1))){
+                    if(readCellData(readFile, j, 1).equals(""))
+                        break;
+                    if(Double.parseDouble(readCellData(readFile, i, 1))==Double.parseDouble(readCellData(readFile, j, 1)))
                         checkDupeStudentNumber=true;
-                    }
+
                 }
                 //checking if any cells are empty
                 if (readCellData(readFile, i, 0).equals("") || readCellData(readFile, i, 1).equals("") || readCellData(readFile, i, 2).equals(""))
