@@ -8,6 +8,7 @@ import java.util.List;
 public class Solve {
 	private static JFrame frame = new JFrame();
 	private static JFrame progressFrame = new JFrame();
+	private static JFrame checkFrame = new JFrame();
 	static UI ui = null;
 
 	static {
@@ -67,28 +68,30 @@ public class Solve {
                 s.solver();
             }else{
                 ui.displayInfoString("You have chosen the file: "+ui.getFileName());
+				ui.progress(checkFrame, "Checking File");
                 ui.displayInfoString(PopulateClasses.analyzeFile(ui.getFileName(), custom));
             }
 		}else {
 			ui.clearInfoPanel();
 			ui.displayInfoString("You have chosen file size: " + fileSize + "\n" + "Please wait a moment as the file is being assessed\n");
+			ui.progress(checkFrame, "Checking File");
 			ui.displayInfoString(PopulateClasses.analyzeFile("Students&Preferences(" + fileSize + ").xlsx", custom));
 		}
 		ui.displayStart();
 		ui.displayInfoString("GPA Importance for this is " +GPAImportance);
 		do {
-
+			ui.setInvisible(checkFrame);
 			//convert to lower to allow for upper and lower inputs
 			String command = ui.getCommand().toLowerCase();
 			if (command.equals("sa")) {
 				validCommand = true;
-				ui.progress(progressFrame);
+				ui.progress(progressFrame, "Completing Simulated Annealing Solution");
 				simulatedAnnealing(fileSize, GPAImportance);
 				ui.displayFinish();
 			}
 			if (command.equals("ga")) {
 				validCommand = true;
-				ui.progress(progressFrame);
+				ui.progress(progressFrame, "Completing Genetic Algorithm Solution");
 				geneticAlgorithm(fileSize, GPAImportance);
 				ui.displayFinish();
 			}

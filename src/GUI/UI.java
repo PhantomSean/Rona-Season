@@ -52,8 +52,8 @@ public class UI {
         progressBar.setValue(0);
     }
 
-    public void progress(JFrame frame) {
-        frame.setTitle("Progress Bar");
+    public void progress(JFrame frame, String title) {
+        frame.setTitle(title);
         progressPanel = new JPanel();
         progressBar = new JProgressBar(0, 100);
         progressBar.setValue(0);
