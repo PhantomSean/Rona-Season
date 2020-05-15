@@ -3,6 +3,17 @@ CONTRIBUTORS: Sean Stewart, Oscar Byrne Carty, Caolán Power
 
 SPRINT 8:
 
+APPROACH:
+We want to implemented a sliding bar into the GUI to all for the user to define the importance of GPA when scoring the solutions. We decided that in order to keep things simple we
+would use a scale of 0 to 5 where 0 would represent not important at all and 5 would represent highly important. We then modified our scoring function to accommodate for this by
+adding penalties for students over a certain GPA who did not get one of their preferences. The slider controls what this GPA threshold is.
+We adjusted the left hand side of our panel to give a more informative breakdown of the solution List the student details along with their projects. This allows for better solution
+inspection without leaving the application.
+We added checks to help identify issues within the chosen file, such as duplicates of students and unexpected type in a given column.
+We added progress bars at different stages in the applications process to give a better visualisation of how the solution is being generated and allow for quick identification if the
+application stops working.
+
+
 HOW TO RUN:
 Using the main method in the Solve class the User interface is called and then follow instructions given on left hand panel to run the algorithms on the data set
 chosen. Solutions are saved automatically after algorithms are ran. You can see samples included under the name Solution(x).xslx where x is a number.
