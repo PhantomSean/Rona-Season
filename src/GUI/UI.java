@@ -137,8 +137,13 @@ public class UI {
         displayInfoString("This panel will be used to display information while a solution set is generated\n");
         displayInfoString("There is a text box below which can be used for inputting commands\n\n");
         displayInfoString("Use the slider below to enter the GPA importance for the solving");
+        displayInfoString("\nThe slider determines what gpa score should get a preference from their list");
+        displayInfoString("e.g 5 on the slider means you want students with a 2.1 to get a preference");
+        displayInfoString("1 means you only care about people on a 1.1 getting a preference");
+        displayInfoString("0 means you don't care\n");
         displayStudentString("Welcome to Solver\n");
         displayStudentString("This panel will be used to display the students names and also the projects allocated to them\n");
     }
+
 }
 
