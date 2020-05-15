@@ -15,6 +15,7 @@ application stops working.
 
 
 HOW TO RUN:
+
 Using the main method in the Solve class the User interface is called and then follow instructions given on left hand panel to run the algorithms on the data set
 chosen. Solutions are saved automatically after algorithms are ran. You can see samples included under the name Solution(x).xslx where x is a number.
 
