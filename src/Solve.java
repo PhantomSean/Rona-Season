@@ -162,6 +162,7 @@ public class Solve {
 			List<Solution> sol = GA.solve(popNumber, matePercentage, cullPercentage, numGenerations, fileSize,custom,GPAInput);
 			solutionsGenerated++;
 			GeneticAlgorithm.createSolutionFile(sol, "Solutions("+solutionsGenerated+").xlsx");
+			ui.setInvisible(progressFrame);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -174,6 +175,7 @@ public class Solve {
 			List<Solution> sol = SA.solve(fileSize, custom,GPAInput);
 			solutionsGenerated++;
 			GeneticAlgorithm.createSolutionFile(sol, "Solutions("+solutionsGenerated+").xlsx");
+            ui.setInvisible(progressFrame);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

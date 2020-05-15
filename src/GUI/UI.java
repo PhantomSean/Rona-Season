@@ -2,6 +2,7 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 
@@ -44,6 +45,11 @@ public class UI {
         importFilePanel = new ImportFilePanel();
         studentPanel.setVisible(false);
         frame.add(importFilePanel, BorderLayout.LINE_END);
+    }
+
+    public void setInvisible(JFrame frame){
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        progressBar.setValue(0);
     }
 
     public void progress(JFrame frame) {
