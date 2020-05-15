@@ -58,7 +58,10 @@ public class UI {
     }
 
     public void setProgress(int progress) {
-        progressBar.setValue(progress);
+        if (progress > 100)
+            progressBar.setValue(100);
+        else
+            progressBar.setValue(progress);
     }
 
     public String getCommand() {
