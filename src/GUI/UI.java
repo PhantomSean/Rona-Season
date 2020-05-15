@@ -64,6 +64,10 @@ public class UI {
             progressBar.setValue(progress);
     }
 
+    public void removeProgress() {
+        progressPanel.setVisible(false);
+    }
+
     public String getCommand() {
         return commandPanel.getCommand();
     }
