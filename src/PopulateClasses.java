@@ -123,6 +123,7 @@ public class PopulateClasses {
         boolean emptyGPA=true;
         boolean emptyStudentNumber=true;
         boolean emptyStudentName=true;
+        boolean checkDupeStudentNumber=false;
         String result = "\n";
         if(custom) {
             for (int i = 1; i < getNumRows(readFile); i++) {
@@ -133,6 +134,11 @@ public class PopulateClasses {
                     Double.parseDouble(readCellData(readFile, i, 1));
                 } catch (NumberFormatException e) {
                     checkStudentNumber = false;
+                }
+                for(int j = i+1; j < getNumRows(readFile);j++){
+                    if(Double.parseDouble(readCellData(readFile, i, 1))==Double.parseDouble(readCellData(readFile, j, 1))){
+                        checkDupeStudentNumber=true;
+                    }
                 }
                 //ensuring that all student GPAs are numerical
                 try {
@@ -167,6 +173,11 @@ public class PopulateClasses {
                 } catch (NumberFormatException e) {
                     checkStudentNumber = false;
                 }
+                for(int j = i+1; j < getNumRows(readFile);j++){
+                    if(Double.parseDouble(readCellData(readFile, i, 1))==Double.parseDouble(readCellData(readFile, j, 1))){
+                        checkDupeStudentNumber=true;
+                    }
+                }
                 //checking if any cells are empty
                 if (readCellData(readFile, i, 0).equals("") || readCellData(readFile, i, 1).equals("") || readCellData(readFile, i, 2).equals(""))
                     checkForEmpty = false;
@@ -197,6 +208,9 @@ public class PopulateClasses {
             result+=("Warning: Unable to locate column for type 'Student Number'\n");
         if(emptyGPA)
             result+=("Warning: Unable to locate column for type 'Student GPA'\n");
+        if(checkDupeStudentNumber)
+            result+=("Warning: The file loaded may contain duplicate values for type 'Student Number'\n");
+        result+=("File has ran all tests successfully\n");
         if(checkForEmpty && checkStudentNumber && checkStudentGPA && !emptyStudentName && !emptyStudentNumber && !emptyGPA)
             result+=("File has passed all tests successfully\n");
         return result;
