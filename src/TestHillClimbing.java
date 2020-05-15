@@ -8,7 +8,7 @@ import java.util.List;
 class TestHillClimbing {
 
     //method for checking if acceptance is working
-    static String testAcceptance(){
+    static String testAcceptance(int GPAInput){
         List<Solution> testSolutionsOne = new ArrayList<>();
         List<Solution> testSolutionsTwo = new ArrayList<>();
         List<String> prefs = new ArrayList<>();
@@ -16,7 +16,7 @@ class TestHillClimbing {
         testSolutionsOne.add(new Solution( new Student("Sam", "t", 1, prefs, true, 1, 4.2), testProject, 0));
         testSolutionsTwo.add(new Solution( new Student("Sean", "t", 1, prefs, true, 1, 1.2), testProject, 20));
 
-        List<Solution> test = HillClimbing.acceptance(testSolutionsOne, testSolutionsTwo);
+        List<Solution> test = HillClimbing.acceptance(testSolutionsOne, testSolutionsTwo, GPAInput);
 
         if(test.get(0).getStudent().getName().equals("Sam")){
             return "method acceptance is working";
