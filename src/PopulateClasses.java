@@ -158,6 +158,11 @@ public class PopulateClasses {
                     emptyStudentName = false;
                 if (!readCellData(readFile, i, 1).equals(""))
                     emptyStudentNumber = false;
+                double dI = i+1;
+                double dNumGen = getNumRows(readFile);
+                double progress = (dI/dNumGen) * 100;
+                int val = (int) progress;
+                Solve.ui.setProgress(val);
             }
             emptyGPA=false;
         }
