@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Solve {
 	private static JFrame frame = new JFrame();
+	private static JFrame progressFrame = new JFrame();
 	static UI ui = null;
 
 	static {
@@ -75,11 +76,13 @@ public class Solve {
 			String command = ui.getCommand().toLowerCase();
 			if (command.equals("sa")) {
 				validCommand = true;
+				ui.progress(progressFrame);
 				simulatedAnnealing(fileSize, GPAImportance);
 				ui.displayFinish();
 			}
 			if (command.equals("ga")) {
 				validCommand = true;
+				ui.progress(progressFrame);
 				geneticAlgorithm(fileSize, GPAImportance);
 				ui.displayFinish();
 			}
