@@ -139,7 +139,7 @@ public class GeneticAlgorithm implements Solver{
         for (ArrayList<Solution> solutionArrayList : population){
             System.out.println("---------------------------------------------------");
             for (Solution solution : solutionArrayList){
-                System.out.println(solution.getStudentName() + " : " + solution.getProjectTitle() + " : " + solution.getPrefGotten() + " : " + solution.getStudent().getPreference(solution.getPrefGotten()-1));
+                System.out.println(solution.getStudentName() + " : " + solution.getProjectTitle() + " : " + solution.getPrefGotten());
             }
         }
     }
