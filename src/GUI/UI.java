@@ -1,8 +1,8 @@
 package GUI;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import javax.swing.*;
 
 
 public class UI {
