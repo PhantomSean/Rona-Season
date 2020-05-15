@@ -1,6 +1,26 @@
 TEAM NAME: Rona Season
 CONTRIBUTORS: Sean Stewart, Oscar Byrne Carty, Caolán Power
 
+SPRINT 8:
+
+HOW TO RUN:
+Using the main method in the Solve class the User interface is called and then follow instructions given on left hand panel to run the algorithms on the data set
+chosen. Solutions are saved automatically after algorithms are ran. You can see samples included under the name Solution(x).xslx where x is a number.
+
+METHODS ADDED:
+We updated the UI class, adding in a progress bar frame and a few methods to update/remove it. A slider was also added which can determines how important of
+a factor students GPA is.
+
+The populateCustomProjectClass and populateCustomStudentClass are added in to allow a user to upload their own file and populate the students List and projects
+HashMap from it.
+
+The analyzeFile method was also added. This takes a file as input and checks through it for empty columns/cells and incorrect values. A loading
+bar was also added for the user to visually grasp how much more time the checking would take.
+
+EXTRAS:
+Added a loading bar which tells the user how much of the file has been checked
+
+
 SPRINT 7:
 
 HOW TO RUN:

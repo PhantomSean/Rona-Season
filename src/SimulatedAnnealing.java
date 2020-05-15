@@ -74,7 +74,7 @@ public class SimulatedAnnealing implements Solver{
         }
         Solve.ui.overwriteStudentString(output.toString());
         //analysing the solution after the Simulated Annealing has been performed
-        ScoringFunctions.scoreSolution(solutions,GPAInput);
+        ScoringFunctions.analyse(solutions);
 
         return solutions;
     }
