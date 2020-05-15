@@ -60,7 +60,6 @@ public class SimulatedAnnealing implements Solver{
                 check = 0;
             }
             Solve.ui.displayInfoString("-------------------------------------------------------------------------------\nEnergy: " + ScoringFunctions.scoreSolution(solutions, GPAInput) + "\nFitness: -" + ScoringFunctions.scoreSolution(solutions,GPAInput) + "\nTemperature: "+temperature);
-
         }
 
         StringBuilder output = new StringBuilder();

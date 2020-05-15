@@ -55,6 +55,8 @@ public class UI {
         frame.add(progressPanel, BorderLayout.PAGE_START);
         frame.setSize(250, 100);
         frame.setVisible(true);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(dim.width/2- frame.getSize().width/2, dim.height/2-(4*frame.getSize().height));
     }
 
     public void setProgress(int progress) {
