@@ -159,7 +159,7 @@ public class PopulateClasses {
                 if (!readCellData(readFile, i, 1).equals(""))
                     emptyStudentNumber = false;
             }
-            emptyGPA=true;
+            emptyGPA=false;
         }
         if(!checkForEmpty)
             result+=("Warning: The file loaded may not have all rows loaded correctly as empty values were found\n");
