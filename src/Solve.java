@@ -61,8 +61,14 @@ public class Solve {
 		//Keep asking for input until user inputs valid mode, SA, GA or quit
 		if(custom) {
 			ui.removeImportPanel();
-			ui.displayInfoString("You have chosen the file: "+ui.getFileName());
-			ui.displayInfoString(PopulateClasses.analyzeFile(ui.getFileName(), custom));
+            if(ui.getFileName()==null){
+                custom=false;
+                Solve s = new Solve();
+                s.solver();
+            }else{
+                ui.displayInfoString("You have chosen the file: "+ui.getFileName());
+                ui.displayInfoString(PopulateClasses.analyzeFile(ui.getFileName(), custom));
+            }
 		}else {
 			ui.clearInfoPanel();
 			ui.displayInfoString("You have chosen file size: " + fileSize + "\n" + "Please wait a moment as the file is being assessed\n");

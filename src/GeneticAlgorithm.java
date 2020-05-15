@@ -117,6 +117,12 @@ public class GeneticAlgorithm implements Solver{
                 return;                             //to ensure that the runtime is not longer than it needs to be
             }
 
+	        double dI = i+1;
+	        double dNumGen = numGenerations;
+	        double progress = (dI/dNumGen) * 100;
+	        int val = (int) progress;
+	        Solve.ui.setProgress(val);
+
             temp = population.get(0);
             ScoringFunctions.analyse(temp);
         }
