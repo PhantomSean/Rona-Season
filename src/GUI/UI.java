@@ -53,12 +53,15 @@ public class UI {
         progressBar.setStringPainted(true);
         progressPanel.add(progressBar);
         frame.add(progressPanel, BorderLayout.PAGE_START);
-        frame.setSize(100, 100);
+        frame.setSize(250, 100);
         frame.setVisible(true);
     }
 
     public void setProgress(int progress) {
-        progressBar.setValue(progress);
+        if (progress > 100)
+            progressBar.setValue(100);
+        else
+            progressBar.setValue(progress);
     }
 
     public String getCommand() {
