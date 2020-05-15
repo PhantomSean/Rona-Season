@@ -14,6 +14,7 @@ public class UI {
     private final InfoPanel studentPanel;
     private CommandPanel commandPanel;
     private ImportFilePanel importFilePanel;
+    private JPanel progressPanel;
     private final JFrame frame;
 
     public UI(JFrame frame) throws IOException {
@@ -42,6 +43,15 @@ public class UI {
         importFilePanel = new ImportFilePanel();
         studentPanel.setVisible(false);
         frame.add(importFilePanel, BorderLayout.LINE_END);
+    }
+
+    public void progress(JFrame frame) {
+        progressPanel = new JPanel();
+        JProgressBar progressBar = new JProgressBar(0, 100);
+        progressBar.setValue(0);
+        progressBar.setStringPainted(true);
+        progressPanel.add(progressBar);
+        frame.add(progressPanel, BorderLayout.PAGE_START);
     }
 
     public String getCommand() {
