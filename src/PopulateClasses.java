@@ -39,6 +39,7 @@ public class PopulateClasses {
         return staff;
     }
 
+    //method for populating the projects hashmap for already loaded files
     static HashMap<String, Project> populateProjectClass(String readFile) throws IOException {
         int numProjects = getNumRows(readFile);
         for(int i = 1; i < numProjects; i++){
@@ -49,7 +50,7 @@ public class PopulateClasses {
         projects.put("Self Specified Project", new Project("Self Specified Project", "CS + DS", "Student", false));
         return projects;
     }
-
+    //method for populating the students List for already loaded files
     static List<Student> populateStudentClass(String readFile) throws IOException{
         int numStudents = getNumRows(readFile);
         for(int i = 1; i < numStudents; i++){
@@ -62,11 +63,11 @@ public class PopulateClasses {
             Student student = new Student(readCellData(readFile, i, 0),readCellData(readFile, i, 2), Integer.parseInt(readCellData(readFile, i, 1)), preferences, false, 0, genGPA());
 
             students.add(student);
-            //System.out.println("Added Student " + i);
         }
         return students;
     }
 
+    //method for populating the project HashMap for custom files
     static HashMap<String, Project> populateCustomProjectClass(String readFile) throws IOException {
         for(int i = 1; i < getNumRows(readFile); i++){
             if(readCellData(readFile, i, 1).equals(""))
@@ -83,6 +84,7 @@ public class PopulateClasses {
         return projects;
     }
 
+    //method which checks if a project has or has not been already added to the HashMap
     private static boolean checkProject(HashMap<String, Project> projects, String project){
         for (Map.Entry<String, Project> entry : projects.entrySet()) {
             if(entry.getKey().equals(project)){
@@ -92,6 +94,7 @@ public class PopulateClasses {
         return true;
     }
 
+    //method for populating the students List for a custom file
     static List<Student> populateCustomStudentClass(String readFile) throws IOException{
         int numStudents = getNumRows(readFile);
         for(int i = 1; i < numStudents; i++){
@@ -112,6 +115,7 @@ public class PopulateClasses {
         return students;
     }
 
+    //method which analyzes the inputted file
     static String analyzeFile(String readFile, boolean custom) throws IOException {
         boolean checkForEmpty = true;
         boolean checkStudentNumber = true;
@@ -124,40 +128,54 @@ public class PopulateClasses {
             for (int i = 1; i < getNumRows(readFile); i++) {
                 if (readCellData(readFile, i, 1).equals("") && readCellData(readFile, i, 2).equals("") && readCellData(readFile, i, 3).equals(""))
                     break;
+                //ensuring that all student numbers are numerical
                 try {
                     Double.parseDouble(readCellData(readFile, i, 1));
                 } catch (NumberFormatException e) {
                     checkStudentNumber = false;
                 }
+                //ensuring that all student GPAs are numerical
                 try {
                     Double.parseDouble(readCellData(readFile, i, 2));
                 } catch (NumberFormatException e) {
                     checkStudentGPA = false;
                 }
+                //checking if any cells are empty
                 if (readCellData(readFile, i, 0).equals("") || readCellData(readFile, i, 1).equals("") || readCellData(readFile, i, 2).equals(""))
                     checkForEmpty = false;
+                //checking for empty columns
                 if (!readCellData(readFile, i, 0).equals(""))
                     emptyStudentName = false;
                 if (!readCellData(readFile, i, 1).equals(""))
                     emptyStudentNumber = false;
                 if (!readCellData(readFile, i, 2).equals(""))
                     emptyGPA = false;
+                //updating the progress bar
+                double dI = i+1;
+                double dNumGen = getNumRows(readFile);
+                double progress = (dI/dNumGen) * 100;
+                int val = (int) progress;
+                Solve.ui.setProgress(val);
             }
         }else{
             for (int i = 1; i < getNumRows(readFile); i++) {
                 if (readCellData(readFile, i, 1).equals("") && readCellData(readFile, i, 2).equals("") && readCellData(readFile, i, 3).equals(""))
                     break;
+                //ensuring that all student numbers are numerical
                 try {
                     Double.parseDouble(readCellData(readFile, i, 1));
                 } catch (NumberFormatException e) {
                     checkStudentNumber = false;
                 }
+                //checking if any cells are empty
                 if (readCellData(readFile, i, 0).equals("") || readCellData(readFile, i, 1).equals("") || readCellData(readFile, i, 2).equals(""))
                     checkForEmpty = false;
+                //checking for empty columns
                 if (!readCellData(readFile, i, 0).equals(""))
                     emptyStudentName = false;
                 if (!readCellData(readFile, i, 1).equals(""))
                     emptyStudentNumber = false;
+                //updating the progress bar
                 double dI = i+1;
                 double dNumGen = getNumRows(readFile);
                 double progress = (dI/dNumGen) * 100;
@@ -166,6 +184,7 @@ public class PopulateClasses {
             }
             emptyGPA=false;
         }
+        //the result is compiled and then returned
         if(!checkForEmpty)
             result+=("Warning: The file loaded may not have all rows loaded correctly as empty values were found\n");
         if(!checkStudentNumber)
