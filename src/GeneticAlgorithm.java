@@ -116,8 +116,8 @@ public class GeneticAlgorithm implements Solver{
             }
 
 	        double dI = i+1;
-            double progress = (dI/ (double) numGenerations) * 100;
-	        int val = (int) progress;
+            double progress = (dI/ (double) numGenerations) * 50;
+	        int val = (int) progress + 50;
 	        Solve.ui.setProgress(val);
 
             temp = population.get(0);

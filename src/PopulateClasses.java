@@ -72,6 +72,10 @@ public class PopulateClasses {
     //method for populating the project HashMap for custom files
     static HashMap<String, Project> populateCustomProjectClass(String readFile) throws IOException {
         for(int i = 1; i < getNumRows(readFile); i++){
+            double dI = i+1;
+            double progress = (dI/ (double) getNumRows(readFile)) * 15;
+            int val = (int) progress + 15;
+            Solve.ui.setProgress(val);
             if(readCellData(readFile, i, 1).equals(""))
                 break;
             for(int j = 4; j < 21; j++){
@@ -100,6 +104,10 @@ public class PopulateClasses {
     static List<Student> populateCustomStudentClass(String readFile) throws IOException{
         int numStudents = getNumRows(readFile);
         for(int i = 1; i < numStudents; i++){
+            double dI = i+1;
+            double progress = (dI/ (double) getNumRows(readFile)) * 15;
+            int val = (int) progress;
+            Solve.ui.setProgress(val);
             if(readCellData(readFile, i, 1).equals(""))
                 break;
             List<String> preferences = new ArrayList<>();

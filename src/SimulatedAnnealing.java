@@ -40,7 +40,7 @@ public class SimulatedAnnealing implements Solver{
         //temperature starts at the size of the list of solutions multiplied by 2
         double temperature = solutions.size() * 2;
         while(temperature > 0){
-            Solve.ui.setProgress(100-(int) temperature);
+            Solve.ui.setProgress(100-(int) ((temperature/(solutions.size()*2))*70));
             double score = ScoringFunctions.scoreSolution(solutions, GPAInput);
             List<Solution> changedSolutions = HillClimbing.change(solutions);
             solutions = acceptance(solutions, changedSolutions, temperature, score,GPAInput);
