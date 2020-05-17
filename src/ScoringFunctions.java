@@ -105,16 +105,16 @@ public class ScoringFunctions {
                 importance = 4.0;
                 break;
             case 2:
-                importance = 3.67;
+                importance = 3.68;
                 break;
             case 3:
-                importance = 3.5;
+                importance = 3.08;
                 break;
             case 4:
-                importance = 3.25;
+                importance = 2.48;
                 break;
             case 5:
-                importance = 3.08;
+                importance = 2.0;
                 break;
             default:
                 importance = 0;
