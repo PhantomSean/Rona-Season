@@ -131,6 +131,11 @@ public class GeneticAlgorithm implements Solver{
             List<Solution> solutions;
             solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), true, custom);
             population.add((ArrayList<Solution>) solutions);
+            double dI = i+1;
+            double progress = (dI/ (double) popNumber) * 50;
+            int val = (int) progress;
+            Solve.ui.setProgress(val);
+            System.out.println(val);
         }
     }
 
