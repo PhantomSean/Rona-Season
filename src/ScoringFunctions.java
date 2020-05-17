@@ -228,7 +228,7 @@ public class ScoringFunctions {
         Solve.ui.displayInfoString((Math.round((prefs[1] / size) * 100.0)) + "% of students got their first preference");
         Solve.ui.displayInfoString("This figure should ideally be above 40%\n");
         Solve.ui.displayInfoString(topFive + "% of students got one of their top five preferences");
-        Solve.ui.displayInfoString("This figure should ideally be above 80%\n");
+        Solve.ui.displayInfoString("This figure should ideally be above 60%\n");
         Solve.ui.displayInfoString((Math.round((prefs[0] / size)* 100.0)) + "% of students got no preference");
         Solve.ui.displayInfoString("This figure should be below 5%\n");
 
