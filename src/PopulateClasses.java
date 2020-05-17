@@ -1,8 +1,12 @@
 import Classes.*;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -115,6 +119,77 @@ public class PopulateClasses {
         return students;
     }
 
+    static String rearrangeFile(String writeFile) throws IOException {
+        boolean GPA=false;
+        boolean studentNumber=false;
+        boolean studentName=false;
+        boolean proposer=false;
+        String result="\n";
+
+        Workbook writeBook = new XSSFWorkbook(writeFile);
+        Sheet sheet = writeBook.getSheetAt(0);
+        for(int i = 0; i < getNumColumns(writeFile); i++){
+            if(readCellData(writeFile, 0, i).equals(""))
+                break;
+            if(readCellData(writeFile, 0, i).toLowerCase().equals("student")){
+                studentName=true;
+                if(i != 0)
+                    swapColumns(writeFile, sheet, i, 0);
+            }
+            if(readCellData(writeFile, 0, i).toLowerCase().contains("student number")){
+                studentNumber=true;
+                if(i != 1)
+                    swapColumns(writeFile, sheet, i, 1);
+            }
+            if(readCellData(writeFile, 0, i).toLowerCase().contains("gpa")){
+                GPA=true;
+                if(i != 2)
+                    swapColumns(writeFile, sheet, i, 2);
+            }
+            if(readCellData(writeFile, 0, i).toLowerCase().contains("proposer")){
+                proposer=true;
+                if(i != 3)
+                    swapColumns(writeFile, sheet, i, 3);
+            }
+            for(int j = 1; j <= 20; j++){
+                if(readCellData(writeFile, 0, i).equals(Integer.toString(j)) && i != j+3){
+                    swapColumns(writeFile, sheet, i, j+3);
+                }
+            }
+            double dI = i+1;
+            double dNumGen = getNumColumns(writeFile);
+            double progress = (dI/dNumGen) * 100;
+            int val = (int) progress;
+            Solve.ui.setProgress(val);
+        }
+        FileOutputStream outFile =new FileOutputStream(new File("Student Data.xlsx"));
+        writeBook.write(outFile);
+        writeBook.close();
+        outFile.close();
+
+        if(!studentName)
+            result+=("Unable to locate column containing student names\n");
+        if(!studentNumber)
+            result+=("Unable to locate column containing student numbers\n");
+        if(!GPA)
+            result+=("Unable to locate column containing student GPAs\n");
+        if(!proposer)
+            result+=("Unable to locate column containing the proposer of each project\n");
+        if(studentName && studentNumber && GPA && proposer)
+            result+=("All columns located and arranged successfully\n");
+        return result;
+    }
+
+    private static void swapColumns(String writeFile, Sheet sheet, int oldColumn, int newColumn) throws IOException {
+        for(int i = 0; i < getNumRows(writeFile); i++){
+            if (readCellData(writeFile, i, 1).equals("") && readCellData(writeFile, i, 2).equals("") && readCellData(writeFile, i, 3).equals(""))
+                break;
+            String tmp = readCellData(writeFile, i, oldColumn);
+            sheet.getRow(i).getCell(oldColumn).setCellValue(readCellData(writeFile, i, newColumn));
+            sheet.getRow(i).getCell(newColumn).setCellValue(tmp);
+        }
+    }
+
     //method which analyzes the inputted file
     static String analyzeFile(String readFile, boolean custom) throws IOException {
         boolean checkForEmpty = true;
@@ -207,11 +282,11 @@ public class PopulateClasses {
         if(!checkStudentGPA)
             result+=("Warning: The file loaded may contain non-numerical values for type 'Student GPA'\n");
         if(emptyStudentName)
-            result+=("Warning: Unable to locate column for type 'Student Name'\n");
+            result+=("Warning: Unable to locate content in column for type 'Student Name'\n");
         if(emptyStudentNumber)
-            result+=("Warning: Unable to locate column for type 'Student Number'\n");
+            result+=("Warning: Unable to locate content in column for type 'Student Number'\n");
         if(emptyGPA)
-            result+=("Warning: Unable to locate column for type 'Student GPA'\n");
+            result+=("Warning: Unable to locate content in column for type 'Student GPA'\n");
         if(checkDupeStudentNumber)
             result+=("Warning: The file loaded may contain duplicate values for type 'Student Number'\n");
         result+=("File has ran all tests successfully\n");
@@ -262,6 +337,28 @@ public class PopulateClasses {
         assert readBook != null;
         Sheet sheet = readBook.getSheetAt(0);
         return sheet.getPhysicalNumberOfRows();
+    }
+
+    private static int getNumColumns(String file) {
+        Workbook readBook = null;
+        try {
+            readBook = new XSSFWorkbook(new FileInputStream(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assert readBook != null;
+        Sheet sheet = readBook.getSheetAt(0);
+        Iterator rowIterator = sheet.rowIterator();
+
+        int numColumns = 0;
+        if (rowIterator.hasNext())
+        {
+            Row headerRow = (Row) rowIterator.next();
+            //get the number of cells in the header row
+            numColumns = headerRow.getPhysicalNumberOfCells();
+        }
+        return numColumns;
     }
 
     //method for generating students GPA

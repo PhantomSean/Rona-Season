@@ -82,7 +82,7 @@ public class SimulatedAnnealing implements Solver{
     private void fillData(int fileSize, boolean custom){
         try {
             if(custom){
-                students = PopulateClasses.populateCustomStudentClass(Solve.ui.getFileName());
+                students = PopulateClasses.populateCustomStudentClass("Student Data.xlsx");
             }else {
                 students = PopulateClasses.populateStudentClass("Students&Preferences(" + fileSize + ").xlsx");
             }
@@ -92,7 +92,7 @@ public class SimulatedAnnealing implements Solver{
 
         try {
             if(custom){
-                projects = PopulateClasses.populateCustomProjectClass(Solve.ui.getFileName());
+                projects = PopulateClasses.populateCustomProjectClass("Student Data.xlsx");
             }else {
                 projects = PopulateClasses.populateProjectClass("Staff&Projects(" + fileSize + ").xlsx");
             }

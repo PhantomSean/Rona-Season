@@ -9,6 +9,7 @@ public class Solve {
 	private static JFrame frame = new JFrame();
 	private static JFrame progressFrame = new JFrame();
 	private static JFrame checkFrame = new JFrame();
+	private static JFrame rearrangeFrame = new JFrame();
 	static UI ui = null;
 
 	static {
@@ -68,8 +69,11 @@ public class Solve {
                 s.solver();
             }else{
                 ui.displayInfoString("You have chosen the file: "+ui.getFileName());
+				ui.progress(rearrangeFrame, "Rearranging File If Necessary");
+                ui.displayInfoString(PopulateClasses.rearrangeFile(ui.getFileName()));
+				ui.setInvisible(rearrangeFrame);
 				ui.progress(checkFrame, "Checking File");
-                ui.displayInfoString(PopulateClasses.analyzeFile(ui.getFileName(), custom));
+                ui.displayInfoString(PopulateClasses.analyzeFile("Student Data.xlsx", custom));
             }
 		}else {
 			ui.clearInfoPanel();
