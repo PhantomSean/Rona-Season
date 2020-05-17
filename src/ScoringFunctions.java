@@ -11,6 +11,9 @@ public class ScoringFunctions {
     private static int[] prefs = new int[21];
 
     static double scoreSolution(List<Solution> solutions, int GPAInput){
+        Solve.ui.setDuplicateProjectCheck(false);
+        Solve.ui.setDuplicateStudentCheck(false);
+        Solve.ui.setStreamCheck(false);
         //analyse(solutions);
         double total=0;
         double score;
@@ -41,8 +44,9 @@ public class ScoringFunctions {
                 total -= ((solution.getStudent().getGPA() * 0.1) * (1 / tmp));
             }
             else if(solution.getStudent().getGPA() > importance && solution.getStudent().getPrefGotten() == 0){
-                total += 10;
+                total += 2;
             }
+
         }
 
         return total;
@@ -63,14 +67,12 @@ public class ScoringFunctions {
 
                 if(solutions.get(i).getStudentName().equals(solutions.get(j).getStudentName())) {
                     solutions.get(i).addToScore(penalty);
-//                    System.out.println("Dupe : "+solutions.get(i).getStudentName());
-//                    System.out.println("Dupe : "+solutions.get(j).getStudentName());
-
+                    Solve.ui.setDuplicateStudentCheck(true);
                 }
                 if(solutions.get(i).getProjectTitle().equals(solutions.get(j).getProjectTitle()) &&
                 !solutions.get(i).getProjectTitle().equals("Self Specified")) {
                     solutions.get(i).addToScore(penalty);
-//                    System.out.println("Dupe Project : "+solutions.get(i).getProjectTitle());
+                    Solve.ui.setDuplicateProjectCheck(true);
                 }
             }
         }
@@ -87,9 +89,10 @@ public class ScoringFunctions {
                     || studentStream.equals(projectStream)
                     || projectStream.contains(studentStream))){
                 solution.addToScore(penalty);
-//                System.out.println("Student stream : "+studentStream +" not compatible with project stream : "+projectStream );
-//                System.out.println("For student : "+solution.getStudent().getName() + " stream "+solution.getStudent().getStream());
-//                System.out.println("Who is assigned : "+solution.getProject().getTitle() +" for stream : "+solution.getProject().getStream());
+
+                //for printing out the violation to the user
+                Solve.ui.setStreamCheck(true);
+
             }
         }
     }
@@ -224,7 +227,7 @@ public class ScoringFunctions {
 
         Solve.ui.displayInfoString((Math.round((prefs[1] / size) * 100.0)) + "% of students got their first preference");
         Solve.ui.displayInfoString("This figure should ideally be above 40%\n");
-        Solve.ui.displayInfoString(topFive + "% of students got one of their top five preferences" + "\n");
+        Solve.ui.displayInfoString(topFive + "% of students got one of their top five preferences");
         Solve.ui.displayInfoString("This figure should ideally be above 80%\n");
         Solve.ui.displayInfoString((Math.round((prefs[0] / size)* 100.0)) + "% of students got no preference");
         Solve.ui.displayInfoString("This figure should below be above 5%\n");

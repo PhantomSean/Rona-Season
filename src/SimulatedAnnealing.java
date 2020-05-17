@@ -59,6 +59,7 @@ public class SimulatedAnnealing implements Solver{
                 //resetting check if there is a change made
                 check = 0;
             }
+            Solve.ui.setProgress(100);
             Solve.ui.displayInfoString("-------------------------------------------------------------------------------\nEnergy: " + ScoringFunctions.scoreSolution(solutions, GPAInput) + "\nFitness: -" + ScoringFunctions.scoreSolution(solutions,GPAInput) + "\nTemperature: "+temperature);
         }
         Solve.ui.removeProgress();

@@ -199,6 +199,8 @@ public class PopulateClasses {
         boolean emptyStudentNumber=true;
         boolean emptyStudentName=true;
         boolean checkDupeStudentNumber=false;
+        List<Double> studentNums = new ArrayList<>();
+
         String result = "\n";
         if(custom) {
             for (int i = 1; i < getNumRows(readFile); i++) {
@@ -207,15 +209,13 @@ public class PopulateClasses {
                 //ensuring that all student numbers are numerical
                 try {
                     Double.parseDouble(readCellData(readFile, i, 1));
+                    studentNums.add(Double.parseDouble(readCellData(readFile, i, 1)));
                 } catch (NumberFormatException e) {
                     checkStudentNumber = false;
                 }
                 for(int j = i+1; j < getNumRows(readFile);j++){
                     if(readCellData(readFile, j, 1).equals(""))
                         break;
-                    if(Double.parseDouble(readCellData(readFile, i, 1))==Double.parseDouble(readCellData(readFile, j, 1))){
-                        checkDupeStudentNumber=true;
-                    }
                 }
                 //ensuring that all student GPAs are numerical
                 try {
@@ -233,6 +233,7 @@ public class PopulateClasses {
                     emptyStudentNumber = false;
                 if (!readCellData(readFile, i, 2).equals(""))
                     emptyGPA = false;
+
                 //updating the progress bar
                 double dI = i+1;
                 double dNumGen = getNumRows(readFile);
@@ -253,9 +254,6 @@ public class PopulateClasses {
                 for(int j = i+1; j < getNumRows(readFile);j++){
                     if(readCellData(readFile, j, 1).equals(""))
                         break;
-                    if(Double.parseDouble(readCellData(readFile, i, 1))==Double.parseDouble(readCellData(readFile, j, 1)))
-                        checkDupeStudentNumber=true;
-
                 }
                 //checking if any cells are empty
                 if (readCellData(readFile, i, 0).equals("") || readCellData(readFile, i, 1).equals("") || readCellData(readFile, i, 2).equals(""))
@@ -274,6 +272,12 @@ public class PopulateClasses {
             }
             emptyGPA=false;
         }
+        // Checking for duplicate student numbers
+        Set<Double> set = new HashSet<>(studentNums);
+        if (set.size() < studentNums.size()) {
+            checkDupeStudentNumber = true;
+        }
+
         //the result is compiled and then returned
         if(!checkForEmpty)
             result+=("Warning: The file loaded may not have all rows loaded correctly as empty values were found\n");

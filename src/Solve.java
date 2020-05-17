@@ -31,37 +31,36 @@ public class Solve {
 
 	private void solver() throws IOException {
 		boolean validCommand = false;
-		int fileSize=0;
+		int fileSize = 0;
 
 		ui.displaySliderText();
 
 		ui.displayFileInput();
 
-		do{
+		do {
 			//Keep asking for input until user selects a valid file size
 			String command = ui.getCommand();
-			if(command.equals("60") || command.equals("120") || command.equals("240") || command.equals("500")){
+			if (command.equals("60") || command.equals("120") || command.equals("240") || command.equals("500")) {
 				fileSize = Integer.parseInt(command);
 				validCommand = true;
-			}else if(command.toLowerCase().equals("custom")){
+			} else if (command.toLowerCase().equals("custom")) {
 				ui.importFile(frame);
-				custom=true;
+				custom = true;
 				fileSize = 1;
 				validCommand = true;
-			}else
+			} else
 				ui.displayInfoString("Please enter a valid file size");
-		}while(!validCommand);
+		} while (!validCommand);
 
 		GPAImportance = ui.getSliderInput();
 
 		validCommand = false;
 
 
-
-		if(fileSize==1)
-			custom=true;
+		if (fileSize == 1)
+			custom = true;
 		//Keep asking for input until user inputs valid mode, SA, GA or quit
-		if(custom) {
+		if (custom) {
 			ui.removeImportPanel();
             if(ui.getFileName()==null){
                 custom=false;
@@ -82,7 +81,7 @@ public class Solve {
 			ui.displayInfoString(PopulateClasses.analyzeFile("Students&Preferences(" + fileSize + ").xlsx", custom));
 		}
 		ui.displayStart();
-		ui.displayInfoString("GPA Importance for this is " +GPAImportance);
+		ui.displayInfoString("GPA Importance for this is " + GPAImportance);
 		do {
 			ui.setInvisible(checkFrame);
 			//convert to lower to allow for upper and lower inputs
@@ -99,27 +98,36 @@ public class Solve {
 				geneticAlgorithm(fileSize, GPAImportance);
 				ui.displayFinish();
 			}
+			if (ui.getStreamCheck())
+				ui.displayStreamViolation();
+			if (ui.getDuplicateProjectCheck())
+				ui.displayDuplicateProjectViolation();
+			if (ui.getDuplicateStudentCheck())
+				ui.displayDuplicateStudentViolation();
 			if (command.equals("quit")) {
 				ui.quit();
 			}
 			if (command.equals("restart")) {
 				ui.clearInfoPanel();
-                Solve s = new Solve();
-                s.solver();
+				Solve s = new Solve();
+				s.solver();
 			}
-			if(!validCommand){
+			if (!validCommand) {
 				ui.displayInfoString("\n\nINVALID INPUT:\nPlease enter either 'GA' or 'SA'");
 			}
-		}while(!validCommand);
+		} while (!validCommand);
 		String command = ui.getCommand().toLowerCase();
 		if (command.equals("quit")) {
 			ui.quit();
 		}
-		if(command.equals("restart")){
+		if (command.equals("restart")) {
 			ui.clearInfoPanel();
-            Solve s = new Solve();
-            s.solver();
+			Solve s = new Solve();
+			s.solver();
 		}
+
+
+
 	}
 
 	private void geneticAlgorithm(int fileSize, int GPAInput){
