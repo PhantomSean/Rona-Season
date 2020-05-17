@@ -37,8 +37,8 @@ public class SimulatedAnnealing implements Solver{
         int check = 0;
         List<Solution> solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), false, custom);
         ScoringFunctions.scoreSolution(solutions, GPAInput);
-        //temperature starts at the size of the list of solutions multiplied by 1.7
-        double temperature = solutions.size() * 1.7;
+        //temperature starts at the size of the list of solutions multiplied by 2
+        double temperature = solutions.size() * 2;
         while(temperature > 0){
             Solve.ui.setProgress(100-(int) temperature);
             double score = ScoringFunctions.scoreSolution(solutions, GPAInput);

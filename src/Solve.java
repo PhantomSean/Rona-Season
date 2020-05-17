@@ -10,18 +10,13 @@ public class Solve {
 	private static JFrame progressFrame = new JFrame();
 	private static JFrame checkFrame = new JFrame();
 	private static JFrame rearrangeFrame = new JFrame();
-	static UI ui = null;
+	static UI ui;
 
 	static {
-		try {
-			ui = new UI(frame);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		ui = new UI(frame);
 	}
 
 	private static int solutionsGenerated = 0;
-	private int GPAImportance;
 	private static boolean custom = false;
 
 	public static void main(String[] args) throws IOException {
@@ -52,7 +47,7 @@ public class Solve {
 				ui.displayInfoString("Please enter a valid file size");
 		} while (!validCommand);
 
-		GPAImportance = ui.getSliderInput();
+		int GPAImportance = ui.getSliderInput();
 
 		validCommand = false;
 

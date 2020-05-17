@@ -22,7 +22,7 @@ public class UI {
     private boolean duplicateProjectCheck;
     private boolean streamCheck;
 
-    public UI(JFrame frame) throws IOException {
+    public UI(JFrame frame) {
         this.frame = frame;
         infoPanel = new InputPanel();
         studentPanel = new InfoPanel();
@@ -70,10 +70,7 @@ public class UI {
     }
 
     public void setProgress(int progress) {
-        if (progress > 100)
-            progressBar.setValue(100);
-        else
-            progressBar.setValue(progress);
+        progressBar.setValue(Math.min(progress, 100));
     }
 
     public void removeProgress() {

@@ -1,21 +1,19 @@
-import Classes.*;
+import Classes.Project;
+import Classes.Staff;
+import Classes.Student;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.*;
 
 public class PopulateClasses {
     private static HashMap<String, Project> projects = new HashMap<>();
     private static List<Student> students = new ArrayList<>();
     private static List<Staff> staff = new ArrayList<>();
-    private static DecimalFormat df = new DecimalFormat("0.00");
 
     public static List<Staff> populateStaff(String readFile1) throws IOException {
 

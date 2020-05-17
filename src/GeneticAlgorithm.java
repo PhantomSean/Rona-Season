@@ -18,9 +18,6 @@ public class GeneticAlgorithm implements Solver{
     private  static HashMap<String, Project> projects;             //populating projects HashMap and students List
 	private static List<Student> students;
 
-	private String projectFile;
-	private String studentFile;
-
 
     private static List<Solution> temp = new ArrayList<>();
 
@@ -48,7 +45,7 @@ public class GeneticAlgorithm implements Solver{
 		   }
     }
 
-    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize, boolean custom, int GPAInput) throws IOException{
+    public List<Solution> solve(int popNumber, double matePercentage, double cullPercentage, int numGenerations, int fileSize, boolean custom, int GPAInput){
 	    List<Solution> fittestSolution;
         fillData(fileSize, custom);
     	long startTime = System.currentTimeMillis();            //starting the timer
@@ -82,6 +79,7 @@ public class GeneticAlgorithm implements Solver{
     private static void geneticAlgorithm(int popNumber, double matePercentage, double cullPercentage, int numGenerations, boolean custom, int GPAInput) {
         int check = 0;
         population = new ArrayList<>();
+
         genPopulation(popNumber, custom);           //generating and sorting the population
         System.out.println("---------------------------------------------------------------");
         for(int i = 0; i < numGenerations; i++){//Each generation is sorted and then culled
@@ -118,8 +116,7 @@ public class GeneticAlgorithm implements Solver{
             }
 
 	        double dI = i+1;
-	        double dNumGen = numGenerations;
-	        double progress = (dI/dNumGen) * 100;
+            double progress = (dI/ (double) numGenerations) * 100;
 	        int val = (int) progress;
 	        Solve.ui.setProgress(val);
 
@@ -208,7 +205,7 @@ public class GeneticAlgorithm implements Solver{
 				}
 			}
 			else if(inherit >= 0.975) {
-				Solution sol = new Solution(parentOne.get(i).getStudent(), mutate(parentOne, parentTwo, projects), 0);;
+				Solution sol = new Solution(parentOne.get(i).getStudent(), mutate(parentOne, parentTwo, projects), 0);
 				sol.setScore(getSolutionScore(sol));
 				child.set(i, sol);
 			}
