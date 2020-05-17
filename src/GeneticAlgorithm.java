@@ -136,12 +136,6 @@ public class GeneticAlgorithm implements Solver{
             population.add((ArrayList<Solution>) solutions);
         }
 
-        for (ArrayList<Solution> solutionArrayList : population){
-            System.out.println("---------------------------------------------------");
-            for (Solution solution : solutionArrayList){
-                System.out.println(solution.getStudentName() + " : " + solution.getProjectTitle() + " : " + solution.getPrefGotten());
-            }
-        }
     }
 
     //method for sorting the population
