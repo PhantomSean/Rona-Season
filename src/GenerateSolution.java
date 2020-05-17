@@ -88,20 +88,20 @@ public class GenerateSolution {
                         while (temp.size() != 1) {
                             double r = new Random().nextDouble();
                             if (temp.get(0).getGPA() > temp.get(1).getGPA()) {
-                                if (r <= 0.5 && gAlgo) {
-                                    temp.get(1).setHasProject(true);
-                                    temp.get(1).setPrefGotten(0);
-                                    Solution s = new Solution(temp.get(1), genProject(temp.get(1).getStream()), 1);
-                                    solutions.add(s);
-                                }
+//                                if (r <= 0.5 && gAlgo) {
+//                                    temp.get(1).setHasProject(true);
+//                                    temp.get(1).setPrefGotten(0);
+//                                    Solution s = new Solution(temp.get(1), genProject(temp.get(1).getStream()), 1);
+//                                    solutions.add(s);
+//                                }
                                 temp.remove(1);
                             } else {
-                                if (r <= 0.5 && gAlgo) {
-                                    temp.get(0).setHasProject(true);
-                                    temp.get(0).setPrefGotten(0);
-                                    Solution s = new Solution(temp.get(0), genProject(temp.get(0).getStream()), 1);
-                                    solutions.add(s);
-                                }
+//                                if (r <= 0.5 && gAlgo) {
+//                                    temp.get(0).setHasProject(true);
+//                                    temp.get(0).setPrefGotten(0);
+//                                    Solution s = new Solution(temp.get(0), genProject(temp.get(0).getStream()), 1);
+//                                    solutions.add(s);
+//                                }
                                 temp.remove(0);
                             }
                         }
