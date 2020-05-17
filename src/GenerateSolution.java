@@ -2,7 +2,6 @@ import Classes.Project;
 import Classes.Solution;
 import Classes.Student;
 
-import java.io.IOException;
 import java.util.*;
 
 public class GenerateSolution {
