@@ -83,9 +83,9 @@ public class GeneticAlgorithm implements Solver{
         int check = 0;
         population = new ArrayList<>();
         genPopulation(popNumber, custom);           //generating and sorting the population
-        sortPopulation(GPAInput);
         System.out.println("---------------------------------------------------------------");
         for(int i = 0; i < numGenerations; i++){//Each generation is sorted and then culled
+            sortPopulation(GPAInput);
         	StringBuilder output = new StringBuilder();
         	for(Student student : students){
         		Project proj = HillClimbing.findProjectByStudent(population.get(0) , student.getName());
@@ -108,7 +108,7 @@ public class GeneticAlgorithm implements Solver{
             output.append("-------------------------------------------------------------------------------\nBEST SCORE OF GENERATION ").append(i + 1).append(": ").append(ScoringFunctions.scoreSolution(population.get(0),GPAInput));
             Solve.ui.displayInfoString(output.toString());
             System.out.println("\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0),GPAInput)+"\nSize of population: "+population.size() +"\n---------------------------------------------------------------");         //printing the best score of the generation
-            if((ScoringFunctions.scoreSolution(population.get(0),GPAInput) < (0.2 * students.size())) && (ScoringFunctions.scoreSolution(population.get(0),GPAInput) == ScoringFunctions.scoreSolution(temp,GPAInput))){        //if the score is underneath 25 and the best score
+            if((ScoringFunctions.scoreSolution(population.get(0),GPAInput) < (0.075 * students.size())) && (ScoringFunctions.scoreSolution(population.get(0),GPAInput) == ScoringFunctions.scoreSolution(temp,GPAInput))){        //if the score is underneath 25 and the best score
                 check++;                                                                                                                                                        //is the same as the last generation, then check is incremented
             }else{                                                                                                                                                              //otherwise check is reset
                 check = 0;
@@ -134,13 +134,6 @@ public class GeneticAlgorithm implements Solver{
             List<Solution> solutions;
             solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), true, custom);
             population.add((ArrayList<Solution>) solutions);
-        }
-
-        for (ArrayList<Solution> solutionArrayList : population){
-            System.out.println("---------------------------------------------------");
-            for (Solution solution : solutionArrayList){
-                System.out.println(solution.getStudentName() + " : " + solution.getProjectTitle() + " : " + solution.getPrefGotten());
-            }
         }
     }
 
