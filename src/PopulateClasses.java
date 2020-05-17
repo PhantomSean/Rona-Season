@@ -213,10 +213,6 @@ public class PopulateClasses {
                 } catch (NumberFormatException e) {
                     checkStudentNumber = false;
                 }
-                for(int j = i+1; j < getNumRows(readFile);j++){
-                    if(readCellData(readFile, j, 1).equals(""))
-                        break;
-                }
                 //ensuring that all student GPAs are numerical
                 try {
                     Double.parseDouble(readCellData(readFile, i, 2));
@@ -250,10 +246,6 @@ public class PopulateClasses {
                     Double.parseDouble(readCellData(readFile, i, 1));
                 } catch (NumberFormatException e) {
                     checkStudentNumber = false;
-                }
-                for(int j = i+1; j < getNumRows(readFile);j++){
-                    if(readCellData(readFile, j, 1).equals(""))
-                        break;
                 }
                 //checking if any cells are empty
                 if (readCellData(readFile, i, 0).equals("") || readCellData(readFile, i, 1).equals("") || readCellData(readFile, i, 2).equals(""))
