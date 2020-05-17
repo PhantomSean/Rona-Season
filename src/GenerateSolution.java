@@ -19,10 +19,12 @@ public class GenerateSolution {
         projects = projectsList;
         students = studentsList;
 
+        // Set all projects taken value to false
         for (Map.Entry<String, Project> project : projects.entrySet()){
             project.getValue().setTaken(false);
         }
 
+        // Set all student has project value to false
         for (Student student : students){
             student.setHasProject(false);
         }
@@ -183,14 +185,8 @@ public class GenerateSolution {
                 Solution solution = new Solution(student, project, Math.pow(score_mult, 10));
                 solutions.add(solution);
                 student.setHasProject(true);
-                student.setPrefGotten(0);
                 student.setPrefGotten(1);
             }
         }
     }
-
-    public static HashMap<String, Project> getProjects() {
-        return projects;
-    }
-
 }

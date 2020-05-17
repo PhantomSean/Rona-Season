@@ -22,14 +22,14 @@ public class GeneticAlgorithm implements Solver{
 	private String studentFile;
 
 
-    private static List<Solution> temp;
+    private static List<Solution> temp = new ArrayList<>();
 
 
 
     private void fillData(int fileSize, boolean custom){
 	    try {
 	        if(custom){
-                students = PopulateClasses.populateCustomStudentClass("Student Data.xlsx");
+                students = PopulateClasses.populateCustomStudentClass(Solve.ui.getFileName());
             }else {
                 students = PopulateClasses.populateStudentClass("Students&Preferences(" + fileSize + ").xlsx");
             }
@@ -39,7 +39,7 @@ public class GeneticAlgorithm implements Solver{
 
 	    try {
             if(custom){
-                projects = PopulateClasses.populateCustomProjectClass("Student Data.xlsx");
+                projects = PopulateClasses.populateCustomProjectClass(Solve.ui.getFileName());
             }else {
                 projects = PopulateClasses.populateProjectClass("Staff&Projects(" + fileSize + ").xlsx");
             }
@@ -102,7 +102,7 @@ public class GeneticAlgorithm implements Solver{
             System.out.println("Population size after culling: " + population.size());
             System.out.println("Number to add back to the population: " + (int) (popNumber*cullPercentage*0.01));
             for (int j = 0; j < (int) (popNumber*cullPercentage*0.01); j++) {               //mating is performed with the amount of new solutions produced during mating
-                insertToPopulation((ArrayList<Solution>) mate(popNumber, matePercentage,GPAInput), GPAInput);      //matching the amount that was culled
+                insertToPopulation((ArrayList<Solution>) mate(popNumber, matePercentage,GPAInput, custom), GPAInput);      //matching the amount that was culled
             }
             output = new StringBuilder();
             output.append("-------------------------------------------------------------------------------\nBEST SCORE OF GENERATION ").append(i + 1).append(": ").append(ScoringFunctions.scoreSolution(population.get(0),GPAInput));
@@ -136,6 +136,12 @@ public class GeneticAlgorithm implements Solver{
             population.add((ArrayList<Solution>) solutions);
         }
 
+        for (ArrayList<Solution> solutionArrayList : population){
+            System.out.println("---------------------------------------------------");
+            for (Solution solution : solutionArrayList){
+                System.out.println(solution.getStudentName() + " : " + solution.getProjectTitle() + " : " + solution.getPrefGotten());
+            }
+        }
     }
 
     //method for sorting the population
@@ -187,27 +193,31 @@ public class GeneticAlgorithm implements Solver{
     }
 
 	//method for mating two parents
-	private static List<Solution> mate(int popNumber, double matingPercentage,int GPAInput) {
-		List<Solution> parentOne = getParent(popNumber, matingPercentage);
-		List<Solution> parentTwo = getParent(popNumber, matingPercentage);
+	private static List<Solution> mate(int popNumber, double matingPercentage,int GPAInput, boolean custom) {
+		List<Solution> parentOne = List.copyOf(getParent(popNumber, matingPercentage));
+		List<Solution> parentTwo = List.copyOf(getParent(popNumber, matingPercentage));
 
-		List<Solution> child = new ArrayList<>();
-		for (Solution solution: parentOne) {
+		List<Solution> child = GenerateSolution.genSolution(projects, students, new ArrayList<>(), true, custom);
+		for (int i = 0; i < parentOne.size(); i++) {
 			double inherit = new Random().nextDouble();
 			if(inherit < 0.4875) {
-				child.add(solution);
+				child.get(i).setProject(parentOne.get(i).getProject());
+				child.get(i).getStudent().setPrefGotten(parentOne.get(i).getStudent().getPrefGotten());
+				child.get(i).setScore(parentOne.get(i).getScore());
 			}
 			else if(inherit >= 0.4875 && inherit < 0.975) {
-				for (Solution solution1 : parentTwo) {
-					if (solution.getStudent().getName().equals(solution1.getStudent().getName())) {
-						child.add(solution1);
+				for (int j = 0; j < parentOne.size(); j++) {
+					if (parentOne.get(i).getStudent().getName().equals(parentTwo.get(j).getStudent().getName())) {
+                        child.get(i).setProject(parentTwo.get(i).getProject());
+                        child.get(i).getStudent().setPrefGotten(parentTwo.get(i).getStudent().getPrefGotten());
+                        child.get(i).setScore(parentTwo.get(i).getScore());
 					}
 				}
 			}
 			else if(inherit >= 0.975) {
-				Solution sol = new Solution(solution.getStudent(), mutate(parentOne, parentTwo, projects), 0);
+				Solution sol = new Solution(parentOne.get(i).getStudent(), mutate(parentOne, parentTwo, projects), 0);;
 				sol.setScore(getSolutionScore(sol));
-				child.add(sol);
+				child.set(i, sol);
 			}
 		}
 		ScoringFunctions.scoreSolution(child,GPAInput);
