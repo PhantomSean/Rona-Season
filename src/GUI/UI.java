@@ -176,7 +176,6 @@ public class UI {
         displayInfoString("- 3 : GPA of 3.08 and above");
         displayInfoString("- 4 : GPA of 2.48 and above");
         displayInfoString("- 5 : GPA of 2.00 and above");
-        displayInfoString("0 means you don't care\n");
         displayStudentString("Welcome to Solver\n");
         displayStudentString("This panel will be used to display the students names and also the projects allocated to them\n");
     }
