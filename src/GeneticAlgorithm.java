@@ -116,8 +116,8 @@ public class GeneticAlgorithm implements Solver{
             }
 
 	        double dI = i+1;
-            double progress = (dI/ (double) numGenerations) * 50;
-	        int val = (int) progress + 50;
+            double progress = (dI/ (double) numGenerations) * 60;
+	        int val = (int) progress + 40;
 	        Solve.ui.setProgress(val);
 
             temp = population.get(0);
@@ -132,10 +132,9 @@ public class GeneticAlgorithm implements Solver{
             solutions = GenerateSolution.genSolution(projects, students, new ArrayList<>(), true, custom);
             population.add((ArrayList<Solution>) solutions);
             double dI = i+1;
-            double progress = (dI/ (double) popNumber) * 50;
-            int val = (int) progress;
+            double progress = (dI/ (double) popNumber) * 10;
+            int val = (int) progress + 30;
             Solve.ui.setProgress(val);
-            System.out.println(val);
         }
     }
 

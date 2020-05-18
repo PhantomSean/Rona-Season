@@ -1,8 +1,6 @@
 TEAM NAME: Rona Season
 CONTRIBUTORS: Sean Stewart, Oscar Byrne Carty, Caolán Power
 
-SPRINT 8:
-
 APPROACH:
 We want to implemented a sliding bar into the GUI to all for the user to define the importance of GPA when scoring the solutions. We decided that in order to keep things simple we
 would use a scale of 0 to 5 where 0 would represent not important at all and 5 would represent highly important. We then modified our scoring function to accommodate for this by
@@ -15,10 +13,12 @@ application stops working.
 
 
 HOW TO RUN:
-Use the .jar file given
+Use the .jar file given in the Rona-Season folder
 OR
 Using the main method in the Solve class the User interface is called and then follow instructions given on left hand panel to run the algorithms on the data set
 chosen. Solutions are saved automatically after algorithms are ran. You can see samples included under the name Solution(x).xslx where x is a number.
+OR
+unzip the Solve.zip file (which is located in the Rona-Season folder) in the location that you'd like to store the outputted solution files and run the .jar file
 
 METHODS ADDED:
 We updated the UI class, adding in a progress bar frame and a few methods to update/remove it. A slider was also added which can determines how important of
@@ -32,6 +32,8 @@ bar was also added for the user to visually grasp how much more time the checkin
 
 EXTRAS:
 Added a loading bar which tells the user how much of the file has been checked
+The program now swaps around input files columns and checks if all necessary information is available
+
 
 
 SPRINT 7:
