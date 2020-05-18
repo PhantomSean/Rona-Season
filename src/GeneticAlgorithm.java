@@ -19,10 +19,6 @@ public class GeneticAlgorithm implements Solver{
 	private static List<Student> students;
 
 
-    private static List<Solution> temp = new ArrayList<>();
-
-
-
     private void fillData(int fileSize, boolean custom){
 	    try {
 	        if(custom){
@@ -54,12 +50,23 @@ public class GeneticAlgorithm implements Solver{
         sortPopulation(GPAInput);             //sorting the finalized list of solutions
         ScoringFunctions.scoreSolution(population.get(0),GPAInput);//Analysing the most optimal solution found
 
-
-
         long endTime = System.currentTimeMillis();
+
+        StringBuilder output = new StringBuilder();
+        for(Student student : students){
+            Project proj = HillClimbing.findProjectByStudent(population.get(0) , student.getName());
+            if(student.getPrefGotten() == 0){
+                output.append("-------------------------------------------------------------------------------\nName: ").append(student.getName()).append("\tStudent No.: ").append(student.getStudentId()).append("\tGPA: ").append(student.getGPA()).append("\nProject: ").append(proj.getTitle()).append("\nPreference: ").append("None").append("\n");
+            }else{
+                output.append("-------------------------------------------------------------------------------\nName: ").append(student.getName()).append("\tStudent No.: ").append(student.getStudentId()).append("\tGPA: ").append(student.getGPA()).append("\nProject: ").append(proj.getTitle()).append("\nPreference: ").append(student.getPrefGotten()).append("\n");
+            }
+        }
+        Solve.ui.overwriteStudentString(output.toString());
+
         //Stating the time took to complete
         System.out.println("Execution time : " + (endTime-startTime)/60000 + " minutes");
         Solve.ui.displayInfoString("Execution time : " + (endTime-startTime)/60000 + " minutes");
+        Solve.ui.displayInfoString("Solution has been saved to the most recent Solutions().xlsx file in current directory.");
 
         fittestSolution = population.get(0);
 
@@ -106,12 +113,15 @@ public class GeneticAlgorithm implements Solver{
             output.append("-------------------------------------------------------------------------------\nBEST SCORE OF GENERATION ").append(i + 1).append(": ").append(ScoringFunctions.scoreSolution(population.get(0),GPAInput));
             Solve.ui.displayInfoString(output.toString());
             System.out.println("\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0),GPAInput)+"\nSize of population: "+population.size() +"\n---------------------------------------------------------------");         //printing the best score of the generation
-            if((ScoringFunctions.scoreSolution(population.get(0),GPAInput) < (0.075 * students.size())) && (ScoringFunctions.scoreSolution(population.get(0),GPAInput) == ScoringFunctions.scoreSolution(temp,GPAInput))){        //if the score is underneath 25 and the best score
+            if((ScoringFunctions.scoreSolution(population.get(0),GPAInput) < (0.1 * students.size()))){        //if the score is underneath 25 and the best score
                 check++;                                                                                                                                                        //is the same as the last generation, then check is incremented
-            }else{                                                                                                                                                              //otherwise check is reset
-                check = 0;
             }
+            else if((ScoringFunctions.scoreSolution(population.get(0),GPAInput) < (0.05 * students.size()))){
+                check = 5;
+            }
+            List<Solution> temp = population.get(0);
             if(check == 5){                         //if check reaches 5 then the current population is judged as the best and is returned
+                ScoringFunctions.analyse(temp);
                 return;                             //to ensure that the runtime is not longer than it needs to be
             }
 
@@ -120,7 +130,6 @@ public class GeneticAlgorithm implements Solver{
 	        int val = (int) progress + 40;
 	        Solve.ui.setProgress(val);
 
-            temp = population.get(0);
             ScoringFunctions.analyse(temp);
         }
     }
