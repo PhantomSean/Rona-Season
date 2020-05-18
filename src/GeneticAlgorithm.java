@@ -113,10 +113,10 @@ public class GeneticAlgorithm implements Solver{
             output.append("-------------------------------------------------------------------------------\nBEST SCORE OF GENERATION ").append(i + 1).append(": ").append(ScoringFunctions.scoreSolution(population.get(0),GPAInput));
             Solve.ui.displayInfoString(output.toString());
             System.out.println("\nBEST SCORE OF GENERATION " + (i+1)+ ": "+ScoringFunctions.scoreSolution(population.get(0),GPAInput)+"\nSize of population: "+population.size() +"\n---------------------------------------------------------------");         //printing the best score of the generation
-            if((ScoringFunctions.scoreSolution(population.get(0),GPAInput) < (0.1 * students.size()))){        //if the score is underneath 25 and the best score
-                check++;                                                                                                                                                        //is the same as the last generation, then check is incremented
+            if((ScoringFunctions.scoreSolution(population.get(0),GPAInput) < (0.1 * students.size()))){        // if the score is less than 10% of the number of students check is incremented
+                check++;
             }
-            else if((ScoringFunctions.scoreSolution(population.get(0),GPAInput) < (0.05 * students.size()))){
+            else if((ScoringFunctions.scoreSolution(population.get(0),GPAInput) < (0.05 * students.size()))){   // if the score is less than 5% of the number of students immediately stop
                 check = 5;
             }
             List<Solution> temp = population.get(0);

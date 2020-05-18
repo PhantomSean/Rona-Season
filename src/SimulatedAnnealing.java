@@ -19,6 +19,7 @@ public class SimulatedAnnealing implements Solver{
         fillData(fileSize, custom);
 
         List<Solution> answer = simulatedAnnealing(custom, GPAInput);
+        Solve.ui.displayInfoString("Solution has been saved to the most recent Solutions().xlsx file in current directory.");
 
         projects.clear();
         students.clear();
